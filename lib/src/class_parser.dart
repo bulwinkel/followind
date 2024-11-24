@@ -9,7 +9,7 @@ import 'exceptions.dart';
 typedef ApplyClassName = Widget Function(Widget child, List<String> parts);
 
 class ClassParser {
-  static const spacingMultiplier = 4;
+  static const spacingMultiplier = 4.0;
 
   // TODO: handle custom values in [] brackets, e.g. [24px]
   final Map<String, ApplyClassName> classNameLookup = {
@@ -59,8 +59,7 @@ class ClassParser {
     // endregion
 
     // region Margin
-    // TODO:KB 15/11/2024 margin would need to be handled differently
-    // since it would appear outside the background
+
     'm': (child, parts) {
       return Padding(
         padding: EdgeInsets.all(parseToSpacing(parts)),
@@ -104,64 +103,6 @@ class ClassParser {
       );
     },
     // endregion
-
-    // region gap
-
-    // endregion
-
-    // region bg-color
-    'bg': (child, parts) {
-      dpl('bg: $parts');
-      final colorName = parts[0];
-      switch (colorName) {
-        case 'white':
-          return DecoratedBox(
-            decoration: const BoxDecoration(color: Color(0xFFFFFFFF)),
-            child: child,
-          );
-        case 'black':
-          return DecoratedBox(
-            decoration: const BoxDecoration(color: Color(0xFF000000)),
-            child: child,
-          );
-        default:
-          final colorRange = colors[colorName];
-          if (colorRange == null) {
-            dpl('Unknown color: $colorName');
-            return child;
-          }
-
-          String? colorVariantName;
-          if (parts.length > 1) {
-            colorVariantName = parts[1];
-          }
-
-          if (colorVariantName == null) {
-            dpl('No color variant specified for $colorName');
-            return child;
-          }
-
-          final int? colorVariant = int.tryParse(colorVariantName);
-          if (colorVariant == null) {
-            dpl('Invalid color variant specified for $colorName: $colorVariantName');
-            return child;
-          }
-
-          final color = colorRange[colorVariant];
-          if (color == null) {
-            dpl('Unknown color variant $colorVariant for $colorName');
-            return child;
-          }
-
-          return DecoratedBox(
-            decoration: BoxDecoration(
-              color: color,
-            ),
-            child: child,
-          );
-      }
-    },
-    // endregion
   };
 
   // assumes list already validated and first part removed
@@ -190,17 +131,196 @@ class ClassParser {
       child = _applyClass(c, child);
     }
 
-    for (final c in classGroups.visual) {
-      child = _applyClass(c, child);
-    }
+    child = _applyVisualClasses(classGroups.visual, child);
+
+    // Size the box before applying external spacing
+    child = _applySizeClasses(classGroups.size, child);
 
     for (final c in classGroups.margin) {
       child = _applyClass(c, child);
     }
 
-    child = _applySizeClasses(classGroups.size, child);
-
     return child;
+  }
+
+  Widget _applyVisualClasses(List<String> cs, Widget child) {
+    if (cs.isEmpty) return child;
+
+    Color? bgColor;
+    BorderRadius borderRadius = BorderRadius.zero;
+    for (final c in cs) {
+      final parts = c.split('-');
+      final key = parts[0];
+
+      if (key == 'bg') {
+        bgColor = _colorFrom(parts.sublist(1));
+      }
+
+      // Handles multiple radius classes
+      // e.g. rounded-tl-md rounded-br-lg
+      // NOTE:KB 24/11/2024 full doesn't work with multiple classes
+      // e.g. rounded-t-full rounded-lg
+      // after full is applied, the rest are ignored
+      // this appears to be an issue in flutter itself
+      if (key == 'rounded') {
+        final nextRadius = _borderRadiusFrom(parts.sublist(1));
+        dpl('nextRadius: $nextRadius');
+        borderRadius = borderRadius.copyWith(
+          topLeft:
+              nextRadius.topLeft == Radius.zero ? null : nextRadius.topLeft,
+          topRight:
+              nextRadius.topRight == Radius.zero ? null : nextRadius.topRight,
+          bottomRight: nextRadius.bottomRight == Radius.zero
+              ? null
+              : nextRadius.bottomRight,
+          bottomLeft: nextRadius.bottomLeft == Radius.zero
+              ? null
+              : nextRadius.bottomLeft,
+        );
+      }
+    }
+
+    dpl('borderRadius: $borderRadius');
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: borderRadius,
+      ),
+      child: child,
+    );
+  }
+
+  Color? _colorFrom(List<String> parts) {
+    final colorName = parts[0];
+    switch (colorName) {
+      case 'white':
+        return const Color(0xFFFFFFFF);
+      case 'black':
+        return const Color(0xFF000000);
+      default:
+        final colorRange = colors[colorName];
+        if (colorRange == null) {
+          dpl('Unknown color: $colorName');
+          return null;
+        }
+
+        String? colorVariantName;
+        if (parts.length > 1) {
+          colorVariantName = parts[1];
+        }
+
+        if (colorVariantName == null) {
+          dpl('No color variant specified for $colorName');
+          return null;
+        }
+
+        final int? colorVariant = int.tryParse(colorVariantName);
+        if (colorVariant == null) {
+          dpl('Invalid color variant specified for $colorName: $colorVariantName');
+          return null;
+        }
+
+        final color = colorRange[colorVariant];
+        if (color == null) {
+          dpl('Unknown color variant $colorVariant for $colorName');
+        }
+        return color;
+    }
+  }
+
+  BorderRadius _borderRadiusFrom(List<String> parts) {
+    if (parts.isEmpty) {
+      return const BorderRadius.all(
+        Radius.circular(spacingMultiplier),
+      );
+    }
+
+    if (parts.length == 1) {
+      // first part could be a size class or a specific edge / corner
+      final radius = _radiusForSizeClass(parts.first);
+      if (radius != null) {
+        return BorderRadius.circular(radius);
+      }
+    }
+
+    // e.g. tl || tl-md
+
+    double? topLeft;
+    double? topRight;
+    double? bottomRight;
+    double? bottomLeft;
+
+    switch (parts.first) {
+      // rounded-t-{size} - Top corners
+      case 't':
+        topLeft = topRight = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-r-{size} - Right corners
+      case 'r':
+        topRight = bottomRight = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-b-{size} - Bottom corners
+      case 'b':
+        bottomRight = bottomLeft = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-l-{size} - Left corners
+      case 'l':
+        bottomLeft = topLeft = _radiusForSizeClass(parts[1]);
+        break;
+
+      // rounded-tl-{size} - Top left corner
+      case 'tl':
+        topLeft = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-tr-{size} - Top right corner
+      case 'tr':
+        topRight = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-br-{size} - Bottom right corner
+      case 'br':
+        bottomRight = _radiusForSizeClass(parts[1]);
+        break;
+      // rounded-bl-{size} - Bottom left corner
+      case 'bl':
+        bottomLeft = _radiusForSizeClass(parts[1]);
+        break;
+      default:
+        dpl('Unknown corner: ${parts.first}');
+        return BorderRadius.zero;
+    }
+
+    return BorderRadius.only(
+      topLeft: Radius.circular(topLeft ?? 0),
+      topRight: Radius.circular(topRight ?? 0),
+      bottomRight: Radius.circular(bottomRight ?? 0),
+      bottomLeft: Radius.circular(bottomLeft ?? 0),
+    );
+  }
+
+  // Where {size} can be any of:
+  //
+  // none
+  // sm (0.125rem / 2px)
+  // DEFAULT (0.25rem / 4px)
+  // md (0.375rem / 6px)
+  // lg (0.5rem / 8px)
+  // xl (0.75rem / 12px)
+  // 2xl (1rem / 16px)
+  // 3xl (1.5rem / 24px)
+  // full (9999px)
+  double? _radiusForSizeClass(String sizeClass) {
+    return switch (sizeClass) {
+      'sm' => spacingMultiplier,
+      'md' => spacingMultiplier * 1.5,
+      'lg' => spacingMultiplier * 2,
+      'xl' => spacingMultiplier * 3,
+      '2xl' => spacingMultiplier * 4,
+      '3xl' => spacingMultiplier * 6,
+      'full' => 9999.0,
+      'none' => 0.0,
+      _ => null,
+    };
   }
 
   Widget _applySizeClasses(List<String> cs, Widget child) {

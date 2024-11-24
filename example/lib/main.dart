@@ -46,20 +46,62 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Box(
-        className: "row h-full main-center bg-green-100",
+        className: "h-full m-4 main-center gap-10 py-10 bg-green-100",
         children: [
           Box(
-            className: "col main-center m-20 p-20 bg-blue-200",
+            className: "col main-center p-20 bg-blue-200",
             children: [
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headlineMedium,
+              Box(
+                className: [
+                  "p-4 bg-red-200 gap-4",
+                  "rounded-md rounded-tl-3xl rounded-br-3xl",
+                ].joined,
+                children: [
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
             ],
-          )
+          ),
+          Container(
+            color: colors['blue']?[200],
+            height: double.infinity,
+            padding: const EdgeInsets.all(20 * 4),
+            child: Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colors['red']?[200],
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(6),
+                    bottomRight: Radius.circular(24),
+                    bottomLeft: Radius.circular(6),
+                  ),
+                ),
+                padding: const EdgeInsets.all(4 * 4),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'You have pushed the button this many times:',
+                    ),
+                    const SizedBox(width: 4 * 4),
+                    Text(
+                      '$_counter',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
