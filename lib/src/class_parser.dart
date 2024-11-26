@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/src/classes_border.dart';
 import 'package:following_wind/src/support.dart';
 
 import 'class_groups.dart';
@@ -115,6 +116,7 @@ class ClassParser {
 
   Widget parse(String className, List<Widget> children) {
     final classes = className.split(' ');
+    // dpl('classes: $classes');
 
     if (classes.contains('hidden')) {
       return const SizedBox.shrink();
@@ -148,43 +150,48 @@ class ClassParser {
 
     Color? bgColor;
     BorderRadius borderRadius = BorderRadius.zero;
+
+    Border? border = processBorderClasses(cs);
+
     for (final c in cs) {
       final parts = c.split('-');
       final key = parts[0];
 
-      if (key == 'bg') {
-        bgColor = _colorFrom(parts.sublist(1));
-      }
-
-      // Handles multiple radius classes
-      // e.g. rounded-tl-md rounded-br-lg
-      // NOTE:KB 24/11/2024 full doesn't work with multiple classes
-      // e.g. rounded-t-full rounded-lg
-      // after full is applied, the rest are ignored
-      // this appears to be an issue in flutter itself
-      if (key == 'rounded') {
-        final nextRadius = _borderRadiusFrom(parts.sublist(1));
-        dpl('nextRadius: $nextRadius');
-        borderRadius = borderRadius.copyWith(
-          topLeft:
-              nextRadius.topLeft == Radius.zero ? null : nextRadius.topLeft,
-          topRight:
-              nextRadius.topRight == Radius.zero ? null : nextRadius.topRight,
-          bottomRight: nextRadius.bottomRight == Radius.zero
-              ? null
-              : nextRadius.bottomRight,
-          bottomLeft: nextRadius.bottomLeft == Radius.zero
-              ? null
-              : nextRadius.bottomLeft,
-        );
+      switch (key) {
+        case 'bg':
+          bgColor = _colorFrom(parts.sublist(1));
+          break;
+        // Handles multiple radius classes
+        // e.g. rounded-tl-md rounded-br-lg
+        // NOTE:KB 24/11/2024 full doesn't work with multiple classes
+        // e.g. rounded-t-full rounded-lg
+        // after full is applied, the rest are ignored
+        // this appears to be an issue in flutter itself
+        case 'rounded':
+          final nextRadius = _borderRadiusFrom(parts.sublist(1));
+          // dpl('nextRadius: $nextRadius');
+          borderRadius = borderRadius.copyWith(
+            topLeft:
+                nextRadius.topLeft == Radius.zero ? null : nextRadius.topLeft,
+            topRight:
+                nextRadius.topRight == Radius.zero ? null : nextRadius.topRight,
+            bottomRight: nextRadius.bottomRight == Radius.zero
+                ? null
+                : nextRadius.bottomRight,
+            bottomLeft: nextRadius.bottomLeft == Radius.zero
+                ? null
+                : nextRadius.bottomLeft,
+          );
+          break;
       }
     }
 
-    dpl('borderRadius: $borderRadius');
+    // dpl('borderRadius: $borderRadius');
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bgColor,
+        border: border,
         borderRadius: borderRadius,
       ),
       child: child,
@@ -395,7 +402,7 @@ class ClassParser {
     List<String> layoutClasses,
     List<Widget> children,
   ) {
-    dpl('layoutClasses: $layoutClasses');
+    // dpl('layoutClasses: $layoutClasses');
 
     final axis = findValueForClass(
       layoutClasses,

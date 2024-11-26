@@ -22,3 +22,15 @@ class Box extends StatelessWidget {
     );
   }
 }
+
+Widget box(
+  String className,
+  List<Widget> children, {
+  Key? key,
+}) {
+  return Box(
+    key: key,
+    className: className,
+    children: children,
+  );
+}

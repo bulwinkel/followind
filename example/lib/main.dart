@@ -49,12 +49,28 @@ class _MyHomePageState extends State<MyHomePage> {
         className: "h-full m-4 main-center gap-10 py-10 bg-green-100",
         children: [
           Box(
-            className: "col main-center p-20 bg-blue-200",
+            className: "col main-center gap-4 p-20 bg-blue-200",
             children: [
               Box(
                 className: [
                   "p-4 bg-red-200 gap-4",
+                  "border",
                   "rounded-md rounded-tl-3xl rounded-br-3xl",
+                ].joined,
+                children: [
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
+              Box(
+                className: [
+                  "p-4 bg-red-200 gap-4",
+                  "border-x-2 border-y-4 border-t-red-300 border-r-orange-400 border-b-yellow-400 border-l-green-400 border-r-0",
                 ].joined,
                 children: [
                   const Text(
@@ -76,12 +92,31 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Container(
                 decoration: BoxDecoration(
                   color: colors['red']?[200],
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(6),
-                    bottomRight: Radius.circular(24),
-                    bottomLeft: Radius.circular(6),
+                  border: Border(
+                    top: BorderSide(
+                      color: colors['red']![400]!,
+                      style: BorderStyle.solid,
+                      width: 1,
+                    ),
+                    right: BorderSide(
+                      color: colors['orange']![400]!,
+                      width: 2,
+                    ),
+                    bottom: BorderSide(
+                      color: colors['yellow']![400]!,
+                      width: 3,
+                    ),
+                    left: BorderSide(
+                      color: colors['green']![400]!,
+                      width: 4,
+                    ),
                   ),
+                  // borderRadius: const BorderRadius.only(
+                  //   topLeft: Radius.circular(24),
+                  //   topRight: Radius.circular(6),
+                  //   bottomRight: Radius.circular(24),
+                  //   bottomLeft: Radius.circular(6),
+                  // ),
                 ),
                 padding: const EdgeInsets.all(4 * 4),
                 child: Row(
