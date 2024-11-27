@@ -1,110 +1,30 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/classes_border.dart';
+import 'package:following_wind/src/parsers/border.dart';
+import 'package:following_wind/src/spacings.dart';
 import 'package:following_wind/src/support.dart';
 
 import 'class_groups.dart';
 import 'colors.dart';
 import 'exceptions.dart';
+import 'parsers/edge_insets.dart';
 
 typedef ApplyClassName = Widget Function(Widget child, List<String> parts);
 
 class ClassParser {
   static const spacingMultiplier = 4.0;
 
-  // TODO: handle custom values in [] brackets, e.g. [24px]
-  final Map<String, ApplyClassName> classNameLookup = {
-    // region Padding
-    'p': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.all(parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'px': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'py': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'pb': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'pt': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(top: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'pl': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(left: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'pr': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(right: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    // endregion
+  final borderParser = BorderParser(
+    widths: ['0', '1', '2', '4', '8'],
+    widthDefault: 1.0,
+    colors: colors,
+    colorDefault: colors['gray']![200]!,
+  );
 
-    // region Margin
-
-    'm': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.all(parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'mx': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'my': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.symmetric(vertical: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'mb': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'mt': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(top: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'ml': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(left: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    'mr': (child, parts) {
-      return Padding(
-        padding: EdgeInsets.only(right: parseToSpacing(parts)),
-        child: child,
-      );
-    },
-    // endregion
-  };
+  final edgeInsetsParser = EdgeInsetsParser(
+    spacings: spacings,
+    multiplier: spacingMultiplier,
+  );
 
   // assumes list already validated and first part removed
   static double parseToSpacing(List<String> parts) {
@@ -128,9 +48,15 @@ class ClassParser {
     // Configure the layout first by processing all layout classes together
     Widget child = _buildFlexLayout(classGroups.layout, children);
 
-    // Apply remaining classes in order
-    for (final c in classGroups.internalSpacing) {
-      child = _applyClass(c, child);
+    // internal spacing
+    final paddingInsets = edgeInsetsParser.parse(classes);
+    // dpl('paddingInsets: $paddingInsets');
+
+    if (paddingInsets != null) {
+      child = Padding(
+        padding: paddingInsets,
+        child: child,
+      );
     }
 
     child = _applyVisualClasses(classGroups.visual, child);
@@ -138,20 +64,26 @@ class ClassParser {
     // Size the box before applying external spacing
     child = _applySizeClasses(classGroups.size, child);
 
-    for (final c in classGroups.margin) {
-      child = _applyClass(c, child);
+    final marginInsets = edgeInsetsParser.parse(classGroups.margin);
+    if (marginInsets != null) {
+      child = Padding(
+        padding: marginInsets,
+        child: child,
+      );
     }
 
     return child;
   }
 
   Widget _applyVisualClasses(List<String> cs, Widget child) {
+    // dpl('cs: $cs');
     if (cs.isEmpty) return child;
 
     Color? bgColor;
     BorderRadius borderRadius = BorderRadius.zero;
 
-    Border? border = processBorderClasses(cs);
+    Border? border = borderParser.parse(cs);
+    dpl('border: $border');
 
     for (final c in cs) {
       final parts = c.split('-');
@@ -376,26 +308,6 @@ class ClassParser {
       height: height,
       child: child,
     );
-  }
-
-  Widget _applyClass(String className, Widget child) {
-    final parts = className.split('-');
-    if (parts.length == 1) return child;
-
-    final key = parts[0];
-    final sublist = parts.sublist(1);
-    if (sublist.isEmpty) return child;
-
-    final fun = classNameLookup[key];
-    if (fun == null) {
-      dpl('Unknown class: $key');
-      if (kDebugMode) {
-        throw FWUnknownClassException('Unknown class: $key');
-      }
-      return child;
-    }
-
-    return fun(child, sublist);
   }
 
   Widget _buildFlexLayout(

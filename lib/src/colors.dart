@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+const white = Color(0xffffffff);
+const black = Color(0xff000000);
+
 // Tailwind CSS colors
 const Map<String, Map<int, Color>> colors = {
   'slate': {
