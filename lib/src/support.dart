@@ -1,11 +1,3 @@
-import 'package:flutter/foundation.dart';
-
-void dpl(String message) {
-  if (kDebugMode) print(message);
-}
-
-typedef BLRT<T> = (T? b, T? l, T? r, T? t);
-
 extension JoinedClassNames on List<String> {
   String get joined {
     return this.join(" ");

@@ -37,7 +37,11 @@ features missing from the framework.
     - [ ] gradient
 - [ ] opacity
 - [ ] Introduce responsive prefixes (sm, md, lg, xl)
-- [ ] Text classes
+- [-] Text classes 
+  - [-] in a box (also styles icons to match)
+    - [x] color
+    - [x] size 
+    - [x] text align
 
 ### Animations
 
@@ -59,5 +63,5 @@ features missing from the framework.
 
 ### Limitations
 
-- Flutter doesn't natively support anything but solid borders.
+- Flutter doesn't natively support anything but solid borders, so no dashed or dotted.
 - Flutter doesn't support different border colors per side if corners are rounded.

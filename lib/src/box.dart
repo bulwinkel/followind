@@ -1,21 +1,24 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'class_groups.dart';
 import 'colors.dart';
 import 'parsers/border.dart';
 import 'parsers/edge_insets.dart';
 import 'spacings.dart';
+import 'stylers/text.dart';
 
 // ignore: camel_case_types
 class Box extends StatelessWidget {
   const Box({
     super.key,
     this.className = '',
+    this.onPressed,
     this.children = const [],
   });
 
   final String className;
   final List<Widget> children;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +35,9 @@ class Box extends StatelessWidget {
     // Configure the layout first by processing all layout classes together
     Widget child = _buildFlexLayout(classGroups.layout, children);
 
+    // Apply text styles
+    child = textStyler.apply(context, classes, child);
+
     // internal spacing
     final paddingInsets = edgeInsetsParser.parse(classes);
     // dpl('paddingInsets: $paddingInsets');
@@ -47,6 +53,13 @@ class Box extends StatelessWidget {
 
     // Size the box before applying external spacing
     child = _applySizeClasses(classGroups.size, child);
+
+    if (onPressed != null) {
+      child = GestureDetector(
+        onTap: onPressed,
+        child: child,
+      );
+    }
 
     final marginInsets = edgeInsetsParser.parse(classGroups.margin);
     if (marginInsets != null) {
@@ -84,6 +97,10 @@ final borderParser = BorderParser(
 final edgeInsetsParser = EdgeInsetsParser(
   spacings: spacings,
   multiplier: spacingMultiplier,
+);
+
+final textStyler = TextStyler(
+  colors: colors,
 );
 
 Widget _applyVisualClasses(List<String> cs, Widget child) {

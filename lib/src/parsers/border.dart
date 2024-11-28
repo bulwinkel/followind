@@ -2,7 +2,7 @@ import 'package:flutter/painting.dart';
 
 import '../colors.dart';
 import '../parser.dart';
-import '../support.dart';
+import '../support_internal.dart';
 
 const border = 'border';
 
@@ -41,7 +41,6 @@ class BorderParser implements Parser<Border?> {
         double.parse(size),
         null,
       ),
-
     'border-y': (widthDefault, null, null, widthDefault),
     for (final size in widths)
       'border-y-$size': (
@@ -50,7 +49,6 @@ class BorderParser implements Parser<Border?> {
         null,
         double.parse(size),
       ),
-
     'border-b': (widthDefault, null, null, null),
     for (final size in widths)
       'border-b-$size': (
@@ -59,7 +57,6 @@ class BorderParser implements Parser<Border?> {
         null,
         null,
       ),
-
     'border-l': (null, widthDefault, null, null),
     for (final size in widths)
       'border-l-$size': (
@@ -68,7 +65,6 @@ class BorderParser implements Parser<Border?> {
         null,
         null,
       ),
-
     'border-r': (null, null, widthDefault, null),
     for (final size in widths)
       'border-r-$size': (
@@ -77,7 +73,6 @@ class BorderParser implements Parser<Border?> {
         double.parse(size),
         null,
       ),
-
     'border-t': (null, null, null, widthDefault),
     for (final size in widths)
       'border-t-$size': (

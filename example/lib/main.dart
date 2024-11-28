@@ -1,3 +1,4 @@
+import 'package:example/pages/borders_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:following_wind/following_wind.dart';
 
@@ -38,6 +39,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _goToBordersPage() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const BordersPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,11 +54,34 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Box(
-        className: "h-full m-4 main-center gap-10 py-10 bg-green-100",
+        className: [
+          "h-full m-4 main-center gap-10 py-10 bg-green-100",
+          // "text-white"
+        ].joined,
         children: [
           Box(
             className: "col main-center gap-4 p-20 bg-blue-200",
             children: [
+              Box(
+                className: [
+                  "p-4 bg-blue-800 rounded-xl gap-3",
+                  "text-4xl",
+                  "cross-center",
+                ].joined,
+                onPressed: _goToBordersPage,
+                children: [
+                  Text("Gog to Borders"),
+                  Icon(Icons.arrow_forward),
+                ],
+              ),
+              Text("Test"),
+              Box(
+                className: "bg-slate-200 p-4 text-3xl",
+                children: [
+                  Text("This is some really long text"),
+                ],
+              ),
+              Text("Test"),
               Box(
                 className: [
                   "p-4 bg-red-200 gap-4",
@@ -88,53 +119,65 @@ class _MyHomePageState extends State<MyHomePage> {
             color: colors['blue']?[200],
             height: double.infinity,
             padding: const EdgeInsets.all(20 * 4),
-            child: Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: colors['red']?[200],
-                  border: Border(
-                    top: BorderSide(
-                      color: colors['red']![400]!,
-                      style: BorderStyle.solid,
-                      width: 1,
-                    ),
-                    right: BorderSide(
-                      color: colors['orange']![400]!,
-                      width: 2,
-                    ),
-                    bottom: BorderSide(
-                      color: colors['yellow']![400]!,
-                      width: 3,
-                    ),
-                    left: BorderSide(
-                      color: colors['green']![400]!,
-                      width: 4,
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: colors['blue']?[800],
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  padding: const EdgeInsets.all(16),
+                  child: DefaultTextStyle(
+                    style: const TextStyle(color: Colors.white),
+                    child: Row(
+                      children: [
+                        Text("Go to Borders"),
+                      ],
                     ),
                   ),
-                  // borderRadius: const BorderRadius.only(
-                  //   topLeft: Radius.circular(24),
-                  //   topRight: Radius.circular(6),
-                  //   bottomRight: Radius.circular(24),
-                  //   bottomLeft: Radius.circular(6),
-                  // ),
                 ),
-                padding: const EdgeInsets.all(4 * 4),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'You have pushed the button this many times:',
+                const SizedBox(height: 20),
+                Container(
+                  decoration: BoxDecoration(
+                    color: colors['red']?[200],
+                    border: Border(
+                      top: BorderSide(
+                        color: colors['red']![400]!,
+                        style: BorderStyle.solid,
+                        width: 1,
+                      ),
+                      right: BorderSide(
+                        color: colors['orange']![400]!,
+                        width: 2,
+                      ),
+                      bottom: BorderSide(
+                        color: colors['yellow']![400]!,
+                        width: 3,
+                      ),
+                      left: BorderSide(
+                        color: colors['green']![400]!,
+                        width: 4,
+                      ),
                     ),
-                    const SizedBox(width: 4 * 4),
-                    Text(
-                      '$_counter',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
+                  ),
+                  padding: const EdgeInsets.all(4 * 4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'You have pushed the button this many times:',
+                      ),
+                      const SizedBox(width: 4 * 4),
+                      Text(
+                        '$_counter',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

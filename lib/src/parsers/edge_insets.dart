@@ -1,7 +1,7 @@
 import 'package:flutter/rendering.dart';
+import 'package:following_wind/src/support_internal.dart';
 
 import '../parser.dart';
-import '../support.dart';
 
 class EdgeInsetsParser implements Parser<EdgeInsets?> {
   EdgeInsetsParser({
