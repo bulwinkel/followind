@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
+import 'package:following_wind/src/widgets/fw_size.dart';
 
 import 'class_groups.dart';
 import 'colors.dart';
@@ -92,7 +93,12 @@ class Box extends StatelessWidget {
     child = _applyVisualClasses(classGroups.visual, child);
 
     // Size the box before applying external spacing
-    child = _applySizeClasses(classGroups.size, child);
+    child = FwSize(
+      spacingMultiplier: spacingMultiplier,
+      spacings: spacings,
+      findValueForClass: findValueForClass,
+      child: child,
+    );
 
     if (onPressed != null) {
       child = GestureDetector(
@@ -324,52 +330,4 @@ double? _radiusForSizeClass(String sizeClass) {
     'none' => 0.0,
     _ => null,
   };
-}
-
-Widget _applySizeClasses(List<String> cs, Widget child) {
-  if (cs.isEmpty) return child;
-
-  // TODO:KB 15/11/2024 handle custom values in [] brackets, e.g. [24px]
-
-  double? width;
-  double? height;
-
-  for (final c in cs) {
-    final parts = c.split('-');
-    if (parts.length == 1) continue;
-
-    final key = parts[0];
-    final value = parts[1];
-
-    if (key == 'w') {
-      // handle full width
-      if (value == 'full') {
-        width = double.infinity;
-      } else {
-        width = double.tryParse(value);
-      }
-    } else if (key == 'h') {
-      if (value == 'full') {
-        height = double.infinity;
-      } else {
-        height = double.tryParse(value);
-      }
-    }
-  }
-
-  if (width != null) {
-    width *= spacingMultiplier;
-  }
-
-  if (height != null) {
-    height *= spacingMultiplier;
-  }
-
-  // dpl('width: $width, height: $height');
-
-  return SizedBox(
-    width: width,
-    height: height,
-    child: child,
-  );
 }
