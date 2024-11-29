@@ -54,23 +54,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Box(
-        className: [
+        classNames: [
           "h-full m-4 main-center gap-10 py-10 bg-green-100",
-          // "text-white"
-        ].joined,
+        ],
         children: [
           Box(
-            className: "col main-center gap-4 p-20 bg-blue-200",
+            className: "col main-center gap-4 p-20",
+            conditionals: {
+              _counter < 5: "bg-blue-200",
+              _counter > 5: "bg-red-200",
+            },
             children: [
               Box(
-                className: [
+                classNames: [
                   "p-4 bg-blue-800 rounded-xl gap-3",
-                  "text-4xl",
+                  "text-4xl text-white",
                   "cross-center",
-                ].joined,
+                ],
                 onPressed: _goToBordersPage,
                 children: [
-                  Text("Gog to Borders"),
+                  Text("Go to Borders"),
                   Icon(Icons.arrow_forward),
                 ],
               ),
@@ -83,11 +86,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text("Test"),
               Box(
-                className: [
+                classNames: [
                   "p-4 bg-red-200 gap-4",
                   "border",
                   "rounded-md rounded-tl-3xl rounded-br-3xl",
-                ].joined,
+                ],
                 children: [
                   const Text(
                     'You have pushed the button this many times:',
@@ -99,10 +102,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Box(
-                className: [
+                classNames: [
                   "px-2 py-4 bg-red-400 gap-4",
                   "border-x-2 border-y-4 border-t-red-300 border-r-orange-400 border-b-yellow-400 border-l-green-400 border-r-8",
-                ].joined,
+                ],
                 children: [
                   const Text(
                     'You have pushed the button this many times:',

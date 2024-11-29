@@ -6,34 +6,51 @@ import 'parsers/border.dart';
 import 'parsers/edge_insets.dart';
 import 'spacings.dart';
 import 'stylers/text.dart';
+import 'support_internal.dart';
+import 'widgets/fw_flex.dart';
 
 // ignore: camel_case_types
 class Box extends StatelessWidget {
   const Box({
     super.key,
     this.className = '',
+    this.classNames = const [],
+    this.conditionals = const {},
     this.onPressed,
     this.children = const [],
   });
 
   final String className;
+  final List<String> classNames;
+  final Map<bool, String> conditionals;
   final List<Widget> children;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final classes = className.split(' ');
-    // dpl('classes: $classes');
+    final classMap = {
+      for (final c in className.split(' ')) c: c,
+      for (final cn in classNames)
+        for (final c in cn.split(' ')) c: c,
+      for (final entry in conditionals.entries)
+        if (entry.key) entry.value: entry.value,
+    };
+    dpl('classes: $classMap');
 
-    if (classes.contains('hidden')) {
+    if (classMap.containsKey('hidden')) {
       return const SizedBox.shrink();
     }
 
     // Group classes by their type
+    final classes = classMap.keys.toList();
     final classGroups = ClassGroups.fromClasses(classes);
 
     // Configure the layout first by processing all layout classes together
-    Widget child = _buildFlexLayout(classGroups.layout, children);
+    Widget child = FwFlex(
+      spacingMultiplier: spacingMultiplier,
+      classMap: classMap,
+      children: children,
+    );
 
     // Apply text styles
     child = textStyler.apply(context, classes, child);
@@ -336,93 +353,4 @@ Widget _applySizeClasses(List<String> cs, Widget child) {
     height: height,
     child: child,
   );
-}
-
-Widget _buildFlexLayout(
-  List<String> layoutClasses,
-  List<Widget> children,
-) {
-  // dpl('layoutClasses: $layoutClasses');
-
-  final axis = findValueForClass(
-    layoutClasses,
-    ClassGroups.axis,
-    Axis.horizontal,
-  );
-
-  return Flex(
-    direction: axis,
-    mainAxisAlignment: findValueForClass(
-      layoutClasses,
-      ClassGroups.mainAxisAlignment,
-      MainAxisAlignment.start,
-    ),
-    mainAxisSize: findValueForClass(
-      layoutClasses,
-      ClassGroups.mainAxisSize,
-      MainAxisSize.max,
-    ),
-    crossAxisAlignment: findValueForClass(
-      layoutClasses,
-      ClassGroups.crossAxisAlignment,
-      CrossAxisAlignment.center,
-    ),
-    verticalDirection: findValueForClass(
-      layoutClasses,
-      ClassGroups.verticalDirection,
-      VerticalDirection.down,
-    ),
-    children: addGaps(
-      children,
-      layoutClasses,
-      axis,
-    ),
-  );
-}
-
-List<Widget> addGaps(
-  List<Widget> children,
-  List<String> classes,
-  Axis axis,
-) {
-  final gaps = classes.where((c) => c.startsWith('gap-')).toList();
-  if (gaps.isEmpty) return children;
-
-  final gap = gaps.first;
-  final parts = gap.split('-');
-  if (parts.length != 2) return children;
-
-  var gapSize = double.tryParse(parts[1]);
-  if (gapSize == null) return children;
-
-  gapSize *= spacingMultiplier;
-  final gapWidget = axis == Axis.horizontal
-      ? SizedBox(width: gapSize)
-      : SizedBox(height: gapSize);
-
-  final newChildren = <Widget>[];
-
-  for (var i = 0; i < children.length; i++) {
-    newChildren.add(children[i]);
-    if (i < children.length - 1) {
-      newChildren.add(gapWidget);
-    }
-  }
-
-  return newChildren;
-}
-
-T findValueForClass<T>(
-  List<String> classNames,
-  Map<String, T> lookup,
-  T defaultValue,
-) {
-  for (final className in classNames) {
-    final value = lookup[className];
-    if (value != null) {
-      return value;
-    }
-  }
-
-  return defaultValue;
 }
