@@ -1,38 +1,49 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/colors.dart';
 import 'package:following_wind/src/support_internal.dart';
 
-import '../styler.dart';
+import '../colors.dart';
 
-class TextStyler implements Styler<Widget> {
-  TextStyler({
+class FwDefaultTextAndIconStyle extends StatelessWidget {
+  FwDefaultTextAndIconStyle({
+    super.key,
+    required this.spacingMultiplier,
+    this.classKey = 'text',
+    required this.findValueForClass,
     required this.colors,
+    required this.child,
   });
 
-  final key = 'text';
+  final double spacingMultiplier;
+  final String classKey;
+  final T Function<T>(
+    Map<String, T> lookup,
+    T defaultValue,
+  ) findValueForClass;
+  final Widget child;
+
   final Map<String, Map<int, Color>> colors;
   late final Map<String, double> _lookupSize = {
-    '$key-xs': 12,
-    '$key-sm': 14,
-    '$key-base': 16,
-    '$key-lg': 18,
-    '$key-xl': 20,
-    '$key-2xl': 24,
-    '$key-3xl': 30,
-    '$key-4xl': 36,
-    '$key-5xl': 48,
-    '$key-6xl': 60,
-    '$key-7xl': 72,
-    '$key-8xl': 96,
-    '$key-9xl': 128,
+    '$classKey-xs': 12,
+    '$classKey-sm': 14,
+    '$classKey-base': 16,
+    '$classKey-lg': 18,
+    '$classKey-xl': 20,
+    '$classKey-2xl': 24,
+    '$classKey-3xl': 30,
+    '$classKey-4xl': 36,
+    '$classKey-5xl': 48,
+    '$classKey-6xl': 60,
+    '$classKey-7xl': 72,
+    '$classKey-8xl': 96,
+    '$classKey-9xl': 128,
   };
 
   late final _lookupColors = {
-    '$key-white': white,
-    '$key-black': black,
+    '$classKey-white': white,
+    '$classKey-black': black,
     for (final color in colors.entries)
       for (final shade in color.value.entries)
-        '$key-${color.key}-${shade.key}': shade.value,
+        '$classKey-${color.key}-${shade.key}': shade.value,
   };
 
   final _lookupTextAlign = {
@@ -44,35 +55,13 @@ class TextStyler implements Styler<Widget> {
     'text-end': TextAlign.end,
   };
 
-  //TODO:KB 28/11/2024 support other text properties (look at properties of DefaultTextStyle)
-
   @override
-  Widget apply(context, classes, widget) {
-    // dpl('$key classes: ${[..._lookupColors.keys]}');
+  Widget build(BuildContext context) {
+    Widget widget = child;
 
-    Color? color;
-    for (final entry in _lookupColors.entries) {
-      if (classes.contains(entry.key)) {
-        color = entry.value;
-        break;
-      }
-    }
-
-    TextAlign? textAlign;
-    for (final entry in _lookupTextAlign.entries) {
-      if (classes.contains(entry.key)) {
-        textAlign = entry.value;
-        break;
-      }
-    }
-
-    double? size;
-    for (final entry in _lookupSize.entries) {
-      if (classes.contains(entry.key)) {
-        size = entry.value;
-        break;
-      }
-    }
+    Color? color = findValueForClass(_lookupColors, null);
+    TextAlign? textAlign = findValueForClass(_lookupTextAlign, null);
+    double? size = findValueForClass(_lookupSize, null);
 
     final applyIconStyle = color != null || size != null;
     final applyTextStyle = applyIconStyle || textAlign != null;

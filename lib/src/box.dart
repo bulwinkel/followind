@@ -1,12 +1,11 @@
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 
 import 'class_groups.dart';
 import 'colors.dart';
 import 'parsers/border.dart';
 import 'parsers/edge_insets.dart';
 import 'spacings.dart';
-import 'stylers/text.dart';
-import 'support_internal.dart';
 import 'widgets/fw_flex.dart';
 
 // ignore: camel_case_types
@@ -35,10 +34,27 @@ class Box extends StatelessWidget {
       for (final entry in conditionals.entries)
         if (entry.key) entry.value: entry.value,
     };
-    dpl('classes: $classMap');
+    // dpl('classes: $classMap');
 
     if (classMap.containsKey('hidden')) {
       return const SizedBox.shrink();
+    }
+
+    T findValueForClass<T>(
+      Map<String, T> lookup,
+      T defaultValue,
+    ) {
+      T? result;
+
+      for (final className in lookup.keys) {
+        final value = classMap[className];
+        if (value != null) {
+          result = lookup[className];
+          break;
+        }
+      }
+
+      return result ?? defaultValue;
     }
 
     // Group classes by their type
@@ -53,7 +69,13 @@ class Box extends StatelessWidget {
     );
 
     // Apply text styles
-    child = textStyler.apply(context, classes, child);
+    child = FwDefaultTextAndIconStyle(
+      spacingMultiplier: spacingMultiplier,
+      classKey: 'text',
+      findValueForClass: findValueForClass,
+      colors: colors,
+      child: child,
+    );
 
     // internal spacing
     final paddingInsets = edgeInsetsParser.parse(classes);
@@ -114,10 +136,6 @@ final borderParser = BorderParser(
 final edgeInsetsParser = EdgeInsetsParser(
   spacings: spacings,
   multiplier: spacingMultiplier,
-);
-
-final textStyler = TextStyler(
-  colors: colors,
 );
 
 Widget _applyVisualClasses(List<String> cs, Widget child) {

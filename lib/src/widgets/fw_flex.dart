@@ -54,6 +54,7 @@ class FwFlex extends StatelessWidget {
       final value = classMap[className];
       if (value != null) {
         result = lookup[className];
+        break;
       }
     }
 
