@@ -64,7 +64,8 @@ class Box extends StatelessWidget {
     // Configure the layout first by processing all layout classes together
     Widget child = FwFlex(
       spacingMultiplier: spacingMultiplier,
-      classMap: classMap,
+      spacings: spacings,
+      findValueForClass: findValueForClass,
       children: children,
     );
 

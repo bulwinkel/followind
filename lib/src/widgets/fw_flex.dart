@@ -33,48 +33,39 @@ class FwFlex extends StatelessWidget {
     'cross-baseline': CrossAxisAlignment.baseline,
   };
 
-  const FwFlex({
+  FwFlex({
     super.key,
     required this.spacingMultiplier,
-    required this.classMap,
+    required this.findValueForClass,
+    required this.spacings,
     required this.children,
   });
 
   final double spacingMultiplier;
-  final Map<String, String> classMap;
-  final List<Widget> children;
-
-  T findValueForClass<T>(
+  final List<String> spacings;
+  final T Function<T>(
     Map<String, T> lookup,
     T defaultValue,
-  ) {
-    T? result;
+  ) findValueForClass;
+  final List<Widget> children;
 
-    for (final className in lookup.keys) {
-      final value = classMap[className];
-      if (value != null) {
-        result = lookup[className];
-        break;
-      }
-    }
-
-    return result ?? defaultValue;
-  }
+  late final Map<String, double> _gaps = {
+    for (final size in spacings)
+      'gap-$size': double.parse(size) * spacingMultiplier,
+  };
 
   List<Widget> withGaps(
     Axis direction,
   ) {
-    final gaps = classMap.keys.where((c) => c.startsWith('gap-')).toList();
-    if (gaps.isEmpty) return children;
+    final gapSize = findValueForClass(
+      _gaps,
+      null,
+    );
 
-    final gap = gaps.first;
-    final parts = gap.split('-');
-    if (parts.length != 2) return children;
+    if (gapSize == null) {
+      return children;
+    }
 
-    var gapSize = double.tryParse(parts[1]);
-    if (gapSize == null) return children;
-
-    gapSize *= spacingMultiplier;
     final gapWidget = direction == Axis.horizontal
         ? SizedBox(width: gapSize)
         : SizedBox(height: gapSize);
