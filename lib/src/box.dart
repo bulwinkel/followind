@@ -44,7 +44,7 @@ class Box extends StatelessWidget {
     }
 
     final fw = FollowingWind.of(context);
-    dpl('fw: $fw');
+    // dpl('fw: $fw');
 
     T findValueForClass<T>(
       Map<String, T> lookup,
@@ -97,66 +97,11 @@ class Box extends StatelessWidget {
 
     child = _applyVisualClasses(classGroups.visual, child);
 
-    // no prefix yet
-    final spacingsCalculated = {
-      for (final entry in spacings.entries)
-        entry.key: entry.value * fw.spacingScale,
-    };
-
-    // calculate fractional sizes
-    final screenSize = MediaQuery.sizeOf(context);
-    // dpl("screenSize: $screenSize");
-
-    final fractionalWidthsCalculated = {
-      'full': double.infinity,
-      for (final entry in fractionalSizes.entries)
-        entry.key: entry.value * screenSize.width,
-    };
-    // dpl('fractionalWidthsCalculated: $fractionalWidthsCalculated');
-
-    final Map<String, double> fractionalHeightsCalculated = {
-      'full': double.infinity,
-      for (final entry in fractionalSizes.entries)
-        entry.key: entry.value * screenSize.height,
-    };
-
-    final Map<String, Size> fractionalSizesCalculated = {
-      'full': Size(double.infinity, double.infinity),
-      for (final entry in fractionalSizes.entries)
-        entry.key: Size(
-          entry.value * screenSize.width,
-          entry.value * screenSize.height,
-        ),
-    };
-
-    // lookups
-
-    final Map<String, Size> lookupSize = {
-      for (final entry in spacingsCalculated.entries)
-        'size-${entry.key}': Size(entry.value, entry.value),
-      for (final entry in fractionalSizesCalculated.entries)
-        'size-${entry.key}': entry.value,
-    };
-
-    final Map<String, double> lookupHeight = {
-      for (final entry in spacingsCalculated.entries)
-        'h-${entry.key}': entry.value,
-      for (final entry in fractionalHeightsCalculated.entries)
-        'h-${entry.key}': entry.value,
-    };
-
-    final Map<String, double> lookupWidth = {
-      for (final entry in spacingsCalculated.entries)
-        'w-${entry.key}': entry.value,
-      for (final entry in fractionalWidthsCalculated.entries)
-        'w-${entry.key}': entry.value,
-    };
-
     // Size the box before applying external spacing
     child = FwSize(
-      lookupSize: lookupSize,
-      lookupHeight: lookupHeight,
-      lookupWidth: lookupWidth,
+      lookupSize: fw.sizes,
+      lookupWidth: fw.widths,
+      lookupHeight: fw.heights,
       findValueForClass: findValueForClass,
       child: child,
     );

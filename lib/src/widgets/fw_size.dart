@@ -5,14 +5,14 @@ class FwSize extends StatelessWidget {
     super.key,
     required this.findValueForClass,
     required this.lookupSize,
-    required this.lookupHeight,
     required this.lookupWidth,
+    required this.lookupHeight,
     required this.child,
   });
 
   final Map<String, Size> lookupSize;
-  final Map<String, double> lookupHeight;
   final Map<String, double> lookupWidth;
+  final Map<String, double> lookupHeight;
 
   final T Function<T>(
     Map<String, T> lookup,

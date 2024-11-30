@@ -61,7 +61,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
         children: [
           Box(
-            className: "col main-center gap-4 p-20",
+            classNames: [
+              "col main-center gap-4 p-20",
+              "h-10/12 w-1/2",
+            ],
             conditionals: {
               _counter < 5: "bg-blue-200",
               _counter > 5: "bg-red-200",
@@ -81,7 +84,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text("Test"),
               Box(
-                className: "bg-slate-200 p-4 text-3xl",
+                classNames: [
+                  "bg-slate-200 p-4 text-3xl",
+                  "h-52",
+                ],
                 children: [
                   Text("This is some really long text"),
                 ],

@@ -1,4 +1,7 @@
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/src/spacings.dart';
+
+import 'support_internal.dart';
 
 typedef FollowingWindConfig = ({
   double? spacingScale,
@@ -6,15 +9,28 @@ typedef FollowingWindConfig = ({
 
 const spacingScaleDefault = 4.0;
 
-class FollowingWind extends StatefulWidget {
-  final Widget child;
+const FollowingWindConfig kConfigDefault = (spacingScale: spacingScaleDefault,);
+
+class FollowingWind extends StatelessWidget {
   final FollowingWindConfig? config;
+  final Widget child;
 
   const FollowingWind({
     super.key,
-    required this.child,
     this.config,
+    required this.child,
   });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.sizeOf(context);
+
+    return _FollowingWind(
+      config: config,
+      screenSize: screenSize,
+      child: child,
+    );
+  }
 
   // Static method to access the config from anywhere in the widget tree
   static FollowingWindData of(BuildContext context) {
@@ -32,17 +48,114 @@ class FollowingWind extends StatefulWidget {
     }
     return scope.data;
   }
+}
+
+class _FollowingWind extends StatefulWidget {
+  final Widget child;
+  final FollowingWindConfig? config;
+  final Size screenSize;
+
+  const _FollowingWind({
+    super.key,
+    required this.child,
+    this.config,
+    required this.screenSize,
+  });
 
   @override
-  State<FollowingWind> createState() => FollowingWindState();
+  State<_FollowingWind> createState() => _FollowingWindState();
 }
 
 typedef FollowingWindData = ({
   double spacingScale,
+  Map<String, Size> sizes,
+  Map<String, double> widths,
+  Map<String, double> heights,
 });
 
-class FollowingWindState extends State<FollowingWind> {
-  FollowingWindData data = (spacingScale: spacingScaleDefault,);
+class _FollowingWindState extends State<_FollowingWind> {
+  FollowingWindData data = const (
+    spacingScale: spacingScaleDefault,
+    sizes: {},
+    widths: {},
+    heights: {},
+  );
+
+  void init() {
+    final config = widget.config ?? kConfigDefault;
+    final spacingScale = config.spacingScale ?? spacingScaleDefault;
+    final screenSize = widget.screenSize;
+    dpl("[_FollowingWindState.init] screenSize: $screenSize");
+
+    // no prefix yet
+    final spacingsCalculated = {
+      for (final entry in spacings.entries)
+        entry.key: entry.value * spacingScale,
+    };
+
+    final Map<String, Size> fractionalSizesCalculated = {
+      'full': Size(double.infinity, double.infinity),
+      for (final entry in fractionalSizes.entries)
+        entry.key: Size(
+          entry.value * screenSize.width,
+          entry.value * screenSize.height,
+        ),
+    };
+
+    final fractionalWidthsCalculated = {
+      'full': double.infinity,
+      for (final entry in fractionalSizes.entries)
+        entry.key: entry.value * screenSize.width,
+    };
+
+    final Map<String, double> fractionalHeightsCalculated = {
+      'full': double.infinity,
+      for (final entry in fractionalSizes.entries)
+        entry.key: entry.value * screenSize.height,
+    };
+
+    setState(() {
+      data = (
+        spacingScale: spacingScale,
+        sizes: {
+          for (final entry in spacingsCalculated.entries)
+            'size-${entry.key}': Size(entry.value, entry.value),
+          for (final entry in fractionalSizesCalculated.entries)
+            'size-${entry.key}': entry.value,
+        },
+        widths: {
+          for (final entry in spacingsCalculated.entries)
+            'w-${entry.key}': entry.value,
+          for (final entry in fractionalWidthsCalculated.entries)
+            'w-${entry.key}': entry.value,
+        },
+        heights: {
+          for (final entry in spacingsCalculated.entries)
+            'h-${entry.key}': entry.value,
+          for (final entry in fractionalHeightsCalculated.entries)
+            'h-${entry.key}': entry.value,
+        },
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  void didUpdateWidget(covariant _FollowingWind oldWidget) {
+    final shouldReinit = oldWidget.config != widget.config ||
+        oldWidget.screenSize != widget.screenSize;
+
+    if (shouldReinit) {
+      init();
+    }
+
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
