@@ -31,9 +31,9 @@ fall back to Flutter's native capabilities.
 ## Tasks
 
 ### Core
-- [ ] Config entry point
-  - [ ] Pre-calculate all the sizes based on config or defaults
-  - [ ] Allow the children to look up using an inhereted widget
+- [x] Config entry point
+  - [x] Allow the children to look up using an inhereted widget
+  - [-] Pre-calculate all the sizes based on config or defaults
 
 - [ ] flex row and column
     - [x] gap
