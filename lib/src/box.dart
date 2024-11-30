@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 import 'package:following_wind/src/widgets/fw_size.dart';
 
+import 'following_wind.dart';
 import 'class_groups.dart';
 import 'colors.dart';
 import 'parsers/border.dart';
@@ -42,6 +43,9 @@ class Box extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final fw = FollowingWind.of(context);
+    dpl('fw: $fw');
+
     T findValueForClass<T>(
       Map<String, T> lookup,
       T defaultValue,
@@ -65,7 +69,7 @@ class Box extends StatelessWidget {
 
     // Configure the layout first by processing all layout classes together
     Widget child = FwFlex(
-      spacingMultiplier: spacingMultiplier,
+      spacingMultiplier: fw.spacingScale,
       spacings: spacings.keys.toList(),
       findValueForClass: findValueForClass,
       children: children,
@@ -73,7 +77,7 @@ class Box extends StatelessWidget {
 
     // Apply text styles
     child = FwDefaultTextAndIconStyle(
-      spacingMultiplier: spacingMultiplier,
+      spacingMultiplier: fw.spacingScale,
       classKey: 'text',
       findValueForClass: findValueForClass,
       colors: colors,
@@ -96,7 +100,7 @@ class Box extends StatelessWidget {
     // no prefix yet
     final spacingsCalculated = {
       for (final entry in spacings.entries)
-        entry.key: entry.value * spacingMultiplier,
+        entry.key: entry.value * fw.spacingScale,
     };
 
     // calculate fractional sizes
