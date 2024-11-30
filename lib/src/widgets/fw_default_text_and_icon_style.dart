@@ -74,7 +74,7 @@ class FwDefaultTextAndIconStyle extends StatelessWidget {
       // if it is not set then it defaults to the value defined
       // by the font
       final height = .95;
-      dpl('height: $height');
+      // dpl('height: $height');
 
       widget = DefaultTextStyle(
         style: TextStyle(

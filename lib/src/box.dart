@@ -7,6 +7,7 @@ import 'colors.dart';
 import 'parsers/border.dart';
 import 'parsers/edge_insets.dart';
 import 'spacings.dart';
+import 'support_internal.dart';
 import 'widgets/fw_flex.dart';
 
 // ignore: camel_case_types
@@ -65,7 +66,7 @@ class Box extends StatelessWidget {
     // Configure the layout first by processing all layout classes together
     Widget child = FwFlex(
       spacingMultiplier: spacingMultiplier,
-      spacings: spacings,
+      spacings: spacings.keys.toList(),
       findValueForClass: findValueForClass,
       children: children,
     );
@@ -92,10 +93,66 @@ class Box extends StatelessWidget {
 
     child = _applyVisualClasses(classGroups.visual, child);
 
+    // no prefix yet
+    final spacingsCalculated = {
+      for (final entry in spacings.entries)
+        entry.key: entry.value * spacingMultiplier,
+    };
+
+    // calculate fractional sizes
+    final screenSize = MediaQuery.sizeOf(context);
+    // dpl("screenSize: $screenSize");
+
+    final fractionalWidthsCalculated = {
+      'full': double.infinity,
+      for (final entry in fractionalSizes.entries)
+        entry.key: entry.value * screenSize.width,
+    };
+    // dpl('fractionalWidthsCalculated: $fractionalWidthsCalculated');
+
+    final Map<String, double> fractionalHeightsCalculated = {
+      'full': double.infinity,
+      for (final entry in fractionalSizes.entries)
+        entry.key: entry.value * screenSize.height,
+    };
+
+    final Map<String, Size> fractionalSizesCalculated = {
+      'full': Size(double.infinity, double.infinity),
+      for (final entry in fractionalSizes.entries)
+        entry.key: Size(
+          entry.value * screenSize.width,
+          entry.value * screenSize.height,
+        ),
+    };
+
+    // lookups
+
+    final Map<String, Size> lookupSize = {
+      for (final entry in spacingsCalculated.entries)
+        'size-${entry.key}': Size(entry.value, entry.value),
+      for (final entry in fractionalSizesCalculated.entries)
+        'size-${entry.key}': entry.value,
+    };
+
+    final Map<String, double> lookupHeight = {
+      for (final entry in spacingsCalculated.entries)
+        'h-${entry.key}': entry.value,
+      for (final entry in fractionalHeightsCalculated.entries)
+        'h-${entry.key}': entry.value,
+    };
+
+    final Map<String, double> lookupWidth = {
+      for (final entry in spacingsCalculated.entries)
+        'w-${entry.key}': entry.value,
+      for (final entry in fractionalWidthsCalculated.entries)
+        'w-${entry.key}': entry.value,
+    };
+
     // Size the box before applying external spacing
     child = FwSize(
-      spacingMultiplier: spacingMultiplier,
-      spacings: spacings,
+      lookupSize: lookupSize,
+      lookupHeight: lookupHeight,
+      lookupWidth: lookupWidth,
       findValueForClass: findValueForClass,
       child: child,
     );
@@ -141,7 +198,7 @@ final borderParser = BorderParser(
 );
 
 final edgeInsetsParser = EdgeInsetsParser(
-  spacings: spacings,
+  spacings: spacings.keys.toList(),
   multiplier: spacingMultiplier,
 );
 

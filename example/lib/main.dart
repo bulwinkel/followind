@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 classNames: [
                   "p-4 bg-blue-800 rounded-xl gap-3",
                   "text-4xl text-white",
-                  // "size-80",
+                  // "size-1/4"
                 ],
                 onPressed: _goToBordersPage,
                 children: [
