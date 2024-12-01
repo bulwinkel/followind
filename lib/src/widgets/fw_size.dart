@@ -4,15 +4,15 @@ class FwSize extends StatelessWidget {
   const FwSize({
     super.key,
     required this.findValueForClass,
-    required this.lookupSize,
-    required this.lookupWidth,
-    required this.lookupHeight,
+    required this.sizes,
+    required this.widths,
+    required this.heights,
     required this.child,
   });
 
-  final Map<String, Size> lookupSize;
-  final Map<String, double> lookupWidth;
-  final Map<String, double> lookupHeight;
+  final Map<String, Size> sizes;
+  final Map<String, double> widths;
+  final Map<String, double> heights;
 
   final T Function<T>(
     Map<String, T> lookup,
@@ -23,7 +23,7 @@ class FwSize extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = findValueForClass(
-      lookupSize,
+      sizes,
       null,
     );
 
@@ -36,12 +36,12 @@ class FwSize extends StatelessWidget {
     }
 
     double? height = findValueForClass(
-      lookupHeight,
+      heights,
       null,
     );
 
     double? width = findValueForClass(
-      lookupWidth,
+      widths,
       null,
     );
 

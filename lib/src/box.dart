@@ -6,10 +6,10 @@ import 'following_wind.dart';
 import 'class_groups.dart';
 import 'colors.dart';
 import 'parsers/border.dart';
-import 'parsers/edge_insets.dart';
 import 'spacings.dart';
 import 'support_internal.dart';
 import 'widgets/fw_flex.dart';
+import 'widgets/fw_padding.dart';
 
 // ignore: camel_case_types
 class Box extends StatelessWidget {
@@ -85,23 +85,19 @@ class Box extends StatelessWidget {
     );
 
     // internal spacing
-    final paddingInsets = edgeInsetsParser.parse(classes);
-    // dpl('paddingInsets: $paddingInsets');
-
-    if (paddingInsets != null) {
-      child = Padding(
-        padding: paddingInsets,
-        child: child,
-      );
-    }
+    child = FwPadding(
+      edgeInsets: fw.paddings,
+      classMap: classMap,
+      child: child,
+    );
 
     child = _applyVisualClasses(classGroups.visual, child);
 
     // Size the box before applying external spacing
     child = FwSize(
-      lookupSize: fw.sizes,
-      lookupWidth: fw.widths,
-      lookupHeight: fw.heights,
+      sizes: fw.sizes,
+      widths: fw.widths,
+      heights: fw.heights,
       findValueForClass: findValueForClass,
       child: child,
     );
@@ -113,13 +109,12 @@ class Box extends StatelessWidget {
       );
     }
 
-    final marginInsets = edgeInsetsParser.parse(classGroups.margin);
-    if (marginInsets != null) {
-      child = Padding(
-        padding: marginInsets,
-        child: child,
-      );
-    }
+    // external spacing
+    child = FwPadding(
+      edgeInsets: fw.margins,
+      classMap: classMap,
+      child: child,
+    );
 
     return child;
   }
@@ -144,11 +139,6 @@ final borderParser = BorderParser(
   widthDefault: 1.0,
   colors: colors,
   colorDefault: colors['gray']![200]!,
-);
-
-final edgeInsetsParser = EdgeInsetsParser(
-  spacings: spacings.keys.toList(),
-  multiplier: spacingMultiplier,
 );
 
 Widget _applyVisualClasses(List<String> cs, Widget child) {

@@ -13,3 +13,10 @@ void dpl(String message) {
 
 /// Bottom, Left, Right, Top
 typedef BLRT<T> = (T? b, T? l, T? r, T? t);
+
+// Using same parameter names as EdgeInsets to make it easy to find and replace
+BLRT<T> blrtAll<T>(T? value) => (value, value, value, value);
+BLRT<T> blrtSymmetric<T>({T? vertical, T? horizontal}) =>
+    (vertical, horizontal, horizontal, vertical);
+BLRT<T> blrtOnly<T>({T? bottom, T? left, T? right, T? top}) =>
+    (bottom, left, right, top);

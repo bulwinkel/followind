@@ -71,6 +71,8 @@ typedef FollowingWindData = ({
   Map<String, Size> sizes,
   Map<String, double> widths,
   Map<String, double> heights,
+  Map<String, BLRT<double>> paddings,
+  Map<String, BLRT<double>> margins,
 });
 
 class _FollowingWindState extends State<_FollowingWind> {
@@ -79,6 +81,8 @@ class _FollowingWindState extends State<_FollowingWind> {
     sizes: {},
     widths: {},
     heights: {},
+    paddings: {},
+    margins: {},
   );
 
   void init() {
@@ -134,6 +138,38 @@ class _FollowingWindState extends State<_FollowingWind> {
             'h-${entry.key}': entry.value,
           for (final entry in fractionalHeightsCalculated.entries)
             'h-${entry.key}': entry.value,
+        },
+        paddings: {
+          for (final entry in spacingsCalculated.entries)
+            'p-${entry.key}': blrtAll(entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'px-${entry.key}': blrtSymmetric(horizontal: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'py-${entry.key}': blrtSymmetric(vertical: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'pb-${entry.key}': blrtOnly(bottom: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'pl-${entry.key}': blrtOnly(left: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'pr-${entry.key}': blrtOnly(right: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'pt-${entry.key}': blrtOnly(top: entry.value),
+        },
+        margins: {
+          for (final entry in spacingsCalculated.entries)
+            'm-${entry.key}': blrtAll(entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'mx-${entry.key}': blrtSymmetric(horizontal: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'my-${entry.key}': blrtSymmetric(vertical: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'mb-${entry.key}': blrtOnly(bottom: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'ml-${entry.key}': blrtOnly(left: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'mr-${entry.key}': blrtOnly(right: entry.value),
+          for (final entry in spacingsCalculated.entries)
+            'mt-${entry.key}': blrtOnly(top: entry.value),
         },
       );
     });
