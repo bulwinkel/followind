@@ -113,7 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
               Box(
                 classNames: [
                   "px-2 py-4 bg-red-400 gap-4",
-                  "border-x-2 border-y-4 border-t-red-300 border-r-orange-400 border-b-yellow-400 border-l-green-400 border-r-8",
+                  "border-x-2 border-y-4 border-r-8",
+                  "border-t-red-300 border-r-orange-400",
+                  "border-b-yellow-400 border-l-green-400"
                 ],
                 children: [
                   const Text(

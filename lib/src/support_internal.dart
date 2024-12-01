@@ -23,6 +23,22 @@ BLRT<T> blrtSymmetric<T>({T? vertical, T? horizontal}) =>
 BLRT<T> blrtOnly<T>({T? bottom, T? left, T? right, T? top}) =>
     (bottom, left, right, top);
 
+typedef Corners<T> = (T? bl, T? br, T? tl, T? tr);
+
+Corners<T> cornersAll<T>(T? value) => (value, value, value, value);
+
+Corners<T> cornersTop<T>(T? value) => (null, null, value, value);
+
+Corners<T> cornersBottom<T>(T? value) => (value, value, null, null);
+
+Corners<T> cornersLeft<T>(T? value) => (value, null, value, null);
+
+Corners<T> cornersRight<T>(T? value) => (null, value, null, value);
+
+Corners<T> cornersOnly<T>(
+        {T? bottomLeft, T? bottomRight, T? topLeft, T? topRight}) =>
+    (bottomLeft, bottomRight, topLeft, topRight);
+
 /// Efficiently collect classes from a string into a map
 /// Reduces the number of allocations and string operations
 List<String> collectClasses(String className, List<String> classNames) {
