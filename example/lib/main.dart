@@ -58,6 +58,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Box(
         classNames: [
           "h-full m-4 main-center gap-10 py-10 bg-green-100",
+          "border border-green-400 rounded-xl",
+          // if (_counter > 5) "bg-red-800",
         ],
         children: [
           Box(

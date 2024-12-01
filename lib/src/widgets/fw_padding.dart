@@ -5,12 +5,12 @@ class FwPadding extends StatelessWidget {
   const FwPadding({
     super.key,
     required this.edgeInsets,
-    required this.classMap,
+    required this.classes,
     required this.child,
   });
 
   final Map<String, BLRT<double>> edgeInsets;
-  final Map<String, String> classMap;
+  final List<String> classes;
   final Widget child;
 
   @override
@@ -21,7 +21,7 @@ class FwPadding extends StatelessWidget {
       // more specific classes should override less specific ones
       // e.g. p-4 pl-0 should result in a padding of 4 on all sides
       // except left which should be 0
-      if (classMap.containsKey(entry.key)) {
+      if (classes.contains(entry.key)) {
         // dpl('entry: $entry');
 
         final (b, l, r, t) = entry.value;

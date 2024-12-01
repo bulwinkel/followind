@@ -17,29 +17,21 @@ class Box extends StatelessWidget {
     super.key,
     this.className = '',
     this.classNames = const [],
-    this.conditionals = const {},
     this.onPressed,
     this.children = const [],
   });
 
   final String className;
   final List<String> classNames;
-  final Map<bool, String> conditionals;
   final List<Widget> children;
   final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final classMap = {
-      for (final c in className.split(' ')) c: c,
-      for (final cn in classNames)
-        for (final c in cn.split(' ')) c: c,
-      for (final entry in conditionals.entries)
-        if (entry.key) entry.value: entry.value,
-    };
+    final classes = collectClasses(className, classNames);
     // dpl('classes: $classMap');
 
-    if (classMap.containsKey('hidden')) {
+    if (classes.contains('hidden')) {
       return const SizedBox.shrink();
     }
 
@@ -53,8 +45,7 @@ class Box extends StatelessWidget {
       T? result;
 
       for (final className in lookup.keys) {
-        final value = classMap[className];
-        if (value != null) {
+        if (classes.contains(className)) {
           result = lookup[className];
           break;
         }
@@ -64,7 +55,6 @@ class Box extends StatelessWidget {
     }
 
     // Group classes by their type
-    final classes = classMap.keys.toList();
     final classGroups = ClassGroups.fromClasses(classes);
 
     // Configure the layout first by processing all layout classes together
@@ -87,7 +77,7 @@ class Box extends StatelessWidget {
     // internal spacing
     child = FwPadding(
       edgeInsets: fw.paddings,
-      classMap: classMap,
+      classes: classes,
       child: child,
     );
 
@@ -112,7 +102,7 @@ class Box extends StatelessWidget {
     // external spacing
     child = FwPadding(
       edgeInsets: fw.margins,
-      classMap: classMap,
+      classes: classes,
       child: child,
     );
 
