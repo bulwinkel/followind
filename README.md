@@ -71,11 +71,66 @@ fall back to Flutter's native capabilities.
 - [ ] Border radius can only be applied when border is of a uniform color (tailwind / css support
   this)
 
-## Notes
+# Questions
+- [ ] Can we abstract away the lookup strategy so we can worry about performance later without having to do a total rebuild?
+    - maybe add a lookup function to the inhereted widget, e.g.
+    ```
+    FollowingWind.of(context).lookup('bg', classes)
+    ```
 
-### Border
 
-### Limitations
+# Notes
 
+## Limitations
+### Borders
 - Flutter doesn't natively support anything but solid borders, so no dashed or dotted.
 - Flutter doesn't support different border colors per side if corners are rounded.
+
+
+## Class types
+### Single value
+Some classes you only take a single value for that type, e.g. bg-color
+Once we find a value for that class, we don't need to look for any more classes of that type.
+
+### Cumulative values classes
+Others more specific values override less specific classes, e.g. p-4 is partially overridden by px-2 which is partially overridden by pt-1
+
+List of cumulative classes
+- padding (p, px, py, pb, pl, pr, pt)
+- margin (m, mx, my, mb, ml, mr, mt)
+- border (border, border-t, border-r, border-b, border-l)
+- border-radius (rounded, rounded-t, rounded-r, rounded-b, rounded-l)
+
+### Composite classes
+`border` works on its own to specify a border of 1px on all sides
+`border-x border-x-white` work together to specify a border of 1px on the left and right sides and the default color is overridden by white.
+
+### Class segments
+The segments of a class are the parts separated by a `-`.
+There is no fixed number of segments in a class, 
+and no fixed distribution between type and value.
+
+#### 1 Segment type, rest value, e.g. <type>-<value-part>[-<value-part> ...]
+For example, `bg-white bg-red-500` bg is the type and white and red-500 are the values.
+For rounded, `rounded-xl rounded-t-xl`
+
+For cumulative values, you might have 2, 3 and 4 segment variants, e.g.  
+
+## Interaction modifiers (todo: what is the proper name for this?)
+e.g. `hover:`
+
+Changes are not animated by default, i.e. applying rounded on hover it will transition immediately, not animate between the states.
+
+## Size classes / responsive modifiers, e.g. `sm md lg xl`
+Starts small and gets larger.
+
+**No prefix** is less than 640px wide and generally refers to mobile screens. 
+Classes without any prefix are always applied.
+
+**A prefix** is applied when the minimum screen size for that size class is reached and continue to apply any greater width.
+
+### Priority
+Size classes from greater widths take priority over smaller widths, e.g. `sm` is overridden by `md`. But are also cumulative in their normal way, e.g. `p-4` is cumulative with `md:px-2` resulting in a BLRT padding of (4, 2, 2, 4) on `md` screens and up and (4, 4, 4, 4) on `sm` screens and below.
+
+Priority replacement happens based on the type segments, excluding the value segments.
+e.g. `rounded-tr-xl`
