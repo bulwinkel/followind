@@ -1,4 +1,6 @@
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/following_wind.dart';
+import 'package:following_wind/src/support_internal.dart';
 
 class FwFlex extends StatelessWidget {
   static const axis = {
@@ -35,18 +37,15 @@ class FwFlex extends StatelessWidget {
 
   FwFlex({
     super.key,
+    required this.classes,
     required this.spacingMultiplier,
-    required this.findValueForClass,
     required this.spacings,
     required this.children,
   });
 
+  final List<String> classes;
   final double spacingMultiplier;
   final List<String> spacings;
-  final T Function<T>(
-    Map<String, T> lookup,
-    T defaultValue,
-  ) findValueForClass;
   final List<Widget> children;
 
   late final Map<String, double> _gaps = {
@@ -55,9 +54,11 @@ class FwFlex extends StatelessWidget {
   };
 
   List<Widget> withGaps(
+    BuildContext context,
     Axis direction,
   ) {
-    final gapSize = findValueForClass(
+    final gapSize = findValue(
+      context,
       _gaps,
       null,
     );
@@ -82,31 +83,66 @@ class FwFlex extends StatelessWidget {
     return newChildren;
   }
 
+  T findValue<T>(
+    BuildContext context,
+    Map<String, T> lookup,
+    T defaultValue,
+  ) {
+    final FollowingWindData fw = FollowingWind.of(context);
+
+    final List<ParsedClass> pAxis = parseClasses(
+      classes: classes,
+      classTypes: lookup.keys.toList(),
+      sizeClasses: fw.sizeClasses,
+    );
+    // dpl("classes: $classes, pAxis: $pAxis");
+
+    T result = defaultValue;
+
+    for (final parsed in pAxis) {
+      final applyAtWidth = parsed.applyAtWidth;
+      if (applyAtWidth != 0.0 &&
+          MediaQuery.sizeOf(context).width < applyAtWidth) {
+        continue;
+      }
+
+      result = lookup[parsed.type] ?? result;
+    }
+
+    return result;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final direction = findValueForClass(
+    final direction = findValue(
+      context,
       axis,
       Axis.horizontal,
     );
+
     return Flex(
       direction: direction,
-      mainAxisAlignment: findValueForClass(
+      mainAxisAlignment: findValue(
+        context,
         mainAxisAlignment,
         MainAxisAlignment.start,
       ),
-      mainAxisSize: findValueForClass(
+      mainAxisSize: findValue(
+        context,
         mainAxisSize,
         MainAxisSize.max,
       ),
-      crossAxisAlignment: findValueForClass(
+      crossAxisAlignment: findValue(
+        context,
         crossAxisAlignment,
         CrossAxisAlignment.center,
       ),
-      verticalDirection: findValueForClass(
+      verticalDirection: findValue(
+        context,
         verticalDirection,
         VerticalDirection.down,
       ),
-      children: withGaps(direction),
+      children: withGaps(context, direction),
     );
   }
 }

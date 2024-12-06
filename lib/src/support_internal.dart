@@ -119,7 +119,13 @@ List<ParsedClass> parseClasses({
     String? value;
     for (final classType in classTypes) {
       // dpl('classType: $classType, classWithoutPrefixes: $classWithoutPrefixes');
-      if (classWithoutPrefixes.startsWith("$classType-")) {
+
+      // handle cases where there is no value segment, e.g. row col
+      if (classWithoutPrefixes == classType) {
+        type = classType;
+        value = '';
+        break;
+      } else if (classWithoutPrefixes.startsWith("$classType-")) {
         type = classType;
         value = classWithoutPrefixes.substring(classType.length + 1);
         break;
