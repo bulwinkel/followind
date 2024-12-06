@@ -80,6 +80,10 @@ class _FollowingWind extends StatefulWidget {
 
 typedef FollowingWindData = ({
   double spacingScale,
+
+  /// The responsive modifiers that are currently active
+  Map<String, double> sizeClasses,
+  List<String> responsiveModifiers,
   Map<String, Size> sizes,
   Map<String, double> widths,
   Map<String, double> heights,
@@ -95,6 +99,8 @@ typedef FollowingWindData = ({
 class _FollowingWindState extends State<_FollowingWind> {
   FollowingWindData data = const (
     spacingScale: spacingScaleDefault,
+    sizeClasses: {},
+    responsiveModifiers: [],
     sizes: {},
     widths: {},
     heights: {},
@@ -162,9 +168,22 @@ class _FollowingWindState extends State<_FollowingWind> {
       'full': double.infinity,
     };
 
+    final sizeClasses = {
+      'sm': 640.0,
+      'md': 768.0,
+      'lg': 1024.0,
+      'xl': 1280.0,
+      '2xl': 1536.0,
+    };
+
     setState(() {
       data = (
         spacingScale: spacingScale,
+        sizeClasses: sizeClasses,
+        responsiveModifiers: findResponsiveModifiers(
+          screenSize.width,
+          sizeClasses,
+        ),
         sizes: {
           for (final entry in spacingsCalculated.entries)
             'size-${entry.key}': Size(entry.value, entry.value),

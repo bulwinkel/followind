@@ -57,21 +57,25 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         classNames: [
-          "h-full m-4 main-center gap-10 py-10 bg-green-100",
+          "h-full main-center gap-10",
           "border border-green-400 rounded-xl",
+          "py-10",
+          "m-4 sm:m-6 md:m-8 lg:m-10 xl:m-12 2xl:m-16",
+          // "bg-green-100 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400 2xl:bg-purple-400",
           // if (_counter > 5) "bg-red-800",
         ],
         children: [
           Box(
             classNames: [
-              "col main-center gap-4 p-20",
-              "h-10/12 w-1/2",
+              "col main-center gap-4",
+              "p-8 sm:p-10 md:p-12 lg:p-16 xl:p-20 2xl:p-24",
+              // "h-10/12 w-1/2",
               if (_counter > 5) "bg-red-200" else "bg-blue-200",
             ],
             children: [
               Box(
                 classNames: [
-                  "p-4 bg-blue-800 rounded-xl gap-3",
+                  "p-4 lg:px-8 lg:py-4 bg-blue-800 rounded-xl gap-3",
                   "text-4xl text-white",
                   // "my-8",
                   // "size-1/4"
@@ -112,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Box(
                 classNames: [
-                  "px-2 py-4 bg-red-400 gap-4",
+                  "px-6 py-4 bg-red-400 gap-4",
                   "border-x-2 border-y-4 border-r-8",
                   "border-t-red-300 border-r-orange-400",
                   "border-b-yellow-400 border-l-green-400"

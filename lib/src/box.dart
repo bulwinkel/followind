@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 import 'package:following_wind/src/widgets/fw_size.dart';
 
-import 'class_groups.dart';
 import 'colors.dart';
 import 'following_wind.dart';
 import 'spacings.dart';
@@ -28,15 +27,15 @@ class Box extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FollowingWindData fw = FollowingWind.of(context);
     final classes = collectClasses(className, classNames);
-    // dpl('classes: $classMap');
 
+    // dpl('fw: $fw');
+
+    //TODO:KB 1/12/2024 how do we handle this with size classes
     if (classes.contains('hidden')) {
       return const SizedBox.shrink();
     }
-
-    final fw = FollowingWind.of(context);
-    // dpl('fw: $fw');
 
     T findValueForClass<T>(
       Map<String, T> lookup,
@@ -53,9 +52,6 @@ class Box extends StatelessWidget {
 
       return result ?? defaultValue;
     }
-
-    // Group classes by their type
-    final classGroups = ClassGroups.fromClasses(classes);
 
     // Configure the layout first by processing all layout classes together
     Widget child = FwFlex(
@@ -76,6 +72,7 @@ class Box extends StatelessWidget {
 
     // internal spacing
     child = FwPadding(
+      classTypes: FwPadding.classTypesPadding,
       edgeInsets: fw.paddings,
       classes: classes,
       child: child,
@@ -109,6 +106,7 @@ class Box extends StatelessWidget {
 
     // external spacing
     child = FwPadding(
+      classTypes: FwPadding.classTypesMargin,
       edgeInsets: fw.margins,
       classes: classes,
       child: child,

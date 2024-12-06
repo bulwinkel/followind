@@ -71,3 +71,92 @@ List<String> collectClasses(String className, List<String> classNames) {
 
   return result;
 }
+
+List<String> findResponsiveModifiers(
+  double screenWidth,
+  Map<String, double> responsiveModifiers,
+) {
+  final List<String> prefixes = [];
+
+  for (final entries in responsiveModifiers.entries) {
+    final modifier = entries.key;
+    final value = entries.value;
+
+    if (screenWidth >= value) {
+      prefixes.add(modifier);
+    }
+  }
+
+  // dpl('prefixes: $prefixes');
+  return prefixes;
+}
+
+typedef ParsedClass = ({
+  double sortOrder,
+  String value,
+  String type,
+  double applyAtWidth,
+});
+
+List<ParsedClass> parseClasses({
+  required List<String> classes,
+
+  /// The classes we are parsing in order
+  required List<String> classTypes,
+  required Map<String, double> sizeClasses,
+}) {
+  final List<ParsedClass> parsedClasses = [];
+
+  // parse into its parts (split by `:` for prefixes, then by `-` for the segments)
+  for (final c in classes) {
+    final prefixes = c.split(':');
+    final classWithoutPrefixes = prefixes.removeLast();
+
+    // dpl('prefixes: $prefixes');
+
+    // make sure this is one of the classes we are looking for
+    String? type;
+    String? value;
+    for (final classType in classTypes) {
+      // dpl('classType: $classType, classWithoutPrefixes: $classWithoutPrefixes');
+      if (classWithoutPrefixes.startsWith("$classType-")) {
+        type = classType;
+        value = classWithoutPrefixes.substring(classType.length + 1);
+        break;
+      }
+    }
+
+    // dpl('type: $type, value: $value');
+
+    if (type == null || value == null) {
+      continue;
+    }
+
+    // 0 if no responsive modifier
+    var applyAtWidth = 0.0;
+    for (final prefix in prefixes) {
+      applyAtWidth = sizeClasses[prefix] ?? 0.0;
+      if (applyAtWidth != 0.0) {
+        break;
+      }
+    }
+
+    // encode the classSegmentsInOrder into this class
+    // get the classSegmentsInOrder from the classSegmentsInOrder array
+    // then add the applyAtWidth
+    // then we have a single value to sort by
+    final parsed = (
+      sortOrder: classTypes.indexOf(type) + applyAtWidth, // 0, 1, 769
+      // calculate the blrt values
+      value: value, // 1, 2, ...
+      type: type, // p, px, py, ...
+      applyAtWidth: applyAtWidth
+    );
+    parsedClasses.add(parsed);
+  }
+
+  // sort the list: use the sortOrder value
+  parsedClasses.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
+  return parsedClasses;
+}
