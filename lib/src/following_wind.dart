@@ -83,6 +83,7 @@ typedef FollowingWindData = ({
 
   /// The responsive modifiers that are currently active
   Map<String, double> sizeClasses,
+  Map<String, double> spacings,
   Map<String, Size> sizes,
   Map<String, double> widths,
   Map<String, double> heights,
@@ -99,6 +100,7 @@ class _FollowingWindState extends State<_FollowingWind> {
   FollowingWindData data = const (
     spacingScale: spacingScaleDefault,
     sizeClasses: {},
+    spacings: {},
     sizes: {},
     widths: {},
     heights: {},
@@ -178,6 +180,7 @@ class _FollowingWindState extends State<_FollowingWind> {
       data = (
         spacingScale: spacingScale,
         sizeClasses: sizeClasses,
+        spacings: spacingsCalculated,
         sizes: {
           for (final entry in spacingsCalculated.entries)
             'size-${entry.key}': Size(entry.value, entry.value),
