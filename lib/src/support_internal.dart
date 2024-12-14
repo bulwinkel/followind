@@ -98,6 +98,63 @@ typedef ParsedClass = ({
   double applyAtWidth,
 });
 
+/// true if consumed
+/// ParsedClass can be null even if true is returned
+/// as the value may be invalid
+(bool, ParsedClass?) parseClass(
+  String className,
+  List<String> order,
+  Map<String, double> sizeClasses,
+) {
+  if (className.isEmpty) return (true, null);
+
+  final splitPrefixes = className.split(':');
+  final classWithoutPrefixes = splitPrefixes.removeLast();
+  // dpl("splitPrefixes: $splitPrefixes, classWithoutPrefixes: $classWithoutPrefixes");
+
+  String? type;
+  String? value;
+  for (final t in order) {
+    if (classWithoutPrefixes == t) {
+      type = t;
+      value = '';
+      break;
+    } else if (classWithoutPrefixes.startsWith("$t-")) {
+      type = t;
+      value = classWithoutPrefixes.substring(t.length + 1);
+      break;
+    }
+  }
+
+  // dpl('type: $type');
+  if (type == null) return (false, null);
+  if (value == null) return (false, null);
+
+  // 0 if no responsive modifier
+  var applyAtWidth = 0.0;
+  for (final prefix in splitPrefixes) {
+    applyAtWidth = sizeClasses[prefix] ?? 0.0;
+    // dpl("applyAtWidth: $applyAtWidth, prefix: $prefix");
+    if (applyAtWidth != 0.0) {
+      break;
+    }
+  }
+
+  // encode the classSegmentsInOrder into this class
+  // get the classSegmentsInOrder from the classSegmentsInOrder array
+  // then add the applyAtWidth
+  // then we have a single value to sort by
+  final parsed = (
+    sortOrder: order.indexOf(type) + applyAtWidth, // 0, 1, 769
+    // calculate the blrt values
+    value: value, // 1, 2, ...
+    type: type, // p, px, py, ...
+    applyAtWidth: applyAtWidth
+  );
+
+  return (true, parsed);
+}
+
 List<ParsedClass> parseClasses({
   required List<String> classes,
 

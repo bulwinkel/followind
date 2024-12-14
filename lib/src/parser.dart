@@ -1,3 +1,6 @@
 abstract interface class Parser<T> {
-  T parse(List<String> classes);
+  /// return true if the class was processed / consumed
+  bool parse(String className);
+
+  T? get result;
 }

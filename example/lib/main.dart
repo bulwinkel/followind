@@ -80,7 +80,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     "p-4 lg:px-8 lg:py-4 bg-blue-800 rounded-xl gap-3",
                     "text-4xl text-white",
                     // "my-8",
-                    // "size-1/4"
+                    "sm:h-40 sm:w-60 md:h-60 md:w-80",
+                    // "sm:size-1/5 md:size-2/5 lg:size-3/5",
                   ],
                   onPressed: _goToBordersPage,
                   children: [

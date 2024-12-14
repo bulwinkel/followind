@@ -80,6 +80,8 @@ fall back to Flutter's native capabilities.
 
 
 # Notes
+## Architecture
+8/12/2024 Attempting to use parser's instead of widgets so we can parse all the classes in one go and then build the widgets. We can also use the parser to generate a key if we want to optimize for performance.
 
 ## Limitations
 ### Borders

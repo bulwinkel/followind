@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
-import 'package:following_wind/src/widgets/fw_size.dart';
 
 import 'colors.dart';
 import 'following_wind.dart';
+import 'parsers/size_parser.dart';
 import 'spacings.dart';
 import 'support_internal.dart';
 import 'widgets/fw_decorated_box.dart';
@@ -88,14 +88,19 @@ class Box extends StatelessWidget {
       child: child,
     );
 
-    // Size the box before applying external spacing
-    child = FwSize(
-      sizes: fw.sizes,
-      widths: fw.widths,
-      heights: fw.heights,
-      findValueForClass: findValueForClass,
-      child: child,
-    );
+    final sizeParser = SizeParser(fw);
+    for (final className in classes) {
+      sizeParser.parse(className);
+    }
+
+    final size = sizeParser.result;
+    if (size != null) {
+      child = SizedBox(
+        height: size.height,
+        width: size.width,
+        child: child,
+      );
+    }
 
     if (onPressed != null) {
       child = GestureDetector(

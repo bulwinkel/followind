@@ -79,14 +79,13 @@ class _FollowingWind extends StatefulWidget {
 }
 
 typedef FollowingWindData = ({
+  Size screenSize,
   double spacingScale,
 
   /// The responsive modifiers that are currently active
   Map<String, double> sizeClasses,
   Map<String, double> spacings,
-  Map<String, Size> sizes,
-  Map<String, double> widths,
-  Map<String, double> heights,
+  Map<String, Size> fractionals,
   Map<String, BLRT<double>> paddings,
   Map<String, BLRT<double>> margins,
   Map<String, Color> bgColors,
@@ -98,12 +97,11 @@ typedef FollowingWindData = ({
 
 class _FollowingWindState extends State<_FollowingWind> {
   FollowingWindData data = const (
+    screenSize: Size.zero,
     spacingScale: spacingScaleDefault,
     sizeClasses: {},
     spacings: {},
-    sizes: {},
-    widths: {},
-    heights: {},
+    fractionals: {},
     paddings: {},
     margins: {},
     bgColors: {},
@@ -137,18 +135,6 @@ class _FollowingWindState extends State<_FollowingWind> {
         ),
     };
 
-    final fractionalWidthsCalculated = {
-      'full': double.infinity,
-      for (final entry in fractionalSizes.entries)
-        entry.key: entry.value * screenSize.width,
-    };
-
-    final Map<String, double> fractionalHeightsCalculated = {
-      'full': double.infinity,
-      for (final entry in fractionalSizes.entries)
-        entry.key: entry.value * screenSize.height,
-    };
-
     const borderWidths = {
       '0': 0.0,
       '1': 1.0,
@@ -178,27 +164,11 @@ class _FollowingWindState extends State<_FollowingWind> {
 
     setState(() {
       data = (
+        screenSize: screenSize,
         spacingScale: spacingScale,
         sizeClasses: sizeClasses,
         spacings: spacingsCalculated,
-        sizes: {
-          for (final entry in spacingsCalculated.entries)
-            'size-${entry.key}': Size(entry.value, entry.value),
-          for (final entry in fractionalSizesCalculated.entries)
-            'size-${entry.key}': entry.value,
-        },
-        widths: {
-          for (final entry in spacingsCalculated.entries)
-            'w-${entry.key}': entry.value,
-          for (final entry in fractionalWidthsCalculated.entries)
-            'w-${entry.key}': entry.value,
-        },
-        heights: {
-          for (final entry in spacingsCalculated.entries)
-            'h-${entry.key}': entry.value,
-          for (final entry in fractionalHeightsCalculated.entries)
-            'h-${entry.key}': entry.value,
-        },
+        fractionals: fractionalSizesCalculated,
         paddings: {
           for (final entry in spacingsCalculated.entries)
             'p-${entry.key}': blrtAll(entry.value),
