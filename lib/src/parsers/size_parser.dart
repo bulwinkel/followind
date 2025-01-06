@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/support_internal.dart';
 
 import '../following_wind.dart';
@@ -8,29 +9,27 @@ typedef ParsedSize = ({
   double? width,
 });
 
-class SizeParser implements Parser<ParsedSize> {
+class SizeParser extends BaseParser {
   static const String sizeKey = 'size';
   static const String heightKey = 'h';
   static const String widthKey = 'w';
 
   static const order = [sizeKey, heightKey, widthKey];
 
-  SizeParser(this.fw);
-
-  final FollowingWindData fw;
-
-  final List<ParsedClass> _parsedClasses = [];
+  SizeParser({
+    required super.fw,
+    super.classPrefixes = order,
+  });
 
   @override
-  ParsedSize? get result {
-    if (_parsedClasses.isEmpty) return null;
-    _parsedClasses.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-    // dpl("parsedClasses: $_parsedClasses");
+  Widget apply(Widget child) {
+    sort();
+    if (values.isEmpty) return child;
 
     double? height;
     double? width;
 
-    for (final parsed in _parsedClasses) {
+    for (final parsed in values) {
       // skip any that are not for the current screen size
       // dpl("applyAtWidth: ${parsed.applyAtWidth}, screenWidth: ${fw.screenSize.width}");
       if (parsed.applyAtWidth != 0.0 &&
@@ -66,20 +65,13 @@ class SizeParser implements Parser<ParsedSize> {
     }
 
     if (height == null && width == null) {
-      return null;
+      return child;
     }
 
-    return (height: height, width: width);
-  }
-
-  @override
-  bool parse(String className) {
-    final (consumed, parsed) = parseClass(
-      className,
-      order,
-      fw.sizeClasses,
+    return SizedBox(
+      height: height,
+      width: width,
+      child: child,
     );
-    if (parsed != null) _parsedClasses.add(parsed);
-    return consumed;
   }
 }

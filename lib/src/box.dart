@@ -3,10 +3,11 @@ import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 
 import 'colors.dart';
 import 'following_wind.dart';
+import 'parser.dart';
+import 'parsers/decorated_box_parser.dart';
 import 'parsers/size_parser.dart';
 import 'spacings.dart';
 import 'support_internal.dart';
-import 'widgets/fw_decorated_box.dart';
 import 'widgets/fw_flex.dart';
 import 'widgets/fw_padding.dart';
 
@@ -54,12 +55,19 @@ class Box extends StatelessWidget {
     }
 
     // Configure the layout first by processing all layout classes together
-    Widget child = FwFlex(
-      classes: classes,
-      spacingMultiplier: fw.spacingScale,
-      spacings: spacings.keys.toList(),
-      children: children,
-    );
+    Widget child;
+
+    // don't wrap in FwFlex if there is only one child
+    if (children.length == 1) {
+      child = children[0];
+    } else {
+      child = FwFlex(
+        classes: classes,
+        spacingMultiplier: fw.spacingScale,
+        spacings: spacings.keys.toList(),
+        children: children,
+      );
+    }
 
     // Apply text styles
     child = FwDefaultTextAndIconStyle(
@@ -78,29 +86,20 @@ class Box extends StatelessWidget {
       child: child,
     );
 
-    child = FwDecoratedBox(
-      classes: classes,
-      bgColors: fw.bgColors,
-      borderColor: fw.borderColor,
-      borderColors: fw.borderColors,
-      borderWidths: fw.borderWidths,
-      borderRadiuses: fw.borderRadiuses,
-      child: child,
-    );
+    final decoratedBoxParser = DecoratedBoxParser(fw: fw);
+    final sizeParser = SizeParser(fw: fw);
+    final List<Parser> parsers = [decoratedBoxParser, sizeParser];
 
-    final sizeParser = SizeParser(fw);
     for (final className in classes) {
-      sizeParser.parse(className);
+      for (final parser in parsers) {
+        final consumed = parser.parse(className);
+        if (consumed) break;
+      }
     }
 
-    final size = sizeParser.result;
-    if (size != null) {
-      child = SizedBox(
-        height: size.height,
-        width: size.width,
-        child: child,
-      );
-    }
+    child = decoratedBoxParser.apply(child);
+
+    child = sizeParser.apply(child);
 
     if (onPressed != null) {
       child = GestureDetector(

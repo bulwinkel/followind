@@ -88,6 +88,7 @@ typedef FollowingWindData = ({
   Map<String, Size> fractionals,
   Map<String, BLRT<double>> paddings,
   Map<String, BLRT<double>> margins,
+  Map<String, Map<int, Color>> colors,
   Map<String, Color> bgColors,
   Color borderColor,
   Map<String, BLRT<Color>> borderColors,
@@ -104,6 +105,7 @@ class _FollowingWindState extends State<_FollowingWind> {
     fractionals: {},
     paddings: {},
     margins: {},
+    colors: {},
     bgColors: {},
     borderColor: borderColorDefault,
     borderColors: {},
@@ -201,6 +203,7 @@ class _FollowingWindState extends State<_FollowingWind> {
           for (final entry in spacingsCalculated.entries)
             'mt-${entry.key}': blrtOnly(top: entry.value),
         },
+        colors: colors,
         bgColors: {
           'bg-white': white,
           'bg-black': black,
@@ -210,133 +213,131 @@ class _FollowingWindState extends State<_FollowingWind> {
         },
         borderColor: borderColor,
         borderColors: {
-          'border': blrtAll(borderColor),
-          'border-black': blrtAll(black),
-          'border-white': blrtAll(white),
+          '': blrtAll(borderColor),
+          'black': blrtAll(black),
+          'white': blrtAll(white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-${entry.key}-${shade.key}': blrtAll(shade.value),
+              '${entry.key}-${shade.key}': blrtAll(shade.value),
           // x
-          'border-x': blrtSymmetric(horizontal: borderColor),
-          'border-x-black': blrtSymmetric(horizontal: black),
-          'border-x-white': blrtSymmetric(horizontal: white),
+          'x': blrtSymmetric(horizontal: borderColor),
+          'x-black': blrtSymmetric(horizontal: black),
+          'x-white': blrtSymmetric(horizontal: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-x-${entry.key}-${shade.key}':
+              'x-${entry.key}-${shade.key}':
                   blrtSymmetric(horizontal: shade.value),
           // y
-          'border-y': blrtSymmetric(vertical: borderColor),
-          'border-y-black': blrtSymmetric(vertical: black),
-          'border-y-white': blrtSymmetric(vertical: white),
+          'y': blrtSymmetric(vertical: borderColor),
+          'y-black': blrtSymmetric(vertical: black),
+          'y-white': blrtSymmetric(vertical: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-y-${entry.key}-${shade.key}':
+              'y-${entry.key}-${shade.key}':
                   blrtSymmetric(vertical: shade.value),
           // bottom
-          'border-b': blrtOnly(bottom: borderColor),
-          'border-b-black': blrtOnly(bottom: black),
-          'border-b-white': blrtOnly(bottom: white),
+          'b': blrtOnly(bottom: borderColor),
+          'b-black': blrtOnly(bottom: black),
+          'b-white': blrtOnly(bottom: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-b-${entry.key}-${shade.key}':
-                  blrtOnly(bottom: shade.value),
+              'b-${entry.key}-${shade.key}': blrtOnly(bottom: shade.value),
           // left
-          'border-l': blrtOnly(left: borderColor),
-          'border-l-black': blrtOnly(left: black),
-          'border-l-white': blrtOnly(left: white),
+          'l': blrtOnly(left: borderColor),
+          'l-black': blrtOnly(left: black),
+          'l-white': blrtOnly(left: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-l-${entry.key}-${shade.key}': blrtOnly(left: shade.value),
+              'l-${entry.key}-${shade.key}': blrtOnly(left: shade.value),
           // right
-          'border-r': blrtOnly(right: borderColor),
-          'border-r-black': blrtOnly(right: black),
-          'border-r-white': blrtOnly(right: white),
+          'r': blrtOnly(right: borderColor),
+          'r-black': blrtOnly(right: black),
+          'r-white': blrtOnly(right: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-r-${entry.key}-${shade.key}':
-                  blrtOnly(right: shade.value),
+              'r-${entry.key}-${shade.key}': blrtOnly(right: shade.value),
           // top
-          'border-t': blrtOnly(top: borderColor),
-          'border-t-black': blrtOnly(top: black),
-          'border-t-white': blrtOnly(top: white),
+          't': blrtOnly(top: borderColor),
+          't-black': blrtOnly(top: black),
+          't-white': blrtOnly(top: white),
           for (final entry in colors.entries)
             for (final shade in entry.value.entries)
-              'border-t-${entry.key}-${shade.key}': blrtOnly(top: shade.value),
+              't-${entry.key}-${shade.key}': blrtOnly(top: shade.value),
         },
         borderWidths: {
-          'border': blrtAll(borderWidth),
+          '': blrtAll(borderWidth),
           for (final entry in borderWidths.entries)
-            'border-${entry.key}': blrtAll(entry.value),
+            entry.key: blrtAll(entry.value),
           // x
-          'border-x': blrtSymmetric(horizontal: borderWidth),
+          'x': blrtSymmetric(horizontal: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-x-${entry.key}': blrtSymmetric(horizontal: entry.value),
+            'x-${entry.key}': blrtSymmetric(horizontal: entry.value),
           // y
-          'border-y': blrtSymmetric(vertical: borderWidth),
+          'y': blrtSymmetric(vertical: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-y-${entry.key}': blrtSymmetric(vertical: entry.value),
+            'y-${entry.key}': blrtSymmetric(vertical: entry.value),
           // bottom
-          'border-b': blrtOnly(bottom: borderWidth),
+          'b': blrtOnly(bottom: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-b-${entry.key}': blrtOnly(bottom: entry.value),
+            'b-${entry.key}': blrtOnly(bottom: entry.value),
           // left
-          'border-l': blrtOnly(left: borderWidth),
+          'l': blrtOnly(left: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-l-${entry.key}': blrtOnly(left: entry.value),
+            'l-${entry.key}': blrtOnly(left: entry.value),
           // right
-          'border-r': blrtOnly(right: borderWidth),
+          'r': blrtOnly(right: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-r-${entry.key}': blrtOnly(right: entry.value),
+            'r-${entry.key}': blrtOnly(right: entry.value),
           // top
-          'border-t': blrtOnly(top: borderWidth),
+          't': blrtOnly(top: borderWidth),
           for (final entry in borderWidths.entries)
-            'border-t-${entry.key}': blrtOnly(top: entry.value),
+            't-${entry.key}': blrtOnly(top: entry.value),
         },
         borderRadiuses: {
           // all
-          'rounded': cornersAll(borderRadiusDefault),
+          '': cornersAll(borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-${entry.key}': cornersAll(entry.value),
+            entry.key: cornersAll(entry.value),
 
           // bottom
-          'rounded-b': cornersBottom(borderRadiusDefault),
+          'b': cornersBottom(borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-b-${entry.key}': cornersBottom(entry.value),
+            'b-${entry.key}': cornersBottom(entry.value),
 
           // left
-          'rounded-l': cornersLeft(borderRadiusDefault),
+          'l': cornersLeft(borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-l-${entry.key}': cornersLeft(entry.value),
+            'l-${entry.key}': cornersLeft(entry.value),
 
           // right
-          'rounded-r': cornersRight(borderRadiusDefault),
+          'r': cornersRight(borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-r-${entry.key}': cornersRight(entry.value),
+            'r-${entry.key}': cornersRight(entry.value),
 
           // top
-          'rounded-t': cornersTop(borderRadiusDefault),
+          't': cornersTop(borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-t-${entry.key}': cornersTop(entry.value),
+            't-${entry.key}': cornersTop(entry.value),
 
           // bottom left
-          'rounded-bl': cornersOnly(bottomLeft: borderRadiusDefault),
+          'bl': cornersOnly(bottomLeft: borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-bl-${entry.key}': cornersOnly(bottomLeft: entry.value),
+            'bl-${entry.key}': cornersOnly(bottomLeft: entry.value),
 
           // bottom right
-          'rounded-br': cornersOnly(bottomRight: borderRadiusDefault),
+          'br': cornersOnly(bottomRight: borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-br-${entry.key}': cornersOnly(bottomRight: entry.value),
+            'br-${entry.key}': cornersOnly(bottomRight: entry.value),
 
           // top left
-          'rounded-tl': cornersOnly(topLeft: borderRadiusDefault),
+          'tl': cornersOnly(topLeft: borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-tl-${entry.key}': cornersOnly(topLeft: entry.value),
+            'tl-${entry.key}': cornersOnly(topLeft: entry.value),
 
           // top right
-          'rounded-tr': cornersOnly(topRight: borderRadiusDefault),
+          'tr': cornersOnly(topRight: borderRadiusDefault),
           for (final entry in borderRadiusSizes.entries)
-            'rounded-tr-${entry.key}': cornersOnly(topRight: entry.value),
+            'tr-${entry.key}': cornersOnly(topRight: entry.value),
         },
       );
     });

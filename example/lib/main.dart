@@ -77,10 +77,11 @@ class _MyHomePageState extends State<MyHomePage> {
               children: [
                 Box(
                   classNames: [
-                    "p-4 lg:px-8 lg:py-4 bg-blue-800 rounded-xl gap-3",
+                    "p-4 lg:px-8 lg:py-4 rounded-xl gap-3",
                     "text-4xl text-white",
                     // "my-8",
                     "sm:h-40 sm:w-60 md:h-60 md:w-80",
+                    "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
                     // "sm:size-1/5 md:size-2/5 lg:size-3/5",
                   ],
                   onPressed: _goToBordersPage,
@@ -93,6 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Box(
                   classNames: [
                     "bg-slate-200 p-8 py-10 text-3xl",
+                    "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
                     // "main-center"
                     // "h-52",
                   ],
@@ -106,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     "p-4 bg-red-200 gap-4",
                     "border",
                     "rounded-md rounded-tl-3xl rounded-br-3xl",
+                    "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
                   ],
                   children: [
                     const Text(
@@ -132,6 +135,14 @@ class _MyHomePageState extends State<MyHomePage> {
                       '$_counter',
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
+                  ],
+                ),
+                Box(
+                  classNames: [
+                    'p-4 bg-orange-200 rounded',
+                  ],
+                  children: [
+                    Text("This is a single child."),
                   ],
                 ),
               ],

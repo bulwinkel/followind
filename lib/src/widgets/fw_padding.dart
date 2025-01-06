@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:following_wind/following_wind.dart';
 import 'package:following_wind/src/support_internal.dart';
 
+//TODO:KB 6/1/2025 move into parser system
 class FwPadding extends StatelessWidget {
   static const classTypesPadding = ['p', 'px', 'py', 'pt', 'pr', 'pb', 'pl'];
   static const classTypesMargin = ['m', 'mx', 'my', 'mt', 'mr', 'mb', 'ml'];

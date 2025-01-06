@@ -45,7 +45,7 @@ void main() {
 
     test("should parse single unprefixed value", () {
       final classes = collectClasses("", [
-        "p-4 bg-blue-500 rounded-xl",
+        "p-4 bg-blue-500 xl",
       ]);
 
       final parsedClasses = parseClasses(
