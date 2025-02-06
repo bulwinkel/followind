@@ -10,8 +10,8 @@ It is designed to mimic the ergonomics of Tailwind but be idiomatic for Flutter.
 It should be familiar enough to both Tailwind users and Flutter developers.
 
 It is not designed to be a 1:1 implementation of Tailwind CSS in Flutter.
-The flex layout model in Flutter is different enough from CSS that a direct port is not feasible (at
-least in the short term).
+The flex layout model in Flutter is different enough from CSS that a direct port is not feasible
+(at least in the short term).
 Instead, FollowingWind aims to provide a similar development experience but aligned with Flutter's
 existing capabilities.
 
@@ -24,15 +24,51 @@ Where this is not possible, we will try to provide a similar experience.
 Should this project live long enough and see enough interest, it could evolve to add
 features missing from the framework.
 
-In alignment with Tailwind's philosophy, FollowingWind will aim to be interopable with Flutter's
+In alignment with Tailwind's philosophy, FollowingWind will aim to be interoperable with Flutter's
 existing Widget system, so that if something is not possible with FollowingWind, you can always
 fall back to Flutter's native capabilities.
+
+## What problems does it solve?
+### 1. Responsive Design
+Flutter doesn't easily support styling for specific screen sizes. Tailwind's use of prefixes makes it easy to style for different screen sizes. Following Wind aims to bring this to Flutter.
+
+### 2. Widget tree depth
+Flutter widget trees can get deep quickly. Even for relatively simple styling. The way to solve this is to extract widgets, however, this is generally a clumsy process and can lead to premature abstraction.
+
+### 3. Material Design lock-in
+Flutter is deeply tied to Material Design. Although this makes it relatively quick and easy to build apps that look good, it can be limiting. FollowingWind allows you to break free from Material Design and build your own design system with ease.
+
+# Milestones
+## 0.1.0 Adaptive sizing and layout
+Targets problem 1.
+Aim to provide a similar experience to Tailwind CSS for sizing and layout. 
+Stretch goal: Support custom values for spacing and sizing.
+
+- [ ] Example app that demonstrates usage of classes provided in this milestone.
+- [ ] Configurable breakpoints
+
+### Flex (https://tailwindcss.com/docs/flex-direction)
+- [ ] Rows and columns with adaptive switching (e.g. row on desktop, column on mobile)
+
+### Spacing (https://tailwindcss.com/docs/padding)
+- [ ] Padding and Margin, these will effectively do the same thing since there will be no way to style the Box to then add margin outside the styling.
+ 
+### Sizing (https://tailwindcss.com/docs/width)
+- [ ] Sizes (width, height, min-width, min-height, max-width, max-height)
+
+### Containers (https://tailwindcss.com/docs/container)
+- [ ] Container class that sets a max-width and centers the content.
+
+### Not in milestone 1.
+- Expanded and Flexible children: This can be done in the normal manner.
+- Decorations: This can also be done in the normal way, by wrapping a box in a decorated box.
+- Performance optimizations: Although performance will be considered during development, since this is a proof of concept, it is not a priority. 
 
 ## Tasks
 
 ### Core
 - [x] Config entry point
-  - [x] Allow the children to look up using an inhereted widget
+  - [x] Allow the children to look up using an inherited widget
   - [-] Pre-calculate all the sizes based on config or defaults
 
 - [ ] flex row and column
@@ -70,6 +106,9 @@ fall back to Flutter's native capabilities.
 
 - [ ] Border radius can only be applied when border is of a uniform color (tailwind / css support
   this)
+
+### IDE Plugins
+Provide IDE type completion and automatic class sorting.
 
 # Questions
 - [ ] Can we abstract away the lookup strategy so we can worry about performance later without having to do a total rebuild?
