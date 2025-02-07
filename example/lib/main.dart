@@ -58,6 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Box(
+          styles: [
+            ...[col, mainMax, 4.gap],
+            ...[row.xl, 8.gap.xl],
+          ],
           classNames: [
             "col xl:row main-max gap-4 xl:gap-8",
             "border border-green-400 rounded-xl",
@@ -139,7 +143,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Box(
                   classNames: [
-                    'p-4 bg-orange-200 rounded',
+                    'bg-orange-200 rounded',
+                  ],
+                  styles: [
+                    .25.pc.p.sm,
+                    4.py.sm,
+                    8.px.md,
+                    10.p.lg,
+                    12.p.xl,
+                    16.p.xxl
                   ],
                   children: [
                     Text("This is a single child."),

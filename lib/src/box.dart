@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/src/styles/style.dart';
 import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 
 import 'colors.dart';
@@ -17,12 +18,14 @@ class Box extends StatelessWidget {
     super.key,
     this.className = '',
     this.classNames = const [],
+    this.styles = const [],
     this.onPressed,
     this.children = const [],
   });
 
   final String className;
   final List<String> classNames;
+  final List<Style> styles;
   final List<Widget> children;
   final VoidCallback? onPressed;
 
@@ -61,10 +64,31 @@ class Box extends StatelessWidget {
     if (children.length == 1) {
       child = children[0];
     } else {
-      child = FwFlex(
-        classes: classes,
-        spacingMultiplier: fw.spacingScale,
-        spacings: spacings.keys.toList(),
+      final defaultFlex = FlexStyle(
+        direction: Axis.vertical,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+      );
+      var flexStyle = defaultFlex;
+      for (final style in styles) {
+        if (style is FlexStyle) {
+          flexStyle = flexStyle.mergeWith(style, fw.screenSize.width);
+        }
+      }
+
+      dpl('flexStyle: $flexStyle');
+
+      child = Flex(
+        direction: flexStyle.direction!,
+        crossAxisAlignment: flexStyle.crossAxisAlignment!,
+        mainAxisAlignment: flexStyle.mainAxisAlignment!,
+        mainAxisSize: flexStyle.mainAxisSize!,
+        spacing: flexStyle.spacing?.unpack(
+              axisMax: fw.screenSize.width,
+              scale: fw.spacingScale,
+            ) ??
+            0,
         children: children,
       );
     }
@@ -85,6 +109,32 @@ class Box extends StatelessWidget {
       classes: classes,
       child: child,
     );
+
+    PaddingStyle? ps;
+    for (final style in styles) {
+      if (style is PaddingStyle) {
+        ps = ps?.mergeWith(style, fw.screenSize.width) ?? style;
+      }
+    }
+    if (ps != null) {
+      child = Padding(
+        padding: EdgeInsets.only(
+          left: ps.left?.unpack(
+                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+              0,
+          top: ps.top?.unpack(
+                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+              0,
+          right: ps.right?.unpack(
+                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+              0,
+          bottom: ps.bottom?.unpack(
+                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+              0,
+        ),
+        child: child,
+      );
+    }
 
     final decoratedBoxParser = DecoratedBoxParser(fw: fw);
     final sizeParser = SizeParser(fw: fw);

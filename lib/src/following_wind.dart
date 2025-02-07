@@ -161,6 +161,7 @@ class _FollowingWindState extends State<_FollowingWind> {
       'md': 768.0,
       'lg': 1024.0,
       'xl': 1280.0,
+      'xxl': 1536.0,
       '2xl': 1536.0,
     };
 
