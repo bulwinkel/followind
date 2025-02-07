@@ -9,7 +9,6 @@ import 'parsers/decorated_box_parser.dart';
 import 'parsers/size_parser.dart';
 import 'spacings.dart';
 import 'support_internal.dart';
-import 'widgets/fw_flex.dart';
 import 'widgets/fw_padding.dart';
 
 // ignore: camel_case_types
@@ -73,7 +72,7 @@ class Box extends StatelessWidget {
       var flexStyle = defaultFlex;
       for (final style in styles) {
         if (style is FlexStyle) {
-          flexStyle = flexStyle.mergeWith(style, fw.screenSize.width);
+          flexStyle = flexStyle.mergeWith(style, fw);
         }
       }
 
@@ -102,18 +101,10 @@ class Box extends StatelessWidget {
       child: child,
     );
 
-    // internal spacing
-    child = FwPadding(
-      classTypes: FwPadding.classTypesPadding,
-      edgeInsets: fw.paddings,
-      classes: classes,
-      child: child,
-    );
-
     PaddingStyle? ps;
     for (final style in styles) {
       if (style is PaddingStyle) {
-        ps = ps?.mergeWith(style, fw.screenSize.width) ?? style;
+        ps = ps?.mergeWith(style, fw) ?? style;
       }
     }
     if (ps != null) {

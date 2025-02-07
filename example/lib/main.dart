@@ -59,29 +59,29 @@ class _MyHomePageState extends State<MyHomePage> {
         scrollDirection: Axis.vertical,
         child: Box(
           styles: [
-            ...[col, mainMax, 4.gap],
+            ...[col, mainMax, 4.gap, 10.py],
             ...[row.xl, 8.gap.xl],
           ],
           classNames: [
-            "col xl:row main-max gap-4 xl:gap-8",
             "border border-green-400 rounded-xl",
-            "py-10",
             "m-4 sm:m-6 md:m-8 lg:m-10 xl:m-12 2xl:m-16",
             // "bg-green-100 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400 2xl:bg-purple-400",
             // if (_counter > 5) "bg-red-800",
           ],
           children: [
             Box(
+              styles: [
+                ...[col, mainCenter, 2.gap, 6.gap.sm],
+                ...[8.p, 10.p.sm, 12.p.md, 16.p.lg, 20.p.xl, 24.p.xxl],
+              ],
               classNames: [
-                "col main-center gap-2 sm:gap-6",
-                "p-8 sm:p-10 md:p-12 lg:p-16 xl:p-20 2xl:p-24",
-                // "h-10/12 w-1/2",
                 if (_counter > 5) "bg-red-200" else "bg-blue-200",
               ],
               children: [
                 Box(
+                  styles: [row, mainMax, 4.p, 8.px.lg, 4.py.lg, 3.gap],
                   classNames: [
-                    "p-4 lg:px-8 lg:py-4 rounded-xl gap-3",
+                    "rounded-xl",
                     "text-4xl text-white",
                     // "my-8",
                     "sm:h-40 sm:w-60 md:h-60 md:w-80",

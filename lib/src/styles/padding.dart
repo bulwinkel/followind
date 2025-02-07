@@ -29,27 +29,27 @@ class PaddingStyle extends Style {
   final Spacing? right;
   final Spacing? bottom;
 
-  PaddingStyle applyAt(double screenSize) {
+  PaddingStyle applyAt(SizeClass sizeClass) {
     return PaddingStyle(
-      left: left?.applyAt(screenSize),
-      top: top?.applyAt(screenSize),
-      right: right?.applyAt(screenSize),
-      bottom: bottom?.applyAt(screenSize),
+      left: left?.applyAt(sizeClass),
+      top: top?.applyAt(sizeClass),
+      right: right?.applyAt(sizeClass),
+      bottom: bottom?.applyAt(sizeClass),
     );
   }
 
-  PaddingStyle get sm => applyAt(600);
-  PaddingStyle get md => applyAt(768);
-  PaddingStyle get lg => applyAt(1024);
-  PaddingStyle get xl => applyAt(1280);
-  PaddingStyle get xxl => applyAt(1536);
+  PaddingStyle get sm => applyAt(SizeClass.sm);
+  PaddingStyle get md => applyAt(SizeClass.md);
+  PaddingStyle get lg => applyAt(SizeClass.lg);
+  PaddingStyle get xl => applyAt(SizeClass.xl);
+  PaddingStyle get xxl => applyAt(SizeClass.xxl);
 
-  PaddingStyle mergeWith(PaddingStyle other, double screenWidth) {
+  PaddingStyle mergeWith(PaddingStyle other, FollowingWindData fw) {
     return PaddingStyle(
-      left: left.pick(other.left, screenWidth),
-      top: top.pick(other.top, screenWidth),
-      right: right.pick(other.right, screenWidth),
-      bottom: bottom.pick(other.bottom, screenWidth),
+      left: left.pick(other.left, fw),
+      top: top.pick(other.top, fw),
+      right: right.pick(other.right, fw),
+      bottom: bottom.pick(other.bottom, fw),
     );
   }
 

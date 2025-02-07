@@ -1,7 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/support_internal.dart';
 
-import '../following_wind.dart';
 import '../parser.dart';
 
 typedef ParsedSize = ({

@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:following_wind/src/size_class.dart';
 import 'package:following_wind/src/spacings.dart';
 
 import 'colors.dart';
@@ -95,6 +96,12 @@ typedef FollowingWindData = ({
   Map<String, BLRT<double>> borderWidths,
   Map<String, Corners<double>> borderRadiuses,
 });
+
+extension FollowingWindDataX on FollowingWindData {
+  double sizeForClass(SizeClass? className) {
+    return sizeClasses[className?.name ?? ""] ?? 0.0;
+  }
+}
 
 class _FollowingWindState extends State<_FollowingWind> {
   FollowingWindData data = const (

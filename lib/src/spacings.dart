@@ -1,3 +1,6 @@
+import 'package:following_wind/following_wind.dart';
+import 'package:following_wind/src/size_class.dart';
+
 const Map<String, double> spacings = {
   '0': 0,
   '0.5': 0.5,
@@ -84,47 +87,36 @@ final List<String> additionalSizes = [
 
 sealed class Spacing {
   const Spacing({
-    this.sizeClass = 0,
+    this.sizeClass,
   });
 
-  final double sizeClass;
+  final SizeClass? sizeClass;
 
-  Spacing applyAt(double sizeClass);
+  Spacing applyAt(SizeClass sizeClass);
 }
 
 extension ChooseForScreenSize on Spacing? {
-  Spacing? pick(Spacing? other, double screenWidth) {
+  Spacing? pick(Spacing? other, FollowingWindData fw) {
     if (other == null) return this;
-    if (this == null && other.sizeClass >= screenWidth) return other;
+
+    final useOther = fw.screenSize.width >= fw.sizeForClass(other.sizeClass);
 
     // if they are both equal return the latter
-    if ((this?.sizeClass ?? 0) == other.sizeClass) {
+    if (this?.sizeClass == other.sizeClass || useOther) {
       return other;
     }
 
-    final isThisSmaller = (this?.sizeClass ?? 0) < other.sizeClass;
-    final min = isThisSmaller ? this : other;
-    final max = isThisSmaller ? other : this;
-
-    // scenario: min is 0, max is 600, and screenWidth is 300
-    // this should be picked
-    // scenario: min is 0, max is 600, and screenWidth is 900
-    // other should be picked
-    if (screenWidth >= (max?.sizeClass ?? 0)) {
-      return max;
-    }
-
-    return min;
+    return this;
   }
 }
 
 class DpSpacing extends Spacing {
   final double value;
 
-  const DpSpacing(this.value, {super.sizeClass = 0});
+  const DpSpacing(this.value, {super.sizeClass});
 
   @override
-  DpSpacing applyAt(double sizeClass) {
+  DpSpacing applyAt(SizeClass sizeClass) {
     return DpSpacing(value, sizeClass: sizeClass);
   }
 
@@ -137,6 +129,11 @@ class DpSpacing extends Spacing {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() {
+    return 'DpSpacing{value: $value}';
+  }
 }
 
 const zero = DpSpacing(0);
@@ -144,10 +141,10 @@ const zero = DpSpacing(0);
 class FractionalSpacing extends Spacing {
   final double value;
 
-  const FractionalSpacing(this.value, {super.sizeClass = 0});
+  const FractionalSpacing(this.value, {super.sizeClass});
 
   @override
-  FractionalSpacing applyAt(double sizeClass) {
+  FractionalSpacing applyAt(SizeClass sizeClass) {
     return FractionalSpacing(value, sizeClass: sizeClass);
   }
 
@@ -160,15 +157,20 @@ class FractionalSpacing extends Spacing {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() {
+    return 'FractionalSpacing{value: $value}';
+  }
 }
 
 class ScaleSpacing extends Spacing {
   final double value;
 
-  const ScaleSpacing(this.value, {super.sizeClass = 0});
+  const ScaleSpacing(this.value, {super.sizeClass});
 
   @override
-  ScaleSpacing applyAt(double sizeClass) {
+  ScaleSpacing applyAt(SizeClass sizeClass) {
     return ScaleSpacing(value, sizeClass: sizeClass);
   }
 
@@ -181,6 +183,11 @@ class ScaleSpacing extends Spacing {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  String toString() {
+    return 'ScaleSpacing{value: $value}';
+  }
 }
 
 extension UnpackSpacing on Spacing {

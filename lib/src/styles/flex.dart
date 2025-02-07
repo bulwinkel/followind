@@ -7,7 +7,7 @@ class FlexStyle extends Style {
     this.mainAxisSize,
     this.crossAxisAlignment,
     this.spacing,
-    this.sizeClass = 0,
+    this.sizeClass,
   });
 
   final Axis? direction;
@@ -16,9 +16,9 @@ class FlexStyle extends Style {
   final CrossAxisAlignment? crossAxisAlignment;
   final Spacing? spacing;
 
-  final double sizeClass;
+  final SizeClass? sizeClass;
 
-  FlexStyle applyAt(double sizeClass) {
+  FlexStyle applyAt(SizeClass sizeClass) {
     return FlexStyle(
       direction: direction,
       mainAxisAlignment: mainAxisAlignment,
@@ -28,19 +28,19 @@ class FlexStyle extends Style {
     );
   }
 
-  FlexStyle get sm => applyAt(600);
+  FlexStyle get sm => applyAt(SizeClass.sm);
 
-  FlexStyle get md => applyAt(768);
+  FlexStyle get md => applyAt(SizeClass.md);
 
-  FlexStyle get lg => applyAt(1024);
+  FlexStyle get lg => applyAt(SizeClass.lg);
 
-  FlexStyle get xl => applyAt(1280);
+  FlexStyle get xl => applyAt(SizeClass.xl);
 
-  FlexStyle get xxl => applyAt(1536);
+  FlexStyle get xxl => applyAt(SizeClass.xxl);
 
-  FlexStyle mergeWith(FlexStyle other, double screenWidth) {
+  FlexStyle mergeWith(FlexStyle other, FollowingWindData fw) {
     // choose which properties to keep based on sizeClass and screenWidth
-    final useOther = screenWidth >= other.sizeClass;
+    final useOther = fw.screenSize.width >= fw.sizeForClass(other.sizeClass);
 
     final d = useOther && other.direction != null ? other.direction : direction;
 
