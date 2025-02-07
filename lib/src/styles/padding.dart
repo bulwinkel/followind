@@ -29,27 +29,30 @@ class PaddingStyle extends Style {
   final Spacing? right;
   final Spacing? bottom;
 
-  PaddingStyle applyAt(SizeClass sizeClass) {
-    return PaddingStyle(
-      left: left?.applyAt(sizeClass),
-      top: top?.applyAt(sizeClass),
-      right: right?.applyAt(sizeClass),
-      bottom: bottom?.applyAt(sizeClass),
+  Style applyAt(SizeClass sizeClass) {
+    return SizeClassStyle(
+      sizeClass: sizeClass,
+      style: PaddingStyle(
+        left: left,
+        top: top,
+        right: right,
+        bottom: bottom,
+      ),
     );
   }
 
-  PaddingStyle get sm => applyAt(SizeClass.sm);
-  PaddingStyle get md => applyAt(SizeClass.md);
-  PaddingStyle get lg => applyAt(SizeClass.lg);
-  PaddingStyle get xl => applyAt(SizeClass.xl);
-  PaddingStyle get xxl => applyAt(SizeClass.xxl);
+  Style get sm => applyAt(SizeClass.sm);
+  Style get md => applyAt(SizeClass.md);
+  Style get lg => applyAt(SizeClass.lg);
+  Style get xl => applyAt(SizeClass.xl);
+  Style get xxl => applyAt(SizeClass.xxl);
 
   PaddingStyle mergeWith(PaddingStyle other, FollowingWindData fw) {
     return PaddingStyle(
-      left: left.pick(other.left, fw),
-      top: top.pick(other.top, fw),
-      right: right.pick(other.right, fw),
-      bottom: bottom.pick(other.bottom, fw),
+      left: other.left ?? left,
+      top: other.top ?? top,
+      right: other.right ?? right,
+      bottom: other.bottom ?? bottom,
     );
   }
 

@@ -79,14 +79,19 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
               children: [
                 Box(
-                  styles: [row, mainMax, 4.p, 8.px.lg, 4.py.lg, 3.gap],
+                  styles: [
+                    row,
+                    mainMin,
+                    crossCenter,
+                    4.p,
+                    8.px.lg,
+                    4.py.lg,
+                    3.gap
+                  ],
                   classNames: [
                     "rounded-xl",
                     "text-4xl text-white",
-                    // "my-8",
-                    "sm:h-40 sm:w-60 md:h-60 md:w-80",
                     "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
-                    // "sm:size-1/5 md:size-2/5 lg:size-3/5",
                   ],
                   onPressed: _goToBordersPage,
                   children: [

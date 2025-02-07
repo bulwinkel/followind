@@ -63,20 +63,17 @@ class Box extends StatelessWidget {
     if (children.length == 1) {
       child = children[0];
     } else {
-      final defaultFlex = FlexStyle(
+      var flexStyle = FlexStyle(
         direction: Axis.vertical,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
       );
-      var flexStyle = defaultFlex;
-      for (final style in styles) {
-        if (style is FlexStyle) {
-          flexStyle = flexStyle.mergeWith(style, fw);
-        }
+      for (final style in styles.unpack<FlexStyle>(fw)) {
+        flexStyle = flexStyle.mergeWith(style, fw);
       }
 
-      dpl('flexStyle: $flexStyle');
+      // dpl('flexStyle: $flexStyle');
 
       child = Flex(
         direction: flexStyle.direction!,
@@ -102,11 +99,10 @@ class Box extends StatelessWidget {
     );
 
     PaddingStyle? ps;
-    for (final style in styles) {
-      if (style is PaddingStyle) {
-        ps = ps?.mergeWith(style, fw) ?? style;
-      }
+    for (final next in styles.unpack<PaddingStyle>(fw)) {
+      ps = ps?.mergeWith(next, fw) ?? next;
     }
+
     if (ps != null) {
       child = Padding(
         padding: EdgeInsets.only(

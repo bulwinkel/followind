@@ -86,39 +86,13 @@ final List<String> additionalSizes = [
 ];
 
 sealed class Spacing {
-  const Spacing({
-    this.sizeClass,
-  });
-
-  final SizeClass? sizeClass;
-
-  Spacing applyAt(SizeClass sizeClass);
-}
-
-extension ChooseForScreenSize on Spacing? {
-  Spacing? pick(Spacing? other, FollowingWindData fw) {
-    if (other == null) return this;
-
-    final useOther = fw.screenSize.width >= fw.sizeForClass(other.sizeClass);
-
-    // if they are both equal return the latter
-    if (this?.sizeClass == other.sizeClass || useOther) {
-      return other;
-    }
-
-    return this;
-  }
+  const Spacing();
 }
 
 class DpSpacing extends Spacing {
   final double value;
 
-  const DpSpacing(this.value, {super.sizeClass});
-
-  @override
-  DpSpacing applyAt(SizeClass sizeClass) {
-    return DpSpacing(value, sizeClass: sizeClass);
-  }
+  const DpSpacing(this.value);
 
   @override
   bool operator ==(Object other) =>
@@ -141,12 +115,7 @@ const zero = DpSpacing(0);
 class FractionalSpacing extends Spacing {
   final double value;
 
-  const FractionalSpacing(this.value, {super.sizeClass});
-
-  @override
-  FractionalSpacing applyAt(SizeClass sizeClass) {
-    return FractionalSpacing(value, sizeClass: sizeClass);
-  }
+  const FractionalSpacing(this.value);
 
   @override
   bool operator ==(Object other) =>
@@ -167,11 +136,11 @@ class FractionalSpacing extends Spacing {
 class ScaleSpacing extends Spacing {
   final double value;
 
-  const ScaleSpacing(this.value, {super.sizeClass});
+  const ScaleSpacing(this.value);
 
   @override
   ScaleSpacing applyAt(SizeClass sizeClass) {
-    return ScaleSpacing(value, sizeClass: sizeClass);
+    return ScaleSpacing(value);
   }
 
   @override
