@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/size_class.dart';
 import 'package:following_wind/src/spacings.dart';
 
 import 'colors.dart';
+import 'styles/style.dart';
 import 'support_internal.dart';
 
 typedef FollowingWindConfig = ({

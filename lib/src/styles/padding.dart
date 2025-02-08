@@ -29,24 +29,6 @@ class PaddingStyle extends Style {
   final Spacing? right;
   final Spacing? bottom;
 
-  Style applyAt(SizeClass sizeClass) {
-    return SizeClassStyle(
-      sizeClass: sizeClass,
-      style: PaddingStyle(
-        left: left,
-        top: top,
-        right: right,
-        bottom: bottom,
-      ),
-    );
-  }
-
-  Style get sm => applyAt(SizeClass.sm);
-  Style get md => applyAt(SizeClass.md);
-  Style get lg => applyAt(SizeClass.lg);
-  Style get xl => applyAt(SizeClass.xl);
-  Style get xxl => applyAt(SizeClass.xxl);
-
   PaddingStyle mergeWith(PaddingStyle other, FollowingWindData fw) {
     return PaddingStyle(
       left: other.left ?? left,

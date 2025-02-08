@@ -28,10 +28,19 @@ class Box extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onPressed;
 
+  static int _compareStyles(Style a, Style b) {
+    final aIndex = a is SizeClassStyle ? a.sizeClass.index + 1 : 0;
+    final bIndex = b is SizeClassStyle ? b.sizeClass.index + 1 : 0;
+    return aIndex.compareTo(bIndex);
+  }
+
   @override
   Widget build(BuildContext context) {
     final FollowingWindData fw = FollowingWind.of(context);
     final classes = collectClasses(className, classNames);
+
+    /// sort the styles by, base then smallest to largest
+    final sortedStyles = <Style>[...styles]..sort(_compareStyles);
 
     // dpl('fw: $fw');
 
@@ -69,7 +78,7 @@ class Box extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
       );
-      for (final style in styles.unpack<FlexStyle>(fw)) {
+      for (final style in sortedStyles.unpack<FlexStyle>(fw)) {
         flexStyle = flexStyle.mergeWith(style, fw);
       }
 
@@ -99,7 +108,7 @@ class Box extends StatelessWidget {
     );
 
     PaddingStyle? ps;
-    for (final next in styles.unpack<PaddingStyle>(fw)) {
+    for (final next in sortedStyles.unpack<PaddingStyle>(fw)) {
       ps = ps?.mergeWith(next, fw) ?? next;
     }
 
@@ -152,6 +161,21 @@ class Box extends StatelessWidget {
       classes: classes,
       child: child,
     );
+
+    FlexibleStyle? flexibleStyle;
+    for (final fs in sortedStyles.unpack<FlexibleStyle>(fw)) {
+      flexibleStyle = fs;
+    }
+
+    dpl("flexibleStyle: $flexibleStyle");
+
+    if (flexibleStyle != null && flexibleStyle.fit != null) {
+      child = Flexible(
+        flex: flexibleStyle.flex,
+        fit: flexibleStyle.fit!,
+        child: child,
+      );
+    }
 
     return child;
   }

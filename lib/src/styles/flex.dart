@@ -28,12 +28,6 @@ class FlexStyle extends Style {
     );
   }
 
-  Style get sm => applyAt(SizeClass.sm);
-  Style get md => applyAt(SizeClass.md);
-  Style get lg => applyAt(SizeClass.lg);
-  Style get xl => applyAt(SizeClass.xl);
-  Style get xxl => applyAt(SizeClass.xxl);
-
   FlexStyle mergeWith(FlexStyle other, FollowingWindData fw) {
     return FlexStyle(
       direction: other.direction ?? direction,
@@ -68,3 +62,21 @@ class FlexStyle extends Style {
     return 'FlexStyle{direction: $direction, mainAxisAlignment: $mainAxisAlignment, mainAxisSize: $mainAxisSize, crossAxisAlignment: $crossAxisAlignment, spacing: $spacing}';
   }
 }
+
+const row = FlexStyle(direction: Axis.horizontal);
+const col = FlexStyle(direction: Axis.vertical);
+const mainStart = FlexStyle(mainAxisAlignment: MainAxisAlignment.start);
+const mainEnd = FlexStyle(mainAxisAlignment: MainAxisAlignment.end);
+const mainCenter = FlexStyle(mainAxisAlignment: MainAxisAlignment.center);
+const mainBetween =
+    FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceBetween);
+const mainAround = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceAround);
+const mainEvenly = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceEvenly);
+const mainMin = FlexStyle(mainAxisSize: MainAxisSize.min);
+const mainMax = FlexStyle(mainAxisSize: MainAxisSize.max);
+const crossStart = FlexStyle(crossAxisAlignment: CrossAxisAlignment.start);
+const crossEnd = FlexStyle(crossAxisAlignment: CrossAxisAlignment.end);
+const crossCenter = FlexStyle(crossAxisAlignment: CrossAxisAlignment.center);
+const crossStretch = FlexStyle(crossAxisAlignment: CrossAxisAlignment.stretch);
+const crossBaseline =
+    FlexStyle(crossAxisAlignment: CrossAxisAlignment.baseline);

@@ -55,116 +55,119 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Box(
-          styles: [
-            ...[col, mainMax, 4.gap, 10.py],
-            ...[row.xl, 8.gap.xl],
-          ],
-          classNames: [
-            "border border-green-400 rounded-xl",
-            "m-4 sm:m-6 md:m-8 lg:m-10 xl:m-12 2xl:m-16",
-            // "bg-green-100 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400 2xl:bg-purple-400",
-            // if (_counter > 5) "bg-red-800",
-          ],
-          children: [
-            Box(
-              styles: [
-                ...[col, mainCenter, 2.gap, 6.gap.sm],
-                ...[8.p, 10.p.sm, 12.p.md, 16.p.lg, 20.p.xl, 24.p.xxl],
-              ],
-              classNames: [
-                if (_counter > 5) "bg-red-200" else "bg-blue-200",
-              ],
-              children: [
-                Box(
-                  styles: [
-                    row,
-                    mainMin,
-                    crossCenter,
-                    4.p,
-                    8.px.lg,
-                    4.py.lg,
-                    3.gap
-                  ],
-                  classNames: [
-                    "rounded-xl",
-                    "text-4xl text-white",
-                    "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
-                  ],
-                  onPressed: _goToBordersPage,
-                  children: [
-                    Text("Go to Borders"),
-                    Icon(Icons.arrow_forward),
-                  ],
-                ),
-                Text("Test"),
-                Box(
-                  classNames: [
-                    "bg-slate-200 p-8 py-10 text-3xl",
-                    "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
-                    // "main-center"
-                    // "h-52",
-                  ],
-                  children: [
-                    Text("This is some really long text"),
-                  ],
-                ),
-                Text("Test"),
-                Box(
-                  classNames: [
-                    "p-4 bg-red-200 gap-4",
-                    "border",
-                    "rounded-md rounded-tl-3xl rounded-br-3xl",
-                    "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
-                  ],
-                  children: [
-                    const Text(
-                      'You have pushed the button this many times:',
-                    ),
-                    Text(
-                      '$_counter',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                Box(
-                  classNames: [
-                    "px-6 py-4 bg-red-400 gap-4",
-                    "border-x-2 border-y-4 border-r-8",
-                    "border-t-red-300 border-r-orange-400",
-                    "border-b-yellow-400 border-l-green-400"
-                  ],
-                  children: [
-                    const Text(
-                      'You have pushed the button this many times:',
-                    ),
-                    Text(
-                      '$_counter',
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
-                Box(
-                  classNames: [
-                    'bg-orange-200 rounded',
-                  ],
-                  styles: [
-                    .25.pc.p.sm,
-                    4.py.sm,
-                    8.px.md,
-                    10.p.lg,
-                    12.p.xl,
-                    16.p.xxl
-                  ],
-                  children: [
-                    Text("This is a single child."),
-                  ],
-                ),
-              ],
+      body: Box(
+        styles: bySizeClass(
+          base: [col, mainMax, 4.gap, 10.py],
+          xl: [row, 6.gap],
+        ),
+        classNames: [
+          "border border-green-400 rounded-xl",
+          "m-4 sm:m-6 md:m-8 lg:m-10 xl:m-12 2xl:m-16",
+          // "bg-green-100 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400 2xl:bg-purple-400",
+          // if (_counter > 5) "bg-red-800",
+        ],
+        children: [
+          Box(
+            styles: bySizeClass(
+              base: [expanded, col, mainCenter, 2.gap, 8.p],
+              // sm: [10.p, 6.gap],
+              // md: [12.p],
+              // lg: [16.p],
+              // xl: [20.p],
+              // xxl: [24.p],
             ),
-            Container(
+            classNames: [
+              if (_counter > 5) "bg-red-200" else "bg-blue-200",
+            ],
+            children: [
+              Box(
+                styles: [
+                  row,
+                  mainMin,
+                  crossCenter,
+                  4.p,
+                  8.px.lg,
+                  4.py.lg,
+                  3.gap
+                ],
+                classNames: [
+                  "rounded-xl",
+                  "text-4xl text-white",
+                  "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
+                ],
+                onPressed: _goToBordersPage,
+                children: [
+                  Text("Go to Borders"),
+                  Icon(Icons.arrow_forward),
+                ],
+              ),
+              Text("Test"),
+              Box(
+                classNames: [
+                  "bg-slate-200 p-8 py-10 text-3xl",
+                  "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
+                  // "main-center"
+                  // "h-52",
+                ],
+                children: [
+                  Text("This is some really long text"),
+                ],
+              ),
+              Text("Test"),
+              Box(
+                classNames: [
+                  "p-4 bg-red-200 gap-4",
+                  "border",
+                  "rounded-md rounded-tl-3xl rounded-br-3xl",
+                  "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
+                ],
+                children: [
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
+              Box(
+                classNames: [
+                  "px-6 py-4 bg-red-400 gap-4",
+                  "border-x-2 border-y-4 border-r-8",
+                  "border-t-red-300 border-r-orange-400",
+                  "border-b-yellow-400 border-l-green-400"
+                ],
+                children: [
+                  const Text(
+                    'You have pushed the button this many times:',
+                  ),
+                  Text(
+                    '$_counter',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
+              ),
+              Box(
+                classNames: [
+                  'bg-orange-200 rounded',
+                ],
+                styles: [
+                  .25.pc.p.sm,
+                  4.py.sm,
+                  8.px.md,
+                  10.p.lg,
+                  12.p.xl,
+                  16.p.xxl
+                ],
+                children: [
+                  Text("This is a single child."),
+                ],
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
               color: colors['blue']?[200],
               padding: const EdgeInsets.all(20 * 4),
               child: Column(
@@ -228,8 +231,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,

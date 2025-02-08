@@ -1,5 +1,4 @@
 import 'package:following_wind/following_wind.dart';
-import 'package:following_wind/src/size_class.dart';
 
 const Map<String, double> spacings = {
   '0': 0,
@@ -137,11 +136,6 @@ class ScaleSpacing extends Spacing {
   final double value;
 
   const ScaleSpacing(this.value);
-
-  @override
-  ScaleSpacing applyAt(SizeClass sizeClass) {
-    return ScaleSpacing(value);
-  }
 
   @override
   bool operator ==(Object other) =>
