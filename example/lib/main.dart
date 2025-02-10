@@ -81,15 +81,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
             children: [
               Box(
-                styles: [
-                  row,
-                  mainMin,
-                  crossCenter,
-                  4.p,
-                  8.px.lg,
-                  4.py.lg,
-                  3.gap
-                ],
+                styles: bySizeClass(
+                  base: [row, mainMin, crossCenter, 4.p, 3.gap],
+                  lg: [8.px, 4.py],
+                ),
                 classNames: [
                   "rounded-xl",
                   "text-4xl text-white",

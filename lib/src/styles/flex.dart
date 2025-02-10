@@ -80,3 +80,11 @@ const crossCenter = FlexStyle(crossAxisAlignment: CrossAxisAlignment.center);
 const crossStretch = FlexStyle(crossAxisAlignment: CrossAxisAlignment.stretch);
 const crossBaseline =
     FlexStyle(crossAxisAlignment: CrossAxisAlignment.baseline);
+
+extension SpacingPagStyles on Spacing {
+  FlexStyle get gap => FlexStyle(spacing: this);
+}
+
+extension GapStyles on num {
+  FlexStyle get gap => FlexStyle(spacing: s);
+}

@@ -87,14 +87,9 @@ typedef FollowingWindData = ({
   Map<String, double> sizeClasses,
   Map<String, double> spacings,
   Map<String, Size> fractionals,
-  Map<String, BLRT<double>> paddings,
-  Map<String, BLRT<double>> margins,
   Map<String, Map<int, Color>> colors,
   Map<String, Color> bgColors,
   Color borderColor,
-  Map<String, BLRT<Color>> borderColors,
-  Map<String, BLRT<double>> borderWidths,
-  Map<String, Corners<double>> borderRadiuses,
 });
 
 extension FollowingWindDataX on FollowingWindData {
@@ -110,14 +105,9 @@ class _FollowingWindState extends State<_FollowingWind> {
     sizeClasses: {},
     spacings: {},
     fractionals: {},
-    paddings: {},
-    margins: {},
     colors: {},
     bgColors: {},
     borderColor: borderColorDefault,
-    borderColors: {},
-    borderWidths: {},
-    borderRadiuses: {},
   );
 
   void init() {
@@ -179,38 +169,6 @@ class _FollowingWindState extends State<_FollowingWind> {
         sizeClasses: sizeClasses,
         spacings: spacingsCalculated,
         fractionals: fractionalSizesCalculated,
-        paddings: {
-          for (final entry in spacingsCalculated.entries)
-            'p-${entry.key}': blrtAll(entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'px-${entry.key}': blrtSymmetric(horizontal: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'py-${entry.key}': blrtSymmetric(vertical: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'pb-${entry.key}': blrtOnly(bottom: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'pl-${entry.key}': blrtOnly(left: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'pr-${entry.key}': blrtOnly(right: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'pt-${entry.key}': blrtOnly(top: entry.value),
-        },
-        margins: {
-          for (final entry in spacingsCalculated.entries)
-            'm-${entry.key}': blrtAll(entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'mx-${entry.key}': blrtSymmetric(horizontal: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'my-${entry.key}': blrtSymmetric(vertical: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'mb-${entry.key}': blrtOnly(bottom: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'ml-${entry.key}': blrtOnly(left: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'mr-${entry.key}': blrtOnly(right: entry.value),
-          for (final entry in spacingsCalculated.entries)
-            'mt-${entry.key}': blrtOnly(top: entry.value),
-        },
         colors: colors,
         bgColors: {
           'bg-white': white,
@@ -220,133 +178,6 @@ class _FollowingWindState extends State<_FollowingWind> {
               'bg-${entry.key}-${shade.key}': shade.value,
         },
         borderColor: borderColor,
-        borderColors: {
-          '': blrtAll(borderColor),
-          'black': blrtAll(black),
-          'white': blrtAll(white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              '${entry.key}-${shade.key}': blrtAll(shade.value),
-          // x
-          'x': blrtSymmetric(horizontal: borderColor),
-          'x-black': blrtSymmetric(horizontal: black),
-          'x-white': blrtSymmetric(horizontal: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'x-${entry.key}-${shade.key}':
-                  blrtSymmetric(horizontal: shade.value),
-          // y
-          'y': blrtSymmetric(vertical: borderColor),
-          'y-black': blrtSymmetric(vertical: black),
-          'y-white': blrtSymmetric(vertical: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'y-${entry.key}-${shade.key}':
-                  blrtSymmetric(vertical: shade.value),
-          // bottom
-          'b': blrtOnly(bottom: borderColor),
-          'b-black': blrtOnly(bottom: black),
-          'b-white': blrtOnly(bottom: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'b-${entry.key}-${shade.key}': blrtOnly(bottom: shade.value),
-          // left
-          'l': blrtOnly(left: borderColor),
-          'l-black': blrtOnly(left: black),
-          'l-white': blrtOnly(left: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'l-${entry.key}-${shade.key}': blrtOnly(left: shade.value),
-          // right
-          'r': blrtOnly(right: borderColor),
-          'r-black': blrtOnly(right: black),
-          'r-white': blrtOnly(right: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'r-${entry.key}-${shade.key}': blrtOnly(right: shade.value),
-          // top
-          't': blrtOnly(top: borderColor),
-          't-black': blrtOnly(top: black),
-          't-white': blrtOnly(top: white),
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              't-${entry.key}-${shade.key}': blrtOnly(top: shade.value),
-        },
-        borderWidths: {
-          '': blrtAll(borderWidth),
-          for (final entry in borderWidths.entries)
-            entry.key: blrtAll(entry.value),
-          // x
-          'x': blrtSymmetric(horizontal: borderWidth),
-          for (final entry in borderWidths.entries)
-            'x-${entry.key}': blrtSymmetric(horizontal: entry.value),
-          // y
-          'y': blrtSymmetric(vertical: borderWidth),
-          for (final entry in borderWidths.entries)
-            'y-${entry.key}': blrtSymmetric(vertical: entry.value),
-          // bottom
-          'b': blrtOnly(bottom: borderWidth),
-          for (final entry in borderWidths.entries)
-            'b-${entry.key}': blrtOnly(bottom: entry.value),
-          // left
-          'l': blrtOnly(left: borderWidth),
-          for (final entry in borderWidths.entries)
-            'l-${entry.key}': blrtOnly(left: entry.value),
-          // right
-          'r': blrtOnly(right: borderWidth),
-          for (final entry in borderWidths.entries)
-            'r-${entry.key}': blrtOnly(right: entry.value),
-          // top
-          't': blrtOnly(top: borderWidth),
-          for (final entry in borderWidths.entries)
-            't-${entry.key}': blrtOnly(top: entry.value),
-        },
-        borderRadiuses: {
-          // all
-          '': cornersAll(borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            entry.key: cornersAll(entry.value),
-
-          // bottom
-          'b': cornersBottom(borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'b-${entry.key}': cornersBottom(entry.value),
-
-          // left
-          'l': cornersLeft(borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'l-${entry.key}': cornersLeft(entry.value),
-
-          // right
-          'r': cornersRight(borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'r-${entry.key}': cornersRight(entry.value),
-
-          // top
-          't': cornersTop(borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            't-${entry.key}': cornersTop(entry.value),
-
-          // bottom left
-          'bl': cornersOnly(bottomLeft: borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'bl-${entry.key}': cornersOnly(bottomLeft: entry.value),
-
-          // bottom right
-          'br': cornersOnly(bottomRight: borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'br-${entry.key}': cornersOnly(bottomRight: entry.value),
-
-          // top left
-          'tl': cornersOnly(topLeft: borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'tl-${entry.key}': cornersOnly(topLeft: entry.value),
-
-          // top right
-          'tr': cornersOnly(topRight: borderRadiusDefault),
-          for (final entry in borderRadiusSizes.entries)
-            'tr-${entry.key}': cornersOnly(topRight: entry.value),
-        },
       );
     });
   }

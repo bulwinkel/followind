@@ -1,15 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/styles/style.dart';
-import 'package:following_wind/src/widgets/fw_default_text_and_icon_style.dart';
 
-import 'colors.dart';
 import 'following_wind.dart';
-import 'parser.dart';
-import 'parsers/decorated_box_parser.dart';
-import 'parsers/size_parser.dart';
 import 'spacings.dart';
 import 'support_internal.dart';
-import 'widgets/fw_padding.dart';
 
 // ignore: camel_case_types
 class Box extends StatelessWidget {
@@ -37,7 +31,6 @@ class Box extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FollowingWindData fw = FollowingWind.of(context);
-    final classes = collectClasses(className, classNames);
 
     /// sort the styles by, base then smallest to largest
     final sortedStyles = <Style>[...styles]..sort(_compareStyles);
@@ -45,25 +38,9 @@ class Box extends StatelessWidget {
     // dpl('fw: $fw');
 
     //TODO:KB 1/12/2024 how do we handle this with size classes
-    if (classes.contains('hidden')) {
-      return const SizedBox.shrink();
-    }
-
-    T findValueForClass<T>(
-      Map<String, T> lookup,
-      T defaultValue,
-    ) {
-      T? result;
-
-      for (final className in lookup.keys) {
-        if (classes.contains(className)) {
-          result = lookup[className];
-          break;
-        }
-      }
-
-      return result ?? defaultValue;
-    }
+    // if (classes.contains('hidden')) {
+    //   return const SizedBox.shrink();
+    // }
 
     // Configure the layout first by processing all layout classes together
     Widget child;
@@ -99,13 +76,13 @@ class Box extends StatelessWidget {
     }
 
     // Apply text styles
-    child = FwDefaultTextAndIconStyle(
-      spacingMultiplier: fw.spacingScale,
-      classKey: 'text',
-      findValueForClass: findValueForClass,
-      colors: colors,
-      child: child,
-    );
+    // child = FwDefaultTextAndIconStyle(
+    //   spacingMultiplier: fw.spacingScale,
+    //   classKey: 'text',
+    //   findValueForClass: findValueForClass,
+    //   colors: colors,
+    //   child: child,
+    // );
 
     PaddingStyle? ps;
     for (final next in sortedStyles.unpack<PaddingStyle>(fw)) {
@@ -132,35 +109,12 @@ class Box extends StatelessWidget {
       );
     }
 
-    final decoratedBoxParser = DecoratedBoxParser(fw: fw);
-    final sizeParser = SizeParser(fw: fw);
-    final List<Parser> parsers = [decoratedBoxParser, sizeParser];
-
-    for (final className in classes) {
-      for (final parser in parsers) {
-        final consumed = parser.parse(className);
-        if (consumed) break;
-      }
-    }
-
-    child = decoratedBoxParser.apply(child);
-
-    child = sizeParser.apply(child);
-
     if (onPressed != null) {
       child = GestureDetector(
         onTap: onPressed,
         child: child,
       );
     }
-
-    // external spacing
-    child = FwPadding(
-      classTypes: FwPadding.classTypesMargin,
-      edgeInsets: fw.margins,
-      classes: classes,
-      child: child,
-    );
 
     FlexibleStyle? flexibleStyle;
     for (final fs in sortedStyles.unpack<FlexibleStyle>(fw)) {
