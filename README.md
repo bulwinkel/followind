@@ -4,6 +4,16 @@ FollowingWind: The ergonomics of Tailwind CSS for Flutter
 > WARNING: This is a work in progress and is not ready for production use. Breaking changes will
 > occur regularly.
 
+# New README
+Keep the api surface area as small as possible for the initial release. It's much easier to add features than to remove them.
+
+## Style rules
+1. Styles should be as concise as possible without compromising readability / intelligibility.
+2. Styles should be small and composable. That way it is easy to change individual styles based on size classes and other modifiers (e.g. hover).
+
+
+# Legacy README
+
 FollowingWind is a Flutter package that provides a [Tailwind CSS](https://tailwindcss.com/) like
 development experience for Flutter.
 It is designed to mimic the ergonomics of Tailwind but be idiomatic for Flutter.

@@ -70,14 +70,43 @@ class DecoratedBoxStyle extends Style {
 
 extension ColorDecoratedBoxStyles on Color {
   DecoratedBoxStyle get bg => DecoratedBoxStyle(color: this);
+  DecoratedBoxStyle get border =>
+      DecoratedBoxStyle(border: Border.all(color: this));
 }
 
-extension RoundedDecoratedBoxStyles on BorderRadius {
-  DecoratedBoxStyle get rounded => DecoratedBoxStyle(borderRadius: this);
-}
-
-extension RoundedNumX on int {
+extension RoundedNumX on num {
   Style get rounded => DecoratedBoxStyle(
     borderRadius: BorderRadius.all(Radius.circular(toDouble())),
   );
+}
+
+extension BorderNumX on num {
+  DecoratedBoxStyle get border => DecoratedBoxStyle(
+    border: Border.all(color: Color(0xFF000000), width: toDouble()),
+  );
+}
+
+extension ColorNumX on num {
+  Color get slate => colors['slate']![toInt()]!;
+  Color get gray => colors['gray']![toInt()]!;
+  Color get zinc => colors['zinc']![toInt()]!;
+  Color get neutral => colors['neutral']![toInt()]!;
+  Color get stone => colors['stone']![toInt()]!;
+  Color get red => colors['red']![toInt()]!;
+  Color get orange => colors['orange']![toInt()]!;
+  Color get amber => colors['amber']![toInt()]!;
+  Color get yellow => colors['yellow']![toInt()]!;
+  Color get lime => colors['lime']![toInt()]!;
+  Color get green => colors['green']![toInt()]!;
+  Color get emerald => colors['emerald']![toInt()]!;
+  Color get teal => colors['teal']![toInt()]!;
+  Color get cyan => colors['cyan']![toInt()]!;
+  Color get sky => colors['sky']![toInt()]!;
+  Color get blue => colors['blue']![toInt()]!;
+  Color get indigo => colors['indigo']![toInt()]!;
+  Color get violet => colors['violet']![toInt()]!;
+  Color get purple => colors['purple']![toInt()]!;
+  Color get fuchsia => colors['fuchsia']![toInt()]!;
+  Color get pink => colors['pink']![toInt()]!;
+  Color get rose => colors['rose']![toInt()]!;
 }

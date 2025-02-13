@@ -214,7 +214,3 @@ class Box extends StatelessWidget {
     return child;
   }
 }
-
-Widget box(String className, List<Widget> children, {Key? key}) {
-  return Box(key: key, className: className, children: children);
-}

@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         styles: bySizeClass(
-          base: [col, mainMax, 4.gap, 10.py, 4.m],
+          base: [col, mainMax, crossStretch, 4.gap, 10.py, 4.m],
           sm: [6.m],
           md: [8.m],
           lg: [10.m],
@@ -70,16 +70,23 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Box(
             styles: bySizeClass(
-              base: [expanded, col, mainCenter, 2.gap, 8.p],
+              base: [
+                expanded,
+                col,
+                mainCenter,
+                2.gap,
+                8.p,
+                if (_counter > 5) 200.red.bg else 200.blue.bg,
+                16.rounded,
+                1.border,
+                400.slate.border,
+              ],
               // sm: [10.p, 6.gap],
               // md: [12.p],
               // lg: [16.p],
-              // xl: [20.p],
+              xl: [20.p, 800.red.border],
               // xxl: [24.p],
             ),
-            classNames: [
-              if (_counter > 5) "bg-red-200" else "bg-blue-200",
-            ],
             children: [
               Box(
                 styles: bySizeClass(
