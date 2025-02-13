@@ -2,10 +2,11 @@ import 'package:flutter/widgets.dart';
 import 'package:following_wind/following_wind.dart';
 
 part "padding.dart";
+part "margin.dart";
 part "flex.dart";
 part "size_class.dart";
 part "flexible.dart";
-
+part "decorated_box.dart";
 sealed class Style {
   const Style();
 }

@@ -69,4 +69,6 @@ extension NumPaddingStyles on num {
   PaddingStyle get py => PaddingStyle(top: s, bottom: s);
   PaddingStyle get pt => PaddingStyle(top: s);
   PaddingStyle get pr => PaddingStyle(right: s);
+  PaddingStyle get pb => PaddingStyle(bottom: s);
+  PaddingStyle get pl => PaddingStyle(left: s);
 }

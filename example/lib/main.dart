@@ -57,14 +57,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         styles: bySizeClass(
-          base: [col, mainMax, 4.gap, 10.py],
-          xl: [row, 6.gap],
+          base: [col, mainMax, 4.gap, 10.py, 4.m],
+          sm: [6.m],
+          md: [8.m],
+          lg: [10.m],
+          xl: [row, 6.gap, 12.m],
+          xxl: [16.m],
         ),
         classNames: [
           "border border-green-400 rounded-xl",
-          "m-4 sm:m-6 md:m-8 lg:m-10 xl:m-12 2xl:m-16",
-          // "bg-green-100 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400 2xl:bg-purple-400",
-          // if (_counter > 5) "bg-red-800",
         ],
         children: [
           Box(
@@ -82,11 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Box(
                 styles: bySizeClass(
-                  base: [row, mainMin, crossCenter, 4.p, 3.gap],
-                  lg: [8.px, 4.py],
+                  base: [
+                    row,
+                    mainMin,
+                    crossCenter,
+                    3.gap,
+                    4.p,
+                    16.rounded,
+                    Colors.purple.shade200.bg
+                  ],
+                  lg: [8.px, 4.py, 100.rounded],
                 ),
                 classNames: [
-                  "rounded-xl",
                   "text-4xl text-white",
                   "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
                 ],

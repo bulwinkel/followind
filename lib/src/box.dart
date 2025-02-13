@@ -109,6 +109,60 @@ class Box extends StatelessWidget {
       );
     }
 
+    // -- Decorations - 
+    // 
+    // Applied after padding but before margin
+    DecoratedBoxStyle? dbs;
+    for (final next in sortedStyles.unpack<DecoratedBoxStyle>(fw)) {
+      dbs = dbs?.mergeWith(next) ?? next;
+    }
+
+    if (dbs != null) {
+      child = DecoratedBox(
+        decoration: BoxDecoration(
+          color: dbs.color,
+          image: dbs.image,
+          border: dbs.border,
+          borderRadius: dbs.borderRadius,
+          boxShadow: dbs.boxShadow,
+          gradient: dbs.gradient,
+          backgroundBlendMode: dbs.backgroundBlendMode,
+          shape: dbs.shape ?? BoxShape.rectangle,
+        ),
+        child: child,
+      );
+    }
+
+    // -- Margin - 
+    // 
+    // External spacing applied outside of any decorations
+
+    MarginStyle? ms;
+    for (final next in sortedStyles.unpack<MarginStyle>(fw)) {
+      ms = ms?.mergeWith(next, fw) ?? next;
+    }
+
+    if (ms != null) {
+      child = Padding(
+        padding: EdgeInsets.only(
+          left: ms.left?.unpack(
+                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+              0,
+          top: ms.top?.unpack(
+                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+              0,
+          right: ms.right?.unpack(
+                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+              0,
+          bottom: ms.bottom?.unpack(
+                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+              0,
+        ),
+        child: child,
+      );
+    }
+
+    // -- Gesture - 
     if (onPressed != null) {
       child = GestureDetector(
         onTap: onPressed,
@@ -116,12 +170,18 @@ class Box extends StatelessWidget {
       );
     }
 
+    // -- Flexible - 
+    // 
+    // Must be the last style since it needs to be closes to the top
+    // so it is closest to the parent Flex widget
+     
+
     FlexibleStyle? flexibleStyle;
     for (final fs in sortedStyles.unpack<FlexibleStyle>(fw)) {
       flexibleStyle = fs;
     }
 
-    dpl("flexibleStyle: $flexibleStyle");
+    // dpl("flexibleStyle: $flexibleStyle");
 
     if (flexibleStyle != null && flexibleStyle.fit != null) {
       child = Flexible(
