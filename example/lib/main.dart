@@ -64,9 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
           xl: [row, 6.gap, 12.m],
           xxl: [16.m],
         ),
-        classNames: [
-          "border border-green-400 rounded-xl",
-        ],
         children: [
           Box(
             styles: bySizeClass(
@@ -101,10 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                   lg: [8.px, 4.py, 100.rounded],
                 ),
-                classNames: [
-                  "text-4xl text-white",
-                  "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
-                ],
+                // classNames: [
+                //   "text-4xl text-white",
+                //   "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
+                // ],
                 onPressed: _goToBordersPage,
                 children: [
                   Text("Go to Borders"),
@@ -113,24 +110,24 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text("Test"),
               Box(
-                classNames: [
-                  "bg-slate-200 p-8 py-10 text-3xl",
-                  "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
-                  // "main-center"
-                  // "h-52",
-                ],
+                // classNames: [
+                //   "bg-slate-200 p-8 py-10 text-3xl",
+                //   "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
+                //   // "main-center"
+                //   // "h-52",
+                // ],
                 children: [
                   Text("This is some really long text"),
                 ],
               ),
               Text("Test"),
               Box(
-                classNames: [
-                  "p-4 bg-red-200 gap-4",
-                  "border",
-                  "rounded-md rounded-tl-3xl rounded-br-3xl",
-                  "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
-                ],
+                // classNames: [
+                //   "p-4 bg-red-200 gap-4",
+                //   "border",
+                //   "rounded-md rounded-tl-3xl rounded-br-3xl",
+                //   "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
+                // ],
                 children: [
                   const Text(
                     'You have pushed the button this many times:',
@@ -142,12 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Box(
-                classNames: [
-                  "px-6 py-4 bg-red-400 gap-4",
-                  "border-x-2 border-y-4 border-r-8",
-                  "border-t-red-300 border-r-orange-400",
-                  "border-b-yellow-400 border-l-green-400"
-                ],
+                // classNames: [
+                //   "px-6 py-4 bg-red-400 gap-4",
+                //   "border-x-2 border-y-4 border-r-8",
+                //   "border-t-red-300 border-r-orange-400",
+                //   "border-b-yellow-400 border-l-green-400"
+                // ],
                 children: [
                   const Text(
                     'You have pushed the button this many times:',
@@ -159,9 +156,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Box(
-                classNames: [
-                  'bg-orange-200 rounded',
-                ],
+                // classNames: [
+                //   'bg-orange-200 rounded',
+                // ],
                 styles: [
                   .25.pc.p.sm,
                   4.py.sm,

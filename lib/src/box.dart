@@ -8,15 +8,11 @@ import 'spacings.dart';
 class Box extends StatelessWidget {
   const Box({
     super.key,
-    this.className = '',
-    this.classNames = const [],
     this.styles = const [],
     this.onPressed,
     this.children = const [],
   });
 
-  final String className;
-  final List<String> classNames;
   final List<Style> styles;
   final List<Widget> children;
   final VoidCallback? onPressed;
