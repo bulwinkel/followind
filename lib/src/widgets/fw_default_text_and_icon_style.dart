@@ -15,10 +15,7 @@ class FwDefaultTextAndIconStyle extends StatelessWidget {
 
   final double spacingMultiplier;
   final String classKey;
-  final T Function<T>(
-    Map<String, T> lookup,
-    T defaultValue,
-  ) findValueForClass;
+  final T Function<T>(Map<String, T> lookup, T defaultValue) findValueForClass;
   final Widget child;
 
   final Map<String, Map<int, Color>> colors;

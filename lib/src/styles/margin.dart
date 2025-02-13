@@ -1,28 +1,19 @@
 part of "style.dart";
 
 class MarginStyle extends Style {
-  const MarginStyle({
-    this.left,
-    this.top,
-    this.right,
-    this.bottom,
-  });
+  const MarginStyle({this.left, this.top, this.right, this.bottom});
 
   const MarginStyle.all(Spacing all)
-      : left = all,
-        top = all,
-        right = all,
-        bottom = all;
+    : left = all,
+      top = all,
+      right = all,
+      bottom = all;
 
-  const MarginStyle.ltrb(
-    Spacing? l,
-    Spacing? t,
-    Spacing? r,
-    Spacing? b,
-  )   : left = l,
-        top = t,
-        right = r,
-        bottom = b;
+  const MarginStyle.ltrb(Spacing? l, Spacing? t, Spacing? r, Spacing? b)
+    : left = l,
+      top = t,
+      right = r,
+      bottom = b;
 
   final Spacing? left;
   final Spacing? top;
@@ -55,20 +46,32 @@ class MarginStyle extends Style {
 
 extension SpacingMarginStyles on Spacing {
   MarginStyle get m => MarginStyle.all(this);
+
   MarginStyle get mx => MarginStyle(left: this, right: this);
+
   MarginStyle get my => MarginStyle(top: this, bottom: this);
+
   MarginStyle get mt => MarginStyle(top: this);
+
   MarginStyle get mr => MarginStyle(right: this);
+
   MarginStyle get mb => MarginStyle(bottom: this);
+
   MarginStyle get ml => MarginStyle(left: this);
 }
 
 extension NumMarginStyles on num {
   MarginStyle get m => MarginStyle.all(s);
+
   MarginStyle get mx => MarginStyle(left: s, right: s);
+
   MarginStyle get my => MarginStyle(top: s, bottom: s);
+
   MarginStyle get mt => MarginStyle(top: s);
+
   MarginStyle get mr => MarginStyle(right: s);
+
   MarginStyle get mb => MarginStyle(bottom: s);
+
   MarginStyle get ml => MarginStyle(left: s);
 }

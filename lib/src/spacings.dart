@@ -78,7 +78,6 @@ final List<String> additionalSizes = [
   'min', // min-content
   'max', // max-content
   'fit', // fit-content
-
   // Viewport units
   'vh', // viewport height
   'vw', // viewport width
@@ -154,10 +153,7 @@ class ScaleSpacing extends Spacing {
 }
 
 extension UnpackSpacing on Spacing {
-  double unpack({
-    required double axisMax,
-    required double scale,
-  }) {
+  double unpack({required double axisMax, required double scale}) {
     return switch (this) {
       DpSpacing(:final value) => value,
       FractionalSpacing(:final value) => value * axisMax,
@@ -168,6 +164,8 @@ extension UnpackSpacing on Spacing {
 
 extension SpacingExtension on num {
   Spacing get dp => DpSpacing(toDouble());
+
   Spacing get pc => FractionalSpacing(toDouble());
+
   Spacing get s => ScaleSpacing(toDouble());
 }

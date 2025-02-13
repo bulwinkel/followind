@@ -5,19 +5,20 @@ import 'colors.dart';
 import 'styles/style.dart';
 import 'support_internal.dart';
 
-typedef FollowingWindConfig = ({
-  /// e.g. 4.0 for 4px
-  double? spacingScale,
+typedef FollowingWindConfig =
+    ({
+      /// e.g. 4.0 for 4px
+      double? spacingScale,
 
-  /// color to use for base `border` class
-  Color? borderColor,
+      /// color to use for base `border` class
+      Color? borderColor,
 
-  /// value for default border width
-  double? borderWidth,
+      /// value for default border width
+      double? borderWidth,
 
-  /// value for default 'rounded' class
-  double? borderRadius,
-});
+      /// value for default 'rounded' class
+      double? borderRadius,
+    });
 
 const spacingScaleDefault = 4.0;
 const borderColorDefault = Color(0xffe2e8f0); //colors['gray']![200]!;
@@ -28,21 +29,13 @@ class FollowingWind extends StatelessWidget {
   final FollowingWindConfig? config;
   final Widget child;
 
-  const FollowingWind({
-    super.key,
-    this.config,
-    required this.child,
-  });
+  const FollowingWind({super.key, this.config, required this.child});
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
 
-    return _FollowingWind(
-      config: config,
-      screenSize: screenSize,
-      child: child,
-    );
+    return _FollowingWind(config: config, screenSize: screenSize, child: child);
   }
 
   // Static method to access the config from anywhere in the widget tree
@@ -79,18 +72,19 @@ class _FollowingWind extends StatefulWidget {
   State<_FollowingWind> createState() => _FollowingWindState();
 }
 
-typedef FollowingWindData = ({
-  Size screenSize,
-  double spacingScale,
+typedef FollowingWindData =
+    ({
+      Size screenSize,
+      double spacingScale,
 
-  /// The responsive modifiers that are currently active
-  Map<String, double> sizeClasses,
-  Map<String, double> spacings,
-  Map<String, Size> fractionals,
-  Map<String, Map<int, Color>> colors,
-  Map<String, Color> bgColors,
-  Color borderColor,
-});
+      /// The responsive modifiers that are currently active
+      Map<String, double> sizeClasses,
+      Map<String, double> spacings,
+      Map<String, Size> fractionals,
+      Map<String, Map<int, Color>> colors,
+      Map<String, Color> bgColors,
+      Color borderColor,
+    });
 
 extension FollowingWindDataX on FollowingWindData {
   double sizeForClass(SizeClass? className) {
@@ -134,13 +128,7 @@ class _FollowingWindState extends State<_FollowingWind> {
         ),
     };
 
-    const borderWidths = {
-      '0': 0.0,
-      '1': 1.0,
-      '2': 2.0,
-      '4': 4.0,
-      '8': 8.0,
-    };
+    const borderWidths = {'0': 0.0, '1': 1.0, '2': 2.0, '4': 4.0, '8': 8.0};
 
     final borderRadiusSizes = {
       'none': 0.0,
@@ -190,7 +178,8 @@ class _FollowingWindState extends State<_FollowingWind> {
 
   @override
   void didUpdateWidget(covariant _FollowingWind oldWidget) {
-    final shouldReinit = oldWidget.config != widget.config ||
+    final shouldReinit =
+        oldWidget.config != widget.config ||
         oldWidget.screenSize != widget.screenSize;
 
     if (shouldReinit) {
@@ -202,20 +191,14 @@ class _FollowingWindState extends State<_FollowingWind> {
 
   @override
   Widget build(BuildContext context) {
-    return _FollowingWindScope(
-      data: data,
-      child: widget.child,
-    );
+    return _FollowingWindScope(data: data, child: widget.child);
   }
 }
 
 class _FollowingWindScope extends InheritedWidget {
   final FollowingWindData data;
 
-  const _FollowingWindScope({
-    required this.data,
-    required super.child,
-  });
+  const _FollowingWindScope({required this.data, required super.child});
 
   @override
   bool updateShouldNotify(_FollowingWindScope oldWidget) {

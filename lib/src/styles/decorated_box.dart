@@ -78,5 +78,6 @@ extension RoundedDecoratedBoxStyles on BorderRadius {
 
 extension RoundedNumX on int {
   Style get rounded => DecoratedBoxStyle(
-      borderRadius: BorderRadius.all(Radius.circular(toDouble())));
+    borderRadius: BorderRadius.all(Radius.circular(toDouble())),
+  );
 }

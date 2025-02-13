@@ -4,10 +4,7 @@ part of "style.dart";
 /// Will use the last value found for the
 /// current size class.
 class FlexibleStyle extends Style {
-  const FlexibleStyle({
-    this.flex = 1,
-    this.fit = FlexFit.loose,
-  });
+  const FlexibleStyle({this.flex = 1, this.fit = FlexFit.loose});
 
   final int flex;
   final FlexFit? fit;
@@ -40,5 +37,6 @@ const flexNone = FlexibleStyle(flex: 0, fit: null);
 
 extension IntFlexibleX on int {
   FlexibleStyle get flexible => FlexibleStyle(flex: this);
+
   FlexibleStyle get expanded => FlexibleStyle(flex: this, fit: FlexFit.tight);
 }

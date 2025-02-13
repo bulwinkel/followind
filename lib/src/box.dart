@@ -3,7 +3,6 @@ import 'package:following_wind/src/styles/style.dart';
 
 import 'following_wind.dart';
 import 'spacings.dart';
-import 'support_internal.dart';
 
 // ignore: camel_case_types
 class Box extends StatelessWidget {
@@ -66,7 +65,8 @@ class Box extends StatelessWidget {
         crossAxisAlignment: flexStyle.crossAxisAlignment!,
         mainAxisAlignment: flexStyle.mainAxisAlignment!,
         mainAxisSize: flexStyle.mainAxisSize!,
-        spacing: flexStyle.spacing?.unpack(
+        spacing:
+            flexStyle.spacing?.unpack(
               axisMax: fw.screenSize.width,
               scale: fw.spacingScale,
             ) ??
@@ -92,25 +92,37 @@ class Box extends StatelessWidget {
     if (ps != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left: ps.left?.unpack(
-                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+          left:
+              ps.left?.unpack(
+                axisMax: fw.screenSize.width,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          top: ps.top?.unpack(
-                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+          top:
+              ps.top?.unpack(
+                axisMax: fw.screenSize.height,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          right: ps.right?.unpack(
-                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+          right:
+              ps.right?.unpack(
+                axisMax: fw.screenSize.width,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          bottom: ps.bottom?.unpack(
-                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+          bottom:
+              ps.bottom?.unpack(
+                axisMax: fw.screenSize.height,
+                scale: fw.spacingScale,
+              ) ??
               0,
         ),
         child: child,
       );
     }
 
-    // -- Decorations - 
-    // 
+    // -- Decorations -
+    //
     // Applied after padding but before margin
     DecoratedBoxStyle? dbs;
     for (final next in sortedStyles.unpack<DecoratedBoxStyle>(fw)) {
@@ -133,8 +145,8 @@ class Box extends StatelessWidget {
       );
     }
 
-    // -- Margin - 
-    // 
+    // -- Margin -
+    //
     // External spacing applied outside of any decorations
 
     MarginStyle? ms;
@@ -145,36 +157,44 @@ class Box extends StatelessWidget {
     if (ms != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left: ms.left?.unpack(
-                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+          left:
+              ms.left?.unpack(
+                axisMax: fw.screenSize.width,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          top: ms.top?.unpack(
-                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+          top:
+              ms.top?.unpack(
+                axisMax: fw.screenSize.height,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          right: ms.right?.unpack(
-                  axisMax: fw.screenSize.width, scale: fw.spacingScale) ??
+          right:
+              ms.right?.unpack(
+                axisMax: fw.screenSize.width,
+                scale: fw.spacingScale,
+              ) ??
               0,
-          bottom: ms.bottom?.unpack(
-                  axisMax: fw.screenSize.height, scale: fw.spacingScale) ??
+          bottom:
+              ms.bottom?.unpack(
+                axisMax: fw.screenSize.height,
+                scale: fw.spacingScale,
+              ) ??
               0,
         ),
         child: child,
       );
     }
 
-    // -- Gesture - 
+    // -- Gesture -
     if (onPressed != null) {
-      child = GestureDetector(
-        onTap: onPressed,
-        child: child,
-      );
+      child = GestureDetector(onTap: onPressed, child: child);
     }
 
-    // -- Flexible - 
-    // 
+    // -- Flexible -
+    //
     // Must be the last style since it needs to be closes to the top
     // so it is closest to the parent Flex widget
-     
 
     FlexibleStyle? flexibleStyle;
     for (final fs in sortedStyles.unpack<FlexibleStyle>(fw)) {
@@ -195,14 +215,6 @@ class Box extends StatelessWidget {
   }
 }
 
-Widget box(
-  String className,
-  List<Widget> children, {
-  Key? key,
-}) {
-  return Box(
-    key: key,
-    className: className,
-    children: children,
-  );
+Widget box(String className, List<Widget> children, {Key? key}) {
+  return Box(key: key, className: className, children: children);
 }
