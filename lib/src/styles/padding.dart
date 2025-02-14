@@ -20,7 +20,7 @@ class PaddingStyle extends Style {
   final Spacing? right;
   final Spacing? bottom;
 
-  PaddingStyle mergeWith(PaddingStyle other, FollowingWindData fw) {
+  PaddingStyle mergeWith(PaddingStyle other) {
     return PaddingStyle(
       left: other.left ?? left,
       top: other.top ?? top,

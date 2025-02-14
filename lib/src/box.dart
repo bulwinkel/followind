@@ -52,12 +52,108 @@ class _BoxState extends State<Box> {
     invalidate();
   }
 
+  // -- region: style unpacking
+  // doesn't invalidate, just caches objects
+  // to prevent unnecessary allocations and loops
+
+  bool _isHoverRequired = false;
+  final List<Style> _sortedStyles = [];
+
+  final List<FlexStyle> _flexStyles = [];
+  FlexStyle _flexStyle = FlexStyle.defaultStyle;
+
+  final List<PaddingStyle> _paddingStyles = [];
+  PaddingStyle? _paddingStyle;
+
+  final List<DecoratedBoxStyle> _decoratedBoxStyles = [];
+  DecoratedBoxStyle? _decoratedBoxStyle;
+
+  final List<MarginStyle> _marginStyles = [];
+  MarginStyle? _marginStyle;
+
+  final List<FlexibleStyle> _flexibleStyles = [];
+  FlexibleStyle? _flexibleStyle;
+
+  void _unpackStyles(FollowingWindData fw) {
+    // -- reset
+    _isHoverRequired = false;
+
+    _sortedStyles.clear();
+
+    _flexStyles.clear();
+    _flexStyle = FlexStyle.defaultStyle;
+
+    _paddingStyles.clear();
+    _paddingStyle = null;
+
+    _decoratedBoxStyles.clear();
+    _decoratedBoxStyle = null;
+
+    _marginStyles.clear();
+    _marginStyle = null;
+
+    _flexibleStyles.clear();
+    _flexibleStyle = null;
+
+    // -- sort
+    _sortedStyles.addAll(widget.styles);
+    _sortedStyles.sort(_compareStyles);
+
+    // -- unpack into style types
+    for (var style in _sortedStyles) {
+      // unpack modifier and check if applicable
+      if (style is ModifierStyle) {
+        if (style.hover == true) {
+          _isHoverRequired = true;
+        }
+
+        final isApplicable =
+            fw.screenSize.width >= fw.sizeForClass(style.sizeClass) &&
+            // if style.hover == null then ignore isHovered
+            // if style.hover == true then only yield if isHovered
+            (style.hover == null || style.hover == _isHovered);
+
+        // GUARD
+        if (!isApplicable) {
+          continue;
+        }
+
+        style = style.style;
+      }
+
+      if (style is FlexStyle) {
+        _flexStyles.add(style);
+        _flexStyle = _flexStyle.mergeWith(style, fw);
+      }
+
+      if (style is PaddingStyle) {
+        _paddingStyles.add(style);
+        _paddingStyle = _paddingStyle?.mergeWith(style) ?? style;
+      }
+
+      if (style is DecoratedBoxStyle) {
+        _decoratedBoxStyles.add(style);
+        _decoratedBoxStyle = _decoratedBoxStyle?.mergeWith(style) ?? style;
+      }
+
+      if (style is MarginStyle) {
+        _marginStyles.add(style);
+        _marginStyle = _marginStyle?.mergeWith(style) ?? style;
+      }
+
+      if (style is FlexibleStyle) {
+        _flexibleStyles.add(style);
+        _flexibleStyle = style;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    //TODO:KB 14/2/2025 could performance by only unpacking the styles
+    // when the widget is invalidated
     final FollowingWindData fw = FollowingWind.of(context);
-
-    /// sort the styles by, base then smallest to largest
-    final sortedStyles = <Style>[...widget.styles]..sort(_compareStyles);
+    _unpackStyles(fw);
 
     // dpl('fw: $fw');
 
@@ -73,25 +169,14 @@ class _BoxState extends State<Box> {
     if (widget.children.length == 1) {
       child = widget.children[0];
     } else {
-      var flexStyle = FlexStyle(
-        direction: Axis.vertical,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-      );
-      for (final style in sortedStyles.unpack<FlexStyle>(fw, _isHovered)) {
-        flexStyle = flexStyle.mergeWith(style, fw);
-      }
-
-      // dpl('flexStyle: $flexStyle');
-
+      // dpl('flexStyle: $_flexStyle');
       child = Flex(
-        direction: flexStyle.direction!,
-        crossAxisAlignment: flexStyle.crossAxisAlignment!,
-        mainAxisAlignment: flexStyle.mainAxisAlignment!,
-        mainAxisSize: flexStyle.mainAxisSize!,
+        direction: _flexStyle.direction!,
+        crossAxisAlignment: _flexStyle.crossAxisAlignment!,
+        mainAxisAlignment: _flexStyle.mainAxisAlignment!,
+        mainAxisSize: _flexStyle.mainAxisSize!,
         spacing:
-            flexStyle.spacing?.unpack(
+            _flexStyle.spacing?.unpack(
               axisMax: fw.screenSize.width,
               scale: fw.spacingScale,
             ) ??
@@ -109,11 +194,7 @@ class _BoxState extends State<Box> {
     //   child: child,
     // );
 
-    PaddingStyle? ps;
-    for (final next in sortedStyles.unpack<PaddingStyle>(fw, _isHovered)) {
-      ps = ps?.mergeWith(next, fw) ?? next;
-    }
-
+    final ps = _paddingStyle;
     if (ps != null) {
       child = Padding(
         padding: EdgeInsets.only(
@@ -149,11 +230,7 @@ class _BoxState extends State<Box> {
     // -- Decorations -
     //
     // Applied after padding but before margin
-    DecoratedBoxStyle? dbs;
-    for (final next in sortedStyles.unpack<DecoratedBoxStyle>(fw, _isHovered)) {
-      dbs = dbs?.mergeWith(next) ?? next;
-    }
-
+    final dbs = _decoratedBoxStyle;
     if (dbs != null) {
       child = DecoratedBox(
         decoration: BoxDecoration(
@@ -180,12 +257,7 @@ class _BoxState extends State<Box> {
     }
 
     // -- Hover -
-
-    // are there any hover styles?
-    final hasHover = sortedStyles.any(
-      (it) => it is ModifierStyle && it.hover == true,
-    );
-    if (hasHover) {
+    if (_isHoverRequired) {
       child = MouseRegion(
         onEnter: _onMouseEnter,
         onExit: _onMouseExit,
@@ -197,11 +269,7 @@ class _BoxState extends State<Box> {
     //
     // External spacing applied outside of any decorations
 
-    MarginStyle? ms;
-    for (final next in sortedStyles.unpack<MarginStyle>(fw, _isHovered)) {
-      ms = ms?.mergeWith(next, fw) ?? next;
-    }
-
+    final ms = _marginStyle;
     if (ms != null) {
       child = Padding(
         padding: EdgeInsets.only(
@@ -239,11 +307,7 @@ class _BoxState extends State<Box> {
     // Must be the last style since it needs to be closes to the top
     // so it is closest to the parent Flex widget
 
-    FlexibleStyle? flexibleStyle;
-    for (final fs in sortedStyles.unpack<FlexibleStyle>(fw, _isHovered)) {
-      flexibleStyle = fs;
-    }
-
+    final flexibleStyle = _flexibleStyle;
     // dpl("flexibleStyle: $flexibleStyle");
 
     if (flexibleStyle != null && flexibleStyle.fit != null) {

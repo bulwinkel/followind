@@ -1,6 +1,13 @@
 part of 'style.dart';
 
 class FlexStyle extends Style {
+  static const defaultStyle = FlexStyle(
+    direction: Axis.vertical,
+    crossAxisAlignment: CrossAxisAlignment.start,
+    mainAxisAlignment: MainAxisAlignment.start,
+    mainAxisSize: MainAxisSize.min,
+  );
+
   const FlexStyle({
     this.direction,
     this.mainAxisAlignment,

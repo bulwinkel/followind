@@ -20,7 +20,7 @@ class MarginStyle extends Style {
   final Spacing? right;
   final Spacing? bottom;
 
-  MarginStyle mergeWith(MarginStyle other, FollowingWindData fw) {
+  MarginStyle mergeWith(MarginStyle other) {
     return MarginStyle(
       left: other.left ?? left,
       top: other.top ?? top,
