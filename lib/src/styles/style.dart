@@ -11,7 +11,7 @@ part "margin.dart";
 
 part "padding.dart";
 
-part "size_class.dart";
+part "modifier.dart";
 
 sealed class Style {
   const Style();
