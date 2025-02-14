@@ -1,56 +1,68 @@
 part of "style.dart";
 
-enum SizeClass {
-  sm,
-  md,
-  lg,
-  xl,
-  xxl,
-}
+enum SizeClass { sm, md, lg, xl, xxl }
 
-class SizeClassStyle extends Style {
-  const SizeClassStyle._({
-    required this.sizeClass,
-    required this.style,
-  });
+class ModifierStyle extends Style {
+  const ModifierStyle._({required this.style, this.sizeClass, this.hover});
 
-  /// If the style is already a [SizeClassStyle],
-  /// it will be replaced with the new [SizeClass]
-  factory SizeClassStyle({
-    required SizeClass sizeClass,
+  /// Prevent stacking of [ModifierStyle]s.
+  /// If the style is already a [ModifierStyle],
+  /// it will be replaced with the new [ModifierStyle].
+  factory ModifierStyle.mergeWith({
     required Style style,
+    SizeClass? sizeClass,
+    bool? hover,
   }) {
-    if (style is SizeClassStyle) {
-      return SizeClassStyle._(
-        sizeClass: sizeClass,
+    if (style is ModifierStyle) {
+      return ModifierStyle._(
         style: style.style,
+        sizeClass: sizeClass ?? style.sizeClass,
+        hover: hover ?? style.hover,
       );
     }
 
-    return SizeClassStyle._(
-      sizeClass: sizeClass,
-      style: style,
-    );
+    return ModifierStyle._(style: style, sizeClass: sizeClass, hover: hover);
   }
 
-  final SizeClass sizeClass;
   final Style style;
+  final SizeClass? sizeClass;
+  final bool? hover;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ModifierStyle &&
+          runtimeType == other.runtimeType &&
+          style == other.style &&
+          sizeClass == other.sizeClass &&
+          hover == other.hover;
+
+  @override
+  int get hashCode => style.hashCode ^ sizeClass.hashCode ^ hover.hashCode;
+
+  @override
+  String toString() {
+    return 'ModifierStyle{style: $style, sizeClass: $sizeClass, hover: $hover}';
+  }
 }
 
-extension SizeClassStyleX on Style {
-  Style get sm => SizeClassStyle(sizeClass: SizeClass.sm, style: this);
+extension ModifierStyleX on Style {
+  Style get sm => ModifierStyle.mergeWith(sizeClass: SizeClass.sm, style: this);
 
-  Style get md => SizeClassStyle(sizeClass: SizeClass.md, style: this);
+  Style get md => ModifierStyle.mergeWith(sizeClass: SizeClass.md, style: this);
 
-  Style get lg => SizeClassStyle(sizeClass: SizeClass.lg, style: this);
+  Style get lg => ModifierStyle.mergeWith(sizeClass: SizeClass.lg, style: this);
 
-  Style get xl => SizeClassStyle(sizeClass: SizeClass.xl, style: this);
+  Style get xl => ModifierStyle.mergeWith(sizeClass: SizeClass.xl, style: this);
 
-  Style get xxl => SizeClassStyle(sizeClass: SizeClass.xxl, style: this);
+  Style get xxl =>
+      ModifierStyle.mergeWith(sizeClass: SizeClass.xxl, style: this);
+
+  Style get hover => ModifierStyle.mergeWith(hover: true, style: this);
 }
 
 Style Function(Style) _wrapWithSizeClass(SizeClass sizeClass) {
-  return (style) => SizeClassStyle(sizeClass: sizeClass, style: style);
+  return (style) => ModifierStyle.mergeWith(sizeClass: sizeClass, style: style);
 }
 
 final _wrapWithSm = _wrapWithSizeClass(SizeClass.sm);

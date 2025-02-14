@@ -160,12 +160,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 //   'bg-orange-200 rounded',
                 // ],
                 styles: [
-                  .25.pc.p.sm,
-                  4.py.sm,
-                  8.px.md,
-                  10.p.lg,
-                  12.p.xl,
-                  16.p.xxl
+                  4.py,
+                  8.px,
+                  16.rounded,
+                  400.slate.border,
+                  800.red.border.hover,
                 ],
                 children: [
                   Text("This is a single child."),

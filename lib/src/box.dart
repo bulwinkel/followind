@@ -1,11 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/styles/style.dart';
+import 'package:following_wind/src/support_internal.dart';
 
 import 'following_wind.dart';
 import 'spacings.dart';
 
 // ignore: camel_case_types
-class Box extends StatelessWidget {
+class Box extends StatefulWidget {
   const Box({
     super.key,
     this.styles = const [],
@@ -17,10 +19,37 @@ class Box extends StatelessWidget {
   final List<Widget> children;
   final VoidCallback? onPressed;
 
-  static int _compareStyles(Style a, Style b) {
-    final aIndex = a is SizeClassStyle ? a.sizeClass.index + 1 : 0;
-    final bIndex = b is SizeClassStyle ? b.sizeClass.index + 1 : 0;
-    return aIndex.compareTo(bIndex);
+  @override
+  State<Box> createState() => _BoxState();
+}
+
+int _compareStyles(Style a, Style b) {
+  final aIndex =
+      a is ModifierStyle && a.sizeClass != null ? a.sizeClass!.index + 1 : 0;
+  final bIndex =
+      b is ModifierStyle && b.sizeClass != null ? b.sizeClass!.index + 1 : 0;
+  return aIndex.compareTo(bIndex);
+}
+
+void _doNothing() {}
+
+class _BoxState extends State<Box> {
+  bool _isHovered = false;
+
+  void invalidate() {
+    setState(_doNothing);
+  }
+
+  void _onMouseEnter(PointerEnterEvent event) {
+    dpl('mouse enter');
+    _isHovered = true;
+    invalidate();
+  }
+
+  void _onMouseExit(PointerExitEvent event) {
+    dpl('mouse exit');
+    _isHovered = false;
+    invalidate();
   }
 
   @override
@@ -28,7 +57,7 @@ class Box extends StatelessWidget {
     final FollowingWindData fw = FollowingWind.of(context);
 
     /// sort the styles by, base then smallest to largest
-    final sortedStyles = <Style>[...styles]..sort(_compareStyles);
+    final sortedStyles = <Style>[...widget.styles]..sort(_compareStyles);
 
     // dpl('fw: $fw');
 
@@ -41,8 +70,8 @@ class Box extends StatelessWidget {
     Widget child;
 
     // don't wrap in FwFlex if there is only one child
-    if (children.length == 1) {
-      child = children[0];
+    if (widget.children.length == 1) {
+      child = widget.children[0];
     } else {
       var flexStyle = FlexStyle(
         direction: Axis.vertical,
@@ -50,7 +79,7 @@ class Box extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
       );
-      for (final style in sortedStyles.unpack<FlexStyle>(fw)) {
+      for (final style in sortedStyles.unpack<FlexStyle>(fw, _isHovered)) {
         flexStyle = flexStyle.mergeWith(style, fw);
       }
 
@@ -67,7 +96,7 @@ class Box extends StatelessWidget {
               scale: fw.spacingScale,
             ) ??
             0,
-        children: children,
+        children: widget.children,
       );
     }
 
@@ -81,7 +110,7 @@ class Box extends StatelessWidget {
     // );
 
     PaddingStyle? ps;
-    for (final next in sortedStyles.unpack<PaddingStyle>(fw)) {
+    for (final next in sortedStyles.unpack<PaddingStyle>(fw, _isHovered)) {
       ps = ps?.mergeWith(next, fw) ?? next;
     }
 
@@ -121,7 +150,7 @@ class Box extends StatelessWidget {
     //
     // Applied after padding but before margin
     DecoratedBoxStyle? dbs;
-    for (final next in sortedStyles.unpack<DecoratedBoxStyle>(fw)) {
+    for (final next in sortedStyles.unpack<DecoratedBoxStyle>(fw, _isHovered)) {
       dbs = dbs?.mergeWith(next) ?? next;
     }
 
@@ -141,12 +170,35 @@ class Box extends StatelessWidget {
       );
     }
 
+    // -- Gesture -
+    //
+    // Applied after decorations but before margin / external spacing since
+    // you wouldn't expect a gesture to work outside of the the decorated
+    // part of the widget.
+    if (widget.onPressed != null) {
+      child = GestureDetector(onTap: widget.onPressed, child: child);
+    }
+
+    // -- Hover -
+
+    // are there any hover styles?
+    final hasHover = sortedStyles.any(
+      (it) => it is ModifierStyle && it.hover == true,
+    );
+    if (hasHover) {
+      child = MouseRegion(
+        onEnter: _onMouseEnter,
+        onExit: _onMouseExit,
+        child: child,
+      );
+    }
+
     // -- Margin -
     //
     // External spacing applied outside of any decorations
 
     MarginStyle? ms;
-    for (final next in sortedStyles.unpack<MarginStyle>(fw)) {
+    for (final next in sortedStyles.unpack<MarginStyle>(fw, _isHovered)) {
       ms = ms?.mergeWith(next, fw) ?? next;
     }
 
@@ -182,18 +234,13 @@ class Box extends StatelessWidget {
       );
     }
 
-    // -- Gesture -
-    if (onPressed != null) {
-      child = GestureDetector(onTap: onPressed, child: child);
-    }
-
     // -- Flexible -
     //
     // Must be the last style since it needs to be closes to the top
     // so it is closest to the parent Flex widget
 
     FlexibleStyle? flexibleStyle;
-    for (final fs in sortedStyles.unpack<FlexibleStyle>(fw)) {
+    for (final fs in sortedStyles.unpack<FlexibleStyle>(fw, _isHovered)) {
       flexibleStyle = fs;
     }
 

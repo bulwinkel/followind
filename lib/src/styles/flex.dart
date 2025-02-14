@@ -15,19 +15,6 @@ class FlexStyle extends Style {
   final CrossAxisAlignment? crossAxisAlignment;
   final Spacing? spacing;
 
-  Style applyAt(SizeClass sizeClass) {
-    return SizeClassStyle(
-      sizeClass: sizeClass,
-      style: FlexStyle(
-        direction: direction,
-        mainAxisAlignment: mainAxisAlignment,
-        mainAxisSize: mainAxisSize,
-        crossAxisAlignment: crossAxisAlignment,
-        spacing: spacing,
-      ),
-    );
-  }
-
   FlexStyle mergeWith(FlexStyle other, FollowingWindData fw) {
     return FlexStyle(
       direction: other.direction ?? direction,

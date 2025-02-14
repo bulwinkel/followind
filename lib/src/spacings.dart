@@ -165,7 +165,7 @@ extension UnpackSpacing on Spacing {
 extension SpacingExtension on num {
   Spacing get dp => DpSpacing(toDouble());
 
-  Spacing get pc => FractionalSpacing(toDouble());
+  Spacing get percent => FractionalSpacing(toDouble());
 
   Spacing get s => ScaleSpacing(toDouble());
 }
