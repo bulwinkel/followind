@@ -236,7 +236,7 @@ class _BoxState extends State<Box> {
         decoration: BoxDecoration(
           color: dbs.color,
           image: dbs.image,
-          border: dbs.border,
+          border: dbs.border?.unpack(),
           borderRadius: dbs.borderRadius,
           boxShadow: dbs.boxShadow,
           gradient: dbs.gradient,
