@@ -79,10 +79,7 @@ typedef FollowingWindData =
 
       /// The responsive modifiers that are currently active
       Map<String, double> sizeClasses,
-      Map<String, double> spacings,
-      Map<String, Size> fractionals,
       Map<String, Map<int, Color>> colors,
-      Map<String, Color> bgColors,
       Color borderColor,
     });
 
@@ -97,10 +94,7 @@ class _FollowingWindState extends State<_FollowingWind> {
     screenSize: Size.zero,
     spacingScale: spacingScaleDefault,
     sizeClasses: {},
-    spacings: {},
-    fractionals: {},
     colors: {},
-    bgColors: {},
     borderColor: borderColorDefault,
   );
 
@@ -112,34 +106,6 @@ class _FollowingWindState extends State<_FollowingWind> {
     final spacingScale = config?.spacingScale ?? spacingScaleDefault;
     final borderColor = config?.borderColor ?? borderColorDefault;
     final borderWidth = config?.borderWidth ?? borderWidthDefault;
-
-    // no prefix yet
-    final spacingsCalculated = {
-      for (final entry in spacings.entries)
-        entry.key: entry.value * spacingScale,
-    };
-
-    final Map<String, Size> fractionalSizesCalculated = {
-      'full': Size(double.infinity, double.infinity),
-      for (final entry in fractionalSizes.entries)
-        entry.key: Size(
-          entry.value * screenSize.width,
-          entry.value * screenSize.height,
-        ),
-    };
-
-    const borderWidths = {'0': 0.0, '1': 1.0, '2': 2.0, '4': 4.0, '8': 8.0};
-
-    final borderRadiusSizes = {
-      'none': 0.0,
-      'sm': spacingScale,
-      'md': spacingScale * 1.5,
-      'lg': spacingScale * 2,
-      'xl': spacingScale * 3,
-      '2xl': spacingScale * 4,
-      '3xl': spacingScale * 6,
-      'full': double.infinity,
-    };
 
     final sizeClasses = {
       'sm': 640.0,
@@ -155,16 +121,7 @@ class _FollowingWindState extends State<_FollowingWind> {
         screenSize: screenSize,
         spacingScale: spacingScale,
         sizeClasses: sizeClasses,
-        spacings: spacingsCalculated,
-        fractionals: fractionalSizesCalculated,
         colors: colors,
-        bgColors: {
-          'bg-white': white,
-          'bg-black': black,
-          for (final entry in colors.entries)
-            for (final shade in entry.value.entries)
-              'bg-${entry.key}-${shade.key}': shade.value,
-        },
         borderColor: borderColor,
       );
     });

@@ -82,6 +82,6 @@ extension SpacingPagStyles on Spacing {
 }
 
 extension SpacingStyles on num {
-  FlexStyle get gap => FlexStyle(spacing: s);
-  FlexStyle get spacing => FlexStyle(spacing: s);
+  FlexStyle get gap => FlexStyle(spacing: scaled);
+  FlexStyle get spacing => FlexStyle(spacing: scaled);
 }

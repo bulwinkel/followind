@@ -71,6 +71,9 @@ class _BoxState extends State<Box> {
   final List<DecoratedBoxStyle> _decoratedBoxStyles = [];
   DecoratedBoxStyle? _decoratedBoxStyle;
 
+  final List<SizeStyle> _sizeStyles = [];
+  SizeStyle? _sizeStyle;
+
   final List<MarginStyle> _marginStyles = [];
   MarginStyle? _marginStyle;
 
@@ -94,6 +97,9 @@ class _BoxState extends State<Box> {
 
     _decoratedBoxStyles.clear();
     _decoratedBoxStyle = null;
+
+    _sizeStyles.clear();
+    _sizeStyle = null;
 
     _marginStyles.clear();
     _marginStyle = null;
@@ -145,6 +151,11 @@ class _BoxState extends State<Box> {
       if (style is DecoratedBoxStyle) {
         _decoratedBoxStyles.add(style);
         _decoratedBoxStyle = _decoratedBoxStyle?.mergeWith(style) ?? style;
+      }
+
+      if (style is SizeStyle) {
+        _sizeStyles.add(style);
+        _sizeStyle = _sizeStyle?.mergeWith(style) ?? style;
       }
 
       if (style is MarginStyle) {
@@ -265,6 +276,11 @@ class _BoxState extends State<Box> {
         ),
         child: child,
       );
+    }
+
+    final constraints = _sizeStyle?.unpack(fw);
+    if (constraints != null) {
+      child = ConstrainedBox(constraints: constraints, child: child);
     }
 
     // -- Gesture -

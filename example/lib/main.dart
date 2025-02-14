@@ -119,12 +119,14 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Text("Test"),
               Box(
-                // classNames: [
-                //   "bg-slate-200 p-8 py-10 text-3xl",
-                //   "rounded sm:rounded-sm md:rounded-md lg:rounded-lg xl:rounded-xl 2xl:rounded-2xl",
-                //   // "main-center"
-                //   // "h-52",
-                // ],
+                styles: [
+                  4.px,
+                  2.py,
+                  16.rounded,
+                  400.slate.border,
+                  800.red.border.hover,
+                  25.percent.width,
+                ],
                 children: [
                   Text("This is some really long text"),
                 ],

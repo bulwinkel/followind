@@ -9,9 +9,11 @@ part "flexible.dart";
 
 part "margin.dart";
 
+part "modifier.dart";
+
 part "padding.dart";
 
-part "modifier.dart";
+part "size.dart";
 
 part "text.dart";
 
