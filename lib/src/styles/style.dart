@@ -13,6 +13,8 @@ part "padding.dart";
 
 part "modifier.dart";
 
+part "text.dart";
+
 sealed class Style {
   const Style();
 }

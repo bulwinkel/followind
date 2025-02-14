@@ -94,10 +94,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     3.gap,
                     4.p,
                     16.rounded,
-                    200.purple.bg,
+                    800.purple.bg,
                     200.gray.border,
                     400.purple.border.hover,
                     8.border,
+                    200.slate.text,
                   ],
                   lg: [8.px, 4.py, 100.rounded],
                   xxl: [

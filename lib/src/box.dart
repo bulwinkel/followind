@@ -62,6 +62,9 @@ class _BoxState extends State<Box> {
   final List<FlexStyle> _flexStyles = [];
   FlexStyle _flexStyle = FlexStyle.defaultStyle;
 
+  final List<FWTextStyle> _textStyles = [];
+  FWTextStyle? _textStyle;
+
   final List<PaddingStyle> _paddingStyles = [];
   PaddingStyle? _paddingStyle;
 
@@ -82,6 +85,9 @@ class _BoxState extends State<Box> {
 
     _flexStyles.clear();
     _flexStyle = FlexStyle.defaultStyle;
+
+    _textStyles.clear();
+    _textStyle = null;
 
     _paddingStyles.clear();
     _paddingStyle = null;
@@ -126,6 +132,11 @@ class _BoxState extends State<Box> {
         _flexStyle = _flexStyle.mergeWith(style, fw);
       }
 
+      if (style is FWTextStyle) {
+        _textStyles.add(style);
+        _textStyle = _textStyle?.mergeWith(style) ?? style;
+      }
+
       if (style is PaddingStyle) {
         _paddingStyles.add(style);
         _paddingStyle = _paddingStyle?.mergeWith(style) ?? style;
@@ -165,6 +176,8 @@ class _BoxState extends State<Box> {
     // Configure the layout first by processing all layout classes together
     Widget child;
 
+    // -- Layout -
+
     // don't wrap in FwFlex if there is only one child
     if (widget.children.length == 1) {
       child = widget.children[0];
@@ -185,14 +198,21 @@ class _BoxState extends State<Box> {
       );
     }
 
-    // Apply text styles
-    // child = FwDefaultTextAndIconStyle(
-    //   spacingMultiplier: fw.spacingScale,
-    //   classKey: 'text',
-    //   findValueForClass: findValueForClass,
-    //   colors: colors,
-    //   child: child,
-    // );
+    // -- Text -
+    final ts = _textStyle?.unpack();
+    final textAlign = _textStyle?.textAlign;
+    if (ts != null || textAlign != null) {
+      child = DefaultTextStyle(
+        style: ts ?? const TextStyle(),
+        textAlign: _textStyle?.textAlign,
+        child: child,
+      );
+    }
+
+    final iconColor = _textStyle?.color;
+    if (iconColor != null) {
+      child = IconTheme(data: IconThemeData(color: iconColor), child: child);
+    }
 
     final ps = _paddingStyle;
     if (ps != null) {

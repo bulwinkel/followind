@@ -7,12 +7,15 @@ FollowingWind: The ergonomics of Tailwind CSS for Flutter
 # New README
 Keep the api surface area as small as possible for the initial release. It's much easier to add features than to remove them.
 
-## Style rules
-1. Styles should be as concise as possible without compromising readability / intelligibility.
-2. Styles should be small and composable. That way it is easy to change individual styles based on size classes and other modifiers (e.g. hover).
+## Rules
+1. Style configurations: least specific -> most specific -> modifiers 
+2. Keep global namespace as clean as possible. Some global constants will need to be exposed, but they should be kept to a minimum.
+3. Leverage extension functions where possible.
+4. Styles should be as concise as possible without compromising readability / intelligibility.
+5. Styles should be small and composable. That way it is easy to change individual styles based on size classes and other modifiers (e.g. hover).
 
 ## Tasks
-- [ ] Allow for composable decorated box styles,e.g. set border color with 1 style and thickness with another
+- [x] Allow for composable decorated box styles,e.g. set border color with 1 style and thickness with another
 - [ ] abstract colors so they can be overridden using the config object
 
 # Legacy README
