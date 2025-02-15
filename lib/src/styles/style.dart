@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:following_wind/following_wind.dart';
 
+part "align.dart";
+
 part "decorated_box.dart";
 
 part "flex.dart";

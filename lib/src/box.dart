@@ -77,6 +77,9 @@ class _BoxState extends State<Box> {
   final List<MarginStyle> _marginStyles = [];
   MarginStyle? _marginStyle;
 
+  final List<AlignStyle> _alignStyles = [];
+  AlignStyle? _alignStyle;
+
   final List<FlexibleStyle> _flexibleStyles = [];
   FlexibleStyle? _flexibleStyle;
 
@@ -103,6 +106,9 @@ class _BoxState extends State<Box> {
 
     _marginStyles.clear();
     _marginStyle = null;
+
+    _alignStyles.clear();
+    _alignStyle = null;
 
     _flexibleStyles.clear();
     _flexibleStyle = null;
@@ -136,36 +142,49 @@ class _BoxState extends State<Box> {
       if (style is FlexStyle) {
         _flexStyles.add(style);
         _flexStyle = _flexStyle.mergeWith(style, fw);
+        continue;
       }
 
       if (style is FWTextStyle) {
         _textStyles.add(style);
         _textStyle = _textStyle?.mergeWith(style) ?? style;
+        continue;
       }
 
       if (style is PaddingStyle) {
         _paddingStyles.add(style);
         _paddingStyle = _paddingStyle?.mergeWith(style) ?? style;
+        continue;
       }
 
       if (style is DecoratedBoxStyle) {
         _decoratedBoxStyles.add(style);
         _decoratedBoxStyle = _decoratedBoxStyle?.mergeWith(style) ?? style;
+        continue;
       }
 
       if (style is SizeStyle) {
         _sizeStyles.add(style);
         _sizeStyle = _sizeStyle?.mergeWith(style) ?? style;
+        continue;
       }
 
       if (style is MarginStyle) {
         _marginStyles.add(style);
         _marginStyle = _marginStyle?.mergeWith(style) ?? style;
+        continue;
+      }
+
+      if (style is AlignStyle) {
+        _alignStyles.add(style);
+        _alignStyle = _alignStyle?.mergeWith(style) ?? style;
+        continue;
       }
 
       if (style is FlexibleStyle) {
         _flexibleStyles.add(style);
         _flexibleStyle = style;
+        continue;
       }
     }
   }
@@ -336,6 +355,16 @@ class _BoxState extends State<Box> {
         ),
         child: child,
       );
+    }
+
+    // -- Align
+    //
+    // By applying before flexible it will align within the space
+    // created by the flexible widget below.
+
+    final alignment = _alignStyle?.unpack();
+    if (alignment != null) {
+      child = Align(alignment: alignment, child: child);
     }
 
     // -- Flexible -

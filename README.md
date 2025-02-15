@@ -16,7 +16,9 @@ Keep the api surface area as small as possible for the initial release. It's muc
 
 ## Tasks
 - [x] Allow for composable decorated box styles,e.g. set border color with 1 style and thickness with another
+- [x] Alignment, including center
 - [ ] abstract colors so they can be overridden using the config object
+- [ ] Support wrapping instead of row / col
 
 # Legacy README
 

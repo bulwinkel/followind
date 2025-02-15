@@ -57,12 +57,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         styles: bySizeClass(
-          base: [col, mainMax, crossStretch, 4.gap, 10.py, 4.m],
-          sm: [6.m],
-          md: [8.m],
-          lg: [10.m],
-          xl: [row, 6.gap, 12.m],
-          xxl: [16.m],
+          base: [col, mainMax, crossStretch, 8.p],
+          xl: [row, 8.spacing],
+          // xxl: [16.m],
         ),
         children: [
           Box(
@@ -88,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Box(
                 styles: bySizeClass(
                   base: [
+                    alignCenter,
                     row,
                     mainMin,
                     crossCenter,
@@ -107,17 +105,18 @@ class _MyHomePageState extends State<MyHomePage> {
                     800.red.border.hover,
                   ],
                 ),
-                // classNames: [
-                //   "text-4xl text-white",
-                //   "bg-purple-400 sm:bg-red-400 md:bg-orange-400 lg:bg-yellow-400 xl:bg-blue-400",
-                // ],
                 onPressed: _goToBordersPage,
                 children: [
                   Text("Go to Borders"),
                   Icon(Icons.arrow_forward),
                 ],
               ),
-              Text("Test"),
+              Box(
+                styles: [alignCenter],
+                children: [
+                  Text("Test"),
+                ],
+              ),
               Box(
                 styles: [
                   4.px,
