@@ -112,18 +112,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   16.rounded,
                   400.slate.border,
                   800.red.border.hover,
-                  25.percent.width,
                 ],
                 children: [Text("This is some really long text")],
               ),
               Text("Test"),
               Box(
-                // classNames: [
-                //   "p-4 bg-red-200 gap-4",
-                //   "border",
-                //   "rounded-md rounded-tl-3xl rounded-br-3xl",
-                //   "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
-                // ],
                 children: [
                   const Text('You have pushed the button this many times:'),
                   Text(
@@ -133,12 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Box(
-                // classNames: [
-                //   "px-6 py-4 bg-red-400 gap-4",
-                //   "border-x-2 border-y-4 border-r-8",
-                //   "border-t-red-300 border-r-orange-400",
-                //   "border-b-yellow-400 border-l-green-400"
-                // ],
                 children: [
                   const Text('You have pushed the button this many times:'),
                   Text(
@@ -148,9 +135,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
               Box(
-                // classNames: [
-                //   'bg-orange-200 rounded',
-                // ],
                 styles: [
                   4.py,
                   8.px,

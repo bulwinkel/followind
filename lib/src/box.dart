@@ -6,7 +6,6 @@ import 'package:followind/src/support_internal.dart';
 import 'followind.dart';
 import 'spacings.dart';
 
-// ignore: camel_case_types
 class Box extends StatefulWidget {
   const Box({
     super.key,

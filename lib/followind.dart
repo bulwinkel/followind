@@ -3,8 +3,6 @@ library;
 export 'src/box.dart';
 export 'src/colors.dart';
 
-export 'src/support.dart';
-
 export 'src/followind.dart';
 
 export 'src/spacings.dart';
