@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/followind.dart';
+import 'package:followind/followind.dart';
 
 part "align.dart";
 

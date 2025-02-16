@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/styles/style.dart';
-import 'package:following_wind/src/support_internal.dart';
+import 'package:followind/src/styles/style.dart';
+import 'package:followind/src/support_internal.dart';
 
 import 'followind.dart';
 import 'spacings.dart';

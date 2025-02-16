@@ -1,6 +1,6 @@
 import 'package:example/pages/borders_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:following_wind/followind.dart';
+import 'package:followind/followind.dart';
 
 void main() {
   runApp(const MyApp());
@@ -99,24 +99,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     200.slate.text,
                   ],
                   lg: [8.px, 4.py, 100.rounded],
-                  xxl: [
-                    4.border,
-                    200.red.border,
-                    800.red.border.hover,
-                  ],
+                  xxl: [4.border, 200.red.border, 800.red.border.hover],
                 ),
                 onPressed: _goToBordersPage,
-                children: [
-                  Text("Go to Borders"),
-                  Icon(Icons.arrow_forward),
-                ],
+                children: [Text("Go to Borders"), Icon(Icons.arrow_forward)],
               ),
-              Box(
-                styles: [alignCenter],
-                children: [
-                  Text("Test"),
-                ],
-              ),
+              Box(styles: [alignCenter], children: [Text("Test")]),
               Box(
                 styles: [
                   4.px,
@@ -126,9 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   800.red.border.hover,
                   25.percent.width,
                 ],
-                children: [
-                  Text("This is some really long text"),
-                ],
+                children: [Text("This is some really long text")],
               ),
               Text("Test"),
               Box(
@@ -139,9 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //   "md:rounded-md md:rounded-bl-3xl md:rounded-tr-3xl",
                 // ],
                 children: [
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
+                  const Text('You have pushed the button this many times:'),
                   Text(
                     '$_counter',
                     style: Theme.of(context).textTheme.headlineMedium,
@@ -156,9 +140,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //   "border-b-yellow-400 border-l-green-400"
                 // ],
                 children: [
-                  const Text(
-                    'You have pushed the button this many times:',
-                  ),
+                  const Text('You have pushed the button this many times:'),
                   Text(
                     '$_counter',
                     style: Theme.of(context).textTheme.headlineMedium,
@@ -176,9 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   400.slate.border,
                   800.red.border.hover,
                 ],
-                children: [
-                  Text("This is a single child."),
-                ],
+                children: [Text("This is a single child.")],
               ),
             ],
           ),
@@ -196,11 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.all(16),
                     child: DefaultTextStyle(
                       style: const TextStyle(color: Colors.white),
-                      child: Row(
-                        children: [
-                          Text("Go to Borders"),
-                        ],
-                      ),
+                      child: Row(children: [Text("Go to Borders")]),
                     ),
                   ),
                   const SizedBox(height: 20),

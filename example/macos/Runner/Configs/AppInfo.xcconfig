@@ -8,7 +8,7 @@
 PRODUCT_NAME = example
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = dev.followingwind.example
+PRODUCT_BUNDLE_IDENTIFIER = dev.followind.example
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 dev.followingwind. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 dev.followind. All rights reserved.
