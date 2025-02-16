@@ -7,6 +7,6 @@ extension MaybeDoubleX on double? {
   }
 }
 
-void dpl(String message) {
+void dp(String message) {
   if (kDebugMode) print(message);
 }

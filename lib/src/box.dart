@@ -41,13 +41,13 @@ class _BoxState extends State<Box> {
   }
 
   void _onMouseEnter(PointerEnterEvent event) {
-    dpl('mouse enter');
+    dp('mouse enter');
     _isHovered = true;
     invalidate();
   }
 
   void _onMouseExit(PointerExitEvent event) {
-    dpl('mouse exit');
+    dp('mouse exit');
     _isHovered = false;
     invalidate();
   }

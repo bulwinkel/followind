@@ -98,7 +98,7 @@ class _FollowindState extends State<_Followind> {
 
   void init() {
     final screenSize = widget.screenSize;
-    dpl("[_FollowindState.init] screenSize: $screenSize");
+    dp("[_FollowindState.init] screenSize: $screenSize");
 
     final config = widget.config;
     final spacingScale = config?.spacingScale ?? spacingScaleDefault;
