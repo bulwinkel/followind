@@ -1,4 +1,4 @@
-FollowingWind: The ergonomics of Tailwind CSS for Flutter
+Followind: The ergonomics of Tailwind CSS for Flutter
 ===
 
 > WARNING: This is a work in progress and is not ready for production use. Breaking changes will
@@ -18,7 +18,8 @@ Keep the api surface area as small as possible for the initial release. It's muc
 - [x] Allow for composable decorated box styles,e.g. set border color with 1 style and thickness with another
 - [x] Alignment, including center
 - [ ] abstract colors so they can be overridden using the config object
-- [ ] Support wrapping instead of row / col
+- [ ] Support wrap
+- [ ] Support stack and positioned
 
 # Legacy README
 

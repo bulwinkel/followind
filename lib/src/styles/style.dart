@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/following_wind.dart';
+import 'package:following_wind/followind.dart';
 
 part "align.dart";
 
@@ -26,10 +26,7 @@ sealed class Style {
 extension StyleListX on List<Style> {
   /// Requires [Style]s to be sorted by [SizeClass], smallest to largest
   /// for the overriding behavior to work correctly.
-  Iterable<T> unpack<T extends Style>(
-    FollowingWindData fw,
-    bool isHovered,
-  ) sync* {
+  Iterable<T> unpack<T extends Style>(FollowindData fw, bool isHovered) sync* {
     for (final style in this) {
       if (style is T) yield style;
 

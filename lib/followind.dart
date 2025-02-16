@@ -5,7 +5,7 @@ export 'src/colors.dart';
 
 export 'src/support.dart';
 
-export 'src/following_wind.dart';
+export 'src/followind.dart';
 
 export 'src/spacings.dart';
 

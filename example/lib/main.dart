@@ -1,6 +1,6 @@
 import 'package:example/pages/borders_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:following_wind/following_wind.dart';
+import 'package:following_wind/followind.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FollowingWind(
+    return Followind(
       child: MaterialApp(
-        title: 'FollowingWind Example',
+        title: 'Followind Example',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        home: const MyHomePage(title: 'FollowingWind Home Page'),
+        home: const MyHomePage(title: 'Followind Home Page'),
       ),
     );
   }

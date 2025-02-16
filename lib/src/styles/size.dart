@@ -23,7 +23,7 @@ class SizeStyle extends Style {
     );
   }
 
-  BoxConstraints? unpack(FollowingWindData fw) {
+  BoxConstraints? unpack(FollowindData fw) {
     if (minHeight != null &&
         minWidth != null &&
         maxHeight != null &&

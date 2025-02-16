@@ -1,11 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:following_wind/src/spacings.dart';
 
 import 'colors.dart';
 import 'styles/style.dart';
 import 'support_internal.dart';
 
-typedef FollowingWindConfig =
+typedef FollowindConfig =
     ({
       /// e.g. 4.0 for 4px
       double? spacingScale,
@@ -25,29 +24,28 @@ const borderColorDefault = Color(0xffe2e8f0); //colors['gray']![200]!;
 const borderWidthDefault = 1.0;
 const borderRadiusDefault = spacingScaleDefault;
 
-class FollowingWind extends StatelessWidget {
-  final FollowingWindConfig? config;
+class Followind extends StatelessWidget {
+  final FollowindConfig? config;
   final Widget child;
 
-  const FollowingWind({super.key, this.config, required this.child});
+  const Followind({super.key, this.config, required this.child});
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.sizeOf(context);
 
-    return _FollowingWind(config: config, screenSize: screenSize, child: child);
+    return _Followind(config: config, screenSize: screenSize, child: child);
   }
 
   // Static method to access the config from anywhere in the widget tree
-  static FollowingWindData of(BuildContext context) {
-    final scope =
-        context.dependOnInheritedWidgetOfExactType<_FollowingWindScope>();
+  static FollowindData of(BuildContext context) {
+    final scope = context.dependOnInheritedWidgetOfExactType<_FollowindScope>();
     if (scope == null) {
       throw FlutterError(
-        'FollowingWind.of() was called with a context that does not '
-        'contain a FollowingWind widget.\n'
-        'No FollowingWind widget ancestor could be found starting from '
-        'the context that was passed to FollowingWind.of().\n'
+        'Followind.of() was called with a context that does not '
+        'contain a Followind widget.\n'
+        'No Followind widget ancestor could be found starting from '
+        'the context that was passed to Followind.of().\n'
         'The context used was:\n'
         '  $context',
       );
@@ -56,12 +54,12 @@ class FollowingWind extends StatelessWidget {
   }
 }
 
-class _FollowingWind extends StatefulWidget {
+class _Followind extends StatefulWidget {
   final Widget child;
-  final FollowingWindConfig? config;
+  final FollowindConfig? config;
   final Size screenSize;
 
-  const _FollowingWind({
+  const _Followind({
     super.key,
     required this.child,
     this.config,
@@ -69,10 +67,10 @@ class _FollowingWind extends StatefulWidget {
   });
 
   @override
-  State<_FollowingWind> createState() => _FollowingWindState();
+  State<_Followind> createState() => _FollowindState();
 }
 
-typedef FollowingWindData =
+typedef FollowindData =
     ({
       Size screenSize,
       double spacingScale,
@@ -83,14 +81,14 @@ typedef FollowingWindData =
       Color borderColor,
     });
 
-extension FollowingWindDataX on FollowingWindData {
+extension FollowindDataX on FollowindData {
   double sizeForClass(SizeClass? className) {
     return sizeClasses[className?.name ?? ""] ?? 0.0;
   }
 }
 
-class _FollowingWindState extends State<_FollowingWind> {
-  FollowingWindData data = const (
+class _FollowindState extends State<_Followind> {
+  FollowindData data = const (
     screenSize: Size.zero,
     spacingScale: spacingScaleDefault,
     sizeClasses: {},
@@ -100,7 +98,7 @@ class _FollowingWindState extends State<_FollowingWind> {
 
   void init() {
     final screenSize = widget.screenSize;
-    dpl("[_FollowingWindState.init] screenSize: $screenSize");
+    dpl("[_FollowindState.init] screenSize: $screenSize");
 
     final config = widget.config;
     final spacingScale = config?.spacingScale ?? spacingScaleDefault;
@@ -134,7 +132,7 @@ class _FollowingWindState extends State<_FollowingWind> {
   }
 
   @override
-  void didUpdateWidget(covariant _FollowingWind oldWidget) {
+  void didUpdateWidget(covariant _Followind oldWidget) {
     final shouldReinit =
         oldWidget.config != widget.config ||
         oldWidget.screenSize != widget.screenSize;
@@ -148,17 +146,17 @@ class _FollowingWindState extends State<_FollowingWind> {
 
   @override
   Widget build(BuildContext context) {
-    return _FollowingWindScope(data: data, child: widget.child);
+    return _FollowindScope(data: data, child: widget.child);
   }
 }
 
-class _FollowingWindScope extends InheritedWidget {
-  final FollowingWindData data;
+class _FollowindScope extends InheritedWidget {
+  final FollowindData data;
 
-  const _FollowingWindScope({required this.data, required super.child});
+  const _FollowindScope({required this.data, required super.child});
 
   @override
-  bool updateShouldNotify(_FollowingWindScope oldWidget) {
+  bool updateShouldNotify(_FollowindScope oldWidget) {
     return data != oldWidget.data;
   }
 }

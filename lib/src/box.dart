@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:following_wind/src/styles/style.dart';
 import 'package:following_wind/src/support_internal.dart';
 
-import 'following_wind.dart';
+import 'followind.dart';
 import 'spacings.dart';
 
 // ignore: camel_case_types
@@ -83,7 +83,7 @@ class _BoxState extends State<Box> {
   final List<FlexibleStyle> _flexibleStyles = [];
   FlexibleStyle? _flexibleStyle;
 
-  void _unpackStyles(FollowingWindData fw) {
+  void _unpackStyles(FollowindData fw) {
     // -- reset
     _isHoverRequired = false;
 
@@ -193,7 +193,7 @@ class _BoxState extends State<Box> {
   Widget build(BuildContext context) {
     //TODO:KB 14/2/2025 could performance by only unpacking the styles
     // when the widget is invalidated
-    final FollowingWindData fw = FollowingWind.of(context);
+    final FollowindData fw = Followind.of(context);
     _unpackStyles(fw);
 
     // dpl('fw: $fw');
