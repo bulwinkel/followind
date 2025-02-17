@@ -61,17 +61,17 @@ extension SpacingMarginStyles on Spacing {
 }
 
 extension NumMarginStyles on num {
-  MarginStyle get m => MarginStyle.all(scaled);
+  MarginStyle get m => dp.m;
 
-  MarginStyle get mx => MarginStyle(left: scaled, right: scaled);
+  MarginStyle get mx => dp.mx;
 
-  MarginStyle get my => MarginStyle(top: scaled, bottom: scaled);
+  MarginStyle get my => dp.my;
 
-  MarginStyle get mt => MarginStyle(top: scaled);
+  MarginStyle get mt => dp.mt;
 
-  MarginStyle get mr => MarginStyle(right: scaled);
+  MarginStyle get mr => dp.mr;
 
-  MarginStyle get mb => MarginStyle(bottom: scaled);
+  MarginStyle get mb => dp.mb;
 
-  MarginStyle get ml => MarginStyle(left: scaled);
+  MarginStyle get ml => dp.ml;
 }

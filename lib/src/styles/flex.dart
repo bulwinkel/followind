@@ -79,9 +79,10 @@ const crossBaseline = FlexStyle(
 
 extension SpacingPagStyles on Spacing {
   FlexStyle get gap => FlexStyle(spacing: this);
+  FlexStyle get spacing => FlexStyle(spacing: this);
 }
 
 extension SpacingStyles on num {
-  FlexStyle get gap => FlexStyle(spacing: scaled);
-  FlexStyle get spacing => FlexStyle(spacing: scaled);
+  FlexStyle get gap => dp.spacing;
+  FlexStyle get spacing => dp.spacing;
 }

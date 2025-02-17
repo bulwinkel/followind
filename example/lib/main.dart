@@ -55,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         styles: bySizeClass(
-          base: [col, mainMax, crossStretch, 8.p],
-          xl: [row, 8.spacing],
+          base: [col, mainMax, crossStretch, 8.scaled.p],
+          xl: [row, 8.scaled.spacing],
           // xxl: [16.m],
         ),
         children: [
@@ -66,8 +66,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 expanded,
                 col,
                 mainCenter,
-                2.gap,
-                8.p,
+                2.scaled.spacing,
+                8.scaled.p,
                 if (_counter > 5) 200.red.bg else 200.blue.bg,
                 16.rounded,
                 1.border,
@@ -87,8 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     row,
                     mainMin,
                     crossCenter,
-                    3.gap,
-                    4.p,
+                    3.scaled.gap,
+                    4.scaled.p,
                     16.rounded,
                     800.purple.bg,
                     200.gray.border,
@@ -96,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     8.border,
                     200.slate.text,
                   ],
-                  lg: [8.px, 4.py, 100.rounded],
+                  lg: [8.scaled.px, 4.scaled.py, 100.rounded],
                   xxl: [4.border, 200.red.border, 800.red.border.hover],
                 ),
                 onPressed: _goToBordersPage,
@@ -105,8 +105,8 @@ class _MyHomePageState extends State<MyHomePage> {
               Box(styles: [alignCenter], children: [Text("Test")]),
               Box(
                 styles: [
-                  4.px,
-                  2.py,
+                  4.scaled.px,
+                  2.scaled.py,
                   16.rounded,
                   400.slate.border,
                   800.red.border.hover,
@@ -134,8 +134,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               Box(
                 styles: [
-                  4.py,
-                  8.px,
+                  4.scaled.py,
+                  8.scaled.px,
                   16.rounded,
                   400.slate.border,
                   800.red.border.hover,

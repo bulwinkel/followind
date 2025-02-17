@@ -61,17 +61,17 @@ extension SpacingPaddingStyles on Spacing {
 }
 
 extension NumPaddingStyles on num {
-  PaddingStyle get p => PaddingStyle.all(scaled);
+  PaddingStyle get p => dp.p;
 
-  PaddingStyle get px => PaddingStyle(left: scaled, right: scaled);
+  PaddingStyle get px => dp.px;
 
-  PaddingStyle get py => PaddingStyle(top: scaled, bottom: scaled);
+  PaddingStyle get py => dp.py;
 
-  PaddingStyle get pt => PaddingStyle(top: scaled);
+  PaddingStyle get pt => dp.pt;
 
-  PaddingStyle get pr => PaddingStyle(right: scaled);
+  PaddingStyle get pr => dp.pr;
 
-  PaddingStyle get pb => PaddingStyle(bottom: scaled);
+  PaddingStyle get pb => dp.pb;
 
-  PaddingStyle get pl => PaddingStyle(left: scaled);
+  PaddingStyle get pl => dp.pl;
 }
