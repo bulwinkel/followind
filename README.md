@@ -7,6 +7,15 @@ Followind: The ergonomics of Tailwind CSS for Flutter
 # New README
 Keep the api surface area as small as possible for the initial release. It's much easier to add features than to remove them.
 
+## Guiding principles
+1. Easy to drop in and start using, configuration is available but not required.
+2. Unopinionated about design -> you should be able to build anything you want with it, Followind should just make it easier.
+3. Concise, but not golf. Styles should be easy to read and understand at a glance, short and concise as possible, not just short for the sake of being short.
+4. Work with Flutter, not against it. You should be able to drop Followind into an existing project and use it as little or as much as you want to. No large refactors required.
+5. Only dependency is Flutter
+6. No dependency on Material, just the core widgets package.
+7. Performance is important, but not at the expense of the above principles. We should be able to optimize for performance later without having to do a total rebuild.
+
 ## Rules
 1. Style configurations: least specific -> most specific -> modifiers 
 2. Keep global namespace as clean as possible. Some global constants will need to be exposed, but they should be kept to a minimum.

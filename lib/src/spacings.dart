@@ -66,7 +66,7 @@ class ScaleSpacing extends Spacing {
 }
 
 extension UnpackSpacing on Spacing {
-  double unpack({required double axisMax, required double scale}) {
+  double unpack({required double scale}) {
     return switch (this) {
       DpSpacing(:final value) => value,
       // FractionalSpacing(:final value) => value * axisMax,

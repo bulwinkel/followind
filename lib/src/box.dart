@@ -4,6 +4,7 @@ import 'package:followind/src/styles/style.dart';
 import 'package:followind/src/support_internal.dart';
 
 import 'followind.dart';
+import 'followind_config.dart';
 import 'spacings.dart';
 
 class Box extends StatefulWidget {
@@ -82,7 +83,7 @@ class _BoxState extends State<Box> {
   final List<FlexibleStyle> _flexibleStyles = [];
   FlexibleStyle? _flexibleStyle;
 
-  void _unpackStyles(FollowindData fw) {
+  void _unpackStyles(FollowindConfig f, Size screenSize) {
     // -- reset
     _isHoverRequired = false;
 
@@ -125,7 +126,7 @@ class _BoxState extends State<Box> {
         }
 
         final isApplicable =
-            fw.screenSize.width >= fw.sizeForClass(style.sizeClass) &&
+            screenSize.width >= f.sizeForClass(style.sizeClass) &&
             // if style.hover == null then ignore isHovered
             // if style.hover == true then only yield if isHovered
             (style.hover == null || style.hover == _isHovered);
@@ -140,7 +141,7 @@ class _BoxState extends State<Box> {
 
       if (style is FlexStyle) {
         _flexStyles.add(style);
-        _flexStyle = _flexStyle.mergeWith(style, fw);
+        _flexStyle = _flexStyle.mergeWith(style, f);
         continue;
       }
 
@@ -192,8 +193,10 @@ class _BoxState extends State<Box> {
   Widget build(BuildContext context) {
     //TODO:KB 14/2/2025 could performance by only unpacking the styles
     // when the widget is invalidated
-    final FollowindData fw = Followind.of(context);
-    _unpackStyles(fw);
+    final fw = Followind.of(context);
+    final screenSize = MediaQuery.of(context).size;
+
+    _unpackStyles(fw, screenSize);
 
     // dpl('fw: $fw');
 
@@ -217,12 +220,7 @@ class _BoxState extends State<Box> {
         crossAxisAlignment: _flexStyle.crossAxisAlignment!,
         mainAxisAlignment: _flexStyle.mainAxisAlignment!,
         mainAxisSize: _flexStyle.mainAxisSize!,
-        spacing:
-            _flexStyle.spacing?.unpack(
-              axisMax: fw.screenSize.width,
-              scale: fw.spacingScale,
-            ) ??
-            0,
+        spacing: _flexStyle.spacing?.unpack(scale: fw.spacingScale) ?? 0,
         children: widget.children,
       );
     }
@@ -247,30 +245,10 @@ class _BoxState extends State<Box> {
     if (ps != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left:
-              ps.left?.unpack(
-                axisMax: fw.screenSize.width,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          top:
-              ps.top?.unpack(
-                axisMax: fw.screenSize.height,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          right:
-              ps.right?.unpack(
-                axisMax: fw.screenSize.width,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          bottom:
-              ps.bottom?.unpack(
-                axisMax: fw.screenSize.height,
-                scale: fw.spacingScale,
-              ) ??
-              0,
+          left: ps.left?.unpack(scale: fw.spacingScale) ?? 0,
+          top: ps.top?.unpack(scale: fw.spacingScale) ?? 0,
+          right: ps.right?.unpack(scale: fw.spacingScale) ?? 0,
+          bottom: ps.bottom?.unpack(scale: fw.spacingScale) ?? 0,
         ),
         child: child,
       );
@@ -327,30 +305,10 @@ class _BoxState extends State<Box> {
     if (ms != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left:
-              ms.left?.unpack(
-                axisMax: fw.screenSize.width,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          top:
-              ms.top?.unpack(
-                axisMax: fw.screenSize.height,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          right:
-              ms.right?.unpack(
-                axisMax: fw.screenSize.width,
-                scale: fw.spacingScale,
-              ) ??
-              0,
-          bottom:
-              ms.bottom?.unpack(
-                axisMax: fw.screenSize.height,
-                scale: fw.spacingScale,
-              ) ??
-              0,
+          left: ms.left?.unpack(scale: fw.spacingScale) ?? 0,
+          top: ms.top?.unpack(scale: fw.spacingScale) ?? 0,
+          right: ms.right?.unpack(scale: fw.spacingScale) ?? 0,
+          bottom: ms.bottom?.unpack(scale: fw.spacingScale) ?? 0,
         ),
         child: child,
       );

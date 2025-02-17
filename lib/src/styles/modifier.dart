@@ -1,7 +1,5 @@
 part of "style.dart";
 
-enum SizeClass { sm, md, lg, xl, xxl }
-
 class ModifierStyle extends Style {
   const ModifierStyle._({required this.style, this.sizeClass, this.hover});
 

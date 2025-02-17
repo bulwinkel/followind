@@ -22,7 +22,7 @@ class FlexStyle extends Style {
   final CrossAxisAlignment? crossAxisAlignment;
   final Spacing? spacing;
 
-  FlexStyle mergeWith(FlexStyle other, FollowindData fw) {
+  FlexStyle mergeWith(FlexStyle other, FollowindConfig fw) {
     return FlexStyle(
       direction: other.direction ?? direction,
       mainAxisAlignment: other.mainAxisAlignment ?? mainAxisAlignment,

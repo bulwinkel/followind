@@ -23,7 +23,7 @@ class SizeStyle extends Style {
     );
   }
 
-  BoxConstraints? unpack(FollowindData fw) {
+  BoxConstraints? unpack(FollowindConfig f) {
     if (minHeight != null &&
         minWidth != null &&
         maxHeight != null &&
@@ -32,30 +32,10 @@ class SizeStyle extends Style {
     }
 
     return BoxConstraints(
-      minHeight:
-          minHeight?.unpack(
-            axisMax: fw.screenSize.height,
-            scale: fw.spacingScale,
-          ) ??
-          0,
-      minWidth:
-          minWidth?.unpack(
-            axisMax: fw.screenSize.width,
-            scale: fw.spacingScale,
-          ) ??
-          0,
-      maxHeight:
-          maxHeight?.unpack(
-            axisMax: fw.screenSize.height,
-            scale: fw.spacingScale,
-          ) ??
-          double.infinity,
-      maxWidth:
-          maxWidth?.unpack(
-            axisMax: fw.screenSize.width,
-            scale: fw.spacingScale,
-          ) ??
-          double.infinity,
+      minHeight: minHeight?.unpack(scale: f.spacingScale) ?? 0,
+      minWidth: minWidth?.unpack(scale: f.spacingScale) ?? 0,
+      maxHeight: maxHeight?.unpack(scale: f.spacingScale) ?? double.infinity,
+      maxWidth: maxWidth?.unpack(scale: f.spacingScale) ?? double.infinity,
     );
   }
 
@@ -84,28 +64,37 @@ class SizeStyle extends Style {
 
 extension NumSizeStyleX on num {
   Style get width => dp.width;
+
   Style get height => dp.height;
+
   Style get size => dp.size;
 
   Style get minWidth => dp.minWidth;
+
   Style get minHeight => dp.minHeight;
 
   Style get maxWidth => dp.maxWidth;
+
   Style get maxHeight => dp.maxHeight;
 
   Style get w => dp.width;
+
   Style get h => dp.height;
 
   Style get minW => dp.minWidth;
+
   Style get minH => dp.minHeight;
 
   Style get maxW => dp.maxWidth;
+
   Style get maxH => dp.maxHeight;
 }
 
 extension SpacingSizeStyleX on Spacing {
   Style get width => SizeStyle(minWidth: this, maxWidth: this);
+
   Style get height => SizeStyle(minHeight: this, maxHeight: this);
+
   Style get size => SizeStyle(
     minHeight: this,
     maxHeight: this,
@@ -114,17 +103,22 @@ extension SpacingSizeStyleX on Spacing {
   );
 
   Style get minWidth => SizeStyle(minWidth: this);
+
   Style get minHeight => SizeStyle(minHeight: this);
 
   Style get maxWidth => SizeStyle(maxWidth: this);
+
   Style get maxHeight => SizeStyle(maxHeight: this);
 
   Style get w => width;
+
   Style get h => height;
 
   Style get minW => minWidth;
+
   Style get minH => minHeight;
 
   Style get maxW => maxWidth;
+
   Style get maxH => maxHeight;
 }

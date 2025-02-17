@@ -11,14 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Followind(
-      child: MaterialApp(
-        title: 'Followind Example',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
-        home: const MyHomePage(title: 'Followind Home Page'),
+    return MaterialApp(
+      title: 'Followind Example',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
+      home: const MyHomePage(title: 'Followind Home Page'),
     );
   }
 }
