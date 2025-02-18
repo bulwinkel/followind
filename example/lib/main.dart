@@ -11,12 +11,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Followind Example',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return Followind(
+      config: FollowindConfig(
+        spacingScale: 4,
+        breakpoints: {
+          SizeClass.sm: 640,
+          SizeClass.md: 768,
+          SizeClass.lg: 1024,
+          SizeClass.xl: 1280,
+          SizeClass.xl2: 1536,
+        },
       ),
-      home: const MyHomePage(title: 'Followind Home Page'),
+      child: MaterialApp(
+        title: 'Followind Example',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        ),
+        home: const MyHomePage(title: 'Followind Home Page'),
+      ),
     );
   }
 }
@@ -87,8 +99,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     row,
                     mainMin,
                     crossCenter,
-                    3.scaled.gap,
-                    4.scaled.p,
+                    3.ds.gap,
+                    4.ds.p,
                     16.rounded,
                     800.purple.bg,
                     200.gray.border,
@@ -97,7 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     200.slate.text,
                   ],
                   lg: [8.scaled.px, 4.scaled.py, 100.rounded],
-                  xxl: [4.border, 200.red.border, 800.red.border.hover],
+                  xl2: [4.border, 200.red.border, 800.red.border.hover],
                 ),
                 onPressed: _goToBordersPage,
                 children: [Text("Go to Borders"), Icon(Icons.arrow_forward)],

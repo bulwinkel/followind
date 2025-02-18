@@ -126,7 +126,7 @@ class _BoxState extends State<Box> {
         }
 
         final isApplicable =
-            screenSize.width >= f.sizeForClass(style.sizeClass) &&
+            screenSize.width >= f.breakpointForSizeClass(style.sizeClass) &&
             // if style.hover == null then ignore isHovered
             // if style.hover == true then only yield if isHovered
             (style.hover == null || style.hover == _isHovered);
@@ -220,7 +220,7 @@ class _BoxState extends State<Box> {
         crossAxisAlignment: _flexStyle.crossAxisAlignment!,
         mainAxisAlignment: _flexStyle.mainAxisAlignment!,
         mainAxisSize: _flexStyle.mainAxisSize!,
-        spacing: _flexStyle.spacing?.unpack(scale: fw.spacingScale) ?? 0,
+        spacing: _flexStyle.spacing?.unpack(fw) ?? 0,
         children: widget.children,
       );
     }
@@ -245,10 +245,10 @@ class _BoxState extends State<Box> {
     if (ps != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left: ps.left?.unpack(scale: fw.spacingScale) ?? 0,
-          top: ps.top?.unpack(scale: fw.spacingScale) ?? 0,
-          right: ps.right?.unpack(scale: fw.spacingScale) ?? 0,
-          bottom: ps.bottom?.unpack(scale: fw.spacingScale) ?? 0,
+          left: ps.left?.unpack(fw) ?? 0,
+          top: ps.top?.unpack(fw) ?? 0,
+          right: ps.right?.unpack(fw) ?? 0,
+          bottom: ps.bottom?.unpack(fw) ?? 0,
         ),
         child: child,
       );
@@ -305,10 +305,10 @@ class _BoxState extends State<Box> {
     if (ms != null) {
       child = Padding(
         padding: EdgeInsets.only(
-          left: ms.left?.unpack(scale: fw.spacingScale) ?? 0,
-          top: ms.top?.unpack(scale: fw.spacingScale) ?? 0,
-          right: ms.right?.unpack(scale: fw.spacingScale) ?? 0,
-          bottom: ms.bottom?.unpack(scale: fw.spacingScale) ?? 0,
+          left: ms.left?.unpack(fw) ?? 0,
+          top: ms.top?.unpack(fw) ?? 0,
+          right: ms.right?.unpack(fw) ?? 0,
+          bottom: ms.bottom?.unpack(fw) ?? 0,
         ),
         child: child,
       );

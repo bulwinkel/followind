@@ -1,3 +1,5 @@
+import 'followind_config.dart';
+
 sealed class Spacing {
   const Spacing();
 }
@@ -66,11 +68,11 @@ class ScaleSpacing extends Spacing {
 }
 
 extension UnpackSpacing on Spacing {
-  double unpack({required double scale}) {
+  double unpack(FollowindConfig fw) {
     return switch (this) {
       DpSpacing(:final value) => value,
       // FractionalSpacing(:final value) => value * axisMax,
-      ScaleSpacing(:final value) => value * scale,
+      ScaleSpacing(:final value) => value * fw.spacingScale,
     };
   }
 }
@@ -80,5 +82,7 @@ extension SpacingExtension on num {
 
   // Spacing get percent => FractionalSpacing(toDouble() / 100);
 
+  // Scaled / Design System spacing
+  Spacing get ds => ScaleSpacing(toDouble());
   Spacing get scaled => ScaleSpacing(toDouble());
 }

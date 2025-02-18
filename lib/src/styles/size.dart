@@ -23,7 +23,7 @@ class SizeStyle extends Style {
     );
   }
 
-  BoxConstraints? unpack(FollowindConfig f) {
+  BoxConstraints? unpack(FollowindConfig fw) {
     if (minHeight != null &&
         minWidth != null &&
         maxHeight != null &&
@@ -32,10 +32,10 @@ class SizeStyle extends Style {
     }
 
     return BoxConstraints(
-      minHeight: minHeight?.unpack(scale: f.spacingScale) ?? 0,
-      minWidth: minWidth?.unpack(scale: f.spacingScale) ?? 0,
-      maxHeight: maxHeight?.unpack(scale: f.spacingScale) ?? double.infinity,
-      maxWidth: maxWidth?.unpack(scale: f.spacingScale) ?? double.infinity,
+      minHeight: minHeight?.unpack(fw) ?? 0,
+      minWidth: minWidth?.unpack(fw) ?? 0,
+      maxHeight: maxHeight?.unpack(fw) ?? double.infinity,
+      maxWidth: maxWidth?.unpack(fw) ?? double.infinity,
     );
   }
 

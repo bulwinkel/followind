@@ -53,8 +53,8 @@ extension ModifierStyleX on Style {
 
   Style get xl => ModifierStyle.mergeWith(sizeClass: SizeClass.xl, style: this);
 
-  Style get xxl =>
-      ModifierStyle.mergeWith(sizeClass: SizeClass.xxl, style: this);
+  Style get xl2 =>
+      ModifierStyle.mergeWith(sizeClass: SizeClass.xl2, style: this);
 
   Style get hover => ModifierStyle.mergeWith(hover: true, style: this);
 }
@@ -67,10 +67,10 @@ final _wrapWithSm = _wrapWithSizeClass(SizeClass.sm);
 final _wrapWithMd = _wrapWithSizeClass(SizeClass.md);
 final _wrapWithLg = _wrapWithSizeClass(SizeClass.lg);
 final _wrapWithXl = _wrapWithSizeClass(SizeClass.xl);
-final _wrapWithXxl = _wrapWithSizeClass(SizeClass.xxl);
+final _wrapWithXl2 = _wrapWithSizeClass(SizeClass.xl2);
 
 /// Any size classes already applied to [Style]s in
-/// [sm], [md], [lg], [xl], [xxl] will be replace with
+/// [sm], [md], [lg], [xl], [xl2] will be replace with
 /// the new style.
 List<Style> bySizeClass({
   List<Style> base = const [],
@@ -78,7 +78,7 @@ List<Style> bySizeClass({
   List<Style> md = const [],
   List<Style> lg = const [],
   List<Style> xl = const [],
-  List<Style> xxl = const [],
+  List<Style> xl2 = const [],
 }) {
   return [
     ...base,
@@ -86,6 +86,6 @@ List<Style> bySizeClass({
     ...md.map(_wrapWithMd),
     ...lg.map(_wrapWithLg),
     ...xl.map(_wrapWithXl),
-    ...xxl.map(_wrapWithXxl),
+    ...xl2.map(_wrapWithXl2),
   ];
 }
