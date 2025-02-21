@@ -57,6 +57,7 @@ class _BoxState extends State<Box> {
   // to prevent unnecessary allocations and loops
 
   bool _isHoverRequired = false;
+  final List<Style> _childStyles = [];
   final List<Style> _sortedStyles = [];
 
   final List<FlexStyle> _flexStyles = [];
@@ -87,6 +88,7 @@ class _BoxState extends State<Box> {
     // -- reset
     _isHoverRequired = false;
 
+    _childStyles.clear();
     _sortedStyles.clear();
 
     _flexStyles.clear();
@@ -113,8 +115,18 @@ class _BoxState extends State<Box> {
     _flexibleStyles.clear();
     _flexibleStyle = null;
 
+    // -- split styles
+    for (var style in widget.styles) {
+      if (style is ModifierStyle && style.children == true) {
+        _childStyles.add(
+          ModifierStyle.mergeWith(style: style, children: false),
+        );
+      } else {
+        _sortedStyles.add(style);
+      }
+    }
+
     // -- sort
-    _sortedStyles.addAll(widget.styles);
     _sortedStyles.sort(_compareStyles);
 
     // -- unpack into style types
@@ -213,7 +225,18 @@ class _BoxState extends State<Box> {
     // don't wrap in FwFlex if there is only one child
     if (widget.children.length == 1) {
       child = widget.children[0];
+      if (_childStyles.isNotEmpty) {
+        child = Box(styles: _childStyles, children: [child]);
+      }
     } else {
+      var children = widget.children;
+      if (_childStyles.isNotEmpty) {
+        children = [
+          for (var child in widget.children)
+            Box(styles: _childStyles, children: [child]),
+        ];
+      }
+
       // dpl('flexStyle: $_flexStyle');
       child = Flex(
         direction: _flexStyle.direction!,
@@ -221,7 +244,7 @@ class _BoxState extends State<Box> {
         mainAxisAlignment: _flexStyle.mainAxisAlignment!,
         mainAxisSize: _flexStyle.mainAxisSize!,
         spacing: _flexStyle.spacing?.unpack(fw) ?? 0,
-        children: widget.children,
+        children: children,
       );
     }
 

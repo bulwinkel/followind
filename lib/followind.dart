@@ -1,5 +1,7 @@
 library;
 
+export 'src/support.dart';
+
 export 'src/box.dart';
 export 'src/colors.dart';
 

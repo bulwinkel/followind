@@ -57,23 +57,23 @@ class FlexStyle extends Style {
   }
 }
 
-const row = FlexStyle(direction: Axis.horizontal);
-const col = FlexStyle(direction: Axis.vertical);
-const mainStart = FlexStyle(mainAxisAlignment: MainAxisAlignment.start);
-const mainEnd = FlexStyle(mainAxisAlignment: MainAxisAlignment.end);
-const mainCenter = FlexStyle(mainAxisAlignment: MainAxisAlignment.center);
-const mainBetween = FlexStyle(
+const $row = FlexStyle(direction: Axis.horizontal);
+const $col = FlexStyle(direction: Axis.vertical);
+const $mainStart = FlexStyle(mainAxisAlignment: MainAxisAlignment.start);
+const $mainEnd = FlexStyle(mainAxisAlignment: MainAxisAlignment.end);
+const $mainCenter = FlexStyle(mainAxisAlignment: MainAxisAlignment.center);
+const $mainBetween = FlexStyle(
   mainAxisAlignment: MainAxisAlignment.spaceBetween,
 );
-const mainAround = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceAround);
-const mainEvenly = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceEvenly);
-const mainMin = FlexStyle(mainAxisSize: MainAxisSize.min);
-const mainMax = FlexStyle(mainAxisSize: MainAxisSize.max);
-const crossStart = FlexStyle(crossAxisAlignment: CrossAxisAlignment.start);
-const crossEnd = FlexStyle(crossAxisAlignment: CrossAxisAlignment.end);
-const crossCenter = FlexStyle(crossAxisAlignment: CrossAxisAlignment.center);
-const crossStretch = FlexStyle(crossAxisAlignment: CrossAxisAlignment.stretch);
-const crossBaseline = FlexStyle(
+const $mainAround = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceAround);
+const $mainEvenly = FlexStyle(mainAxisAlignment: MainAxisAlignment.spaceEvenly);
+const $mainMin = FlexStyle(mainAxisSize: MainAxisSize.min);
+const $mainMax = FlexStyle(mainAxisSize: MainAxisSize.max);
+const $crossStart = FlexStyle(crossAxisAlignment: CrossAxisAlignment.start);
+const $crossEnd = FlexStyle(crossAxisAlignment: CrossAxisAlignment.end);
+const $crossCenter = FlexStyle(crossAxisAlignment: CrossAxisAlignment.center);
+const $crossStretch = FlexStyle(crossAxisAlignment: CrossAxisAlignment.stretch);
+const $crossBaseline = FlexStyle(
   crossAxisAlignment: CrossAxisAlignment.baseline,
 );
 

@@ -30,31 +30,31 @@ class AlignStyle extends Style {
 }
 
 /// The top left corner.
-const alignTopLeft = AlignStyle(alignment: Alignment(-1.0, -1.0));
+const $alignTopLeft = AlignStyle(alignment: Alignment(-1.0, -1.0));
 
 /// The center point along the top edge.
-const alignTopCenter = AlignStyle(alignment: Alignment(0.0, -1.0));
+const $alignTopCenter = AlignStyle(alignment: Alignment(0.0, -1.0));
 
 /// The top right corner.
-const alignTopRight = AlignStyle(alignment: Alignment(1.0, -1.0));
+const $alignTopRight = AlignStyle(alignment: Alignment(1.0, -1.0));
 
 /// The center point along the left edge.
-const alignCenterLeft = AlignStyle(alignment: Alignment(-1.0, 0.0));
+const $alignCenterLeft = AlignStyle(alignment: Alignment(-1.0, 0.0));
 
 /// The center point, both horizontally and vertically.
-const alignCenter = AlignStyle(alignment: Alignment(0.0, 0.0));
+const $alignCenter = AlignStyle(alignment: Alignment(0.0, 0.0));
 
 /// The center point along the right edge.
-const alignCenterRight = AlignStyle(alignment: Alignment(1.0, 0.0));
+const $alignCenterRight = AlignStyle(alignment: Alignment(1.0, 0.0));
 
 /// The bottom left corner.
-const alignBottomLeft = AlignStyle(alignment: Alignment(-1.0, 1.0));
+const $alignBottomLeft = AlignStyle(alignment: Alignment(-1.0, 1.0));
 
 /// The center point along the bottom edge.
-const alignBottomCenter = AlignStyle(alignment: Alignment(0.0, 1.0));
+const $alignBottomCenter = AlignStyle(alignment: Alignment(0.0, 1.0));
 
 /// The bottom right corner.
-const alignBottomRight = AlignStyle(alignment: Alignment(1.0, 1.0));
+const $alignBottomRight = AlignStyle(alignment: Alignment(1.0, 1.0));
 
 extension AlignStyleX on (num x, num y) {
   AlignStyle get align =>

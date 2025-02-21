@@ -67,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Box(
         styles: bySizeClass(
-          base: [col, mainMax, crossStretch, 8.scaled.p],
-          xl: [row, 8.scaled.spacing],
+          base: [$col, $mainMax, $crossStretch, 8.scaled.p],
+          xl: [$row, 8.scaled.spacing],
           // xxl: [16.m],
         ),
         children: [
@@ -76,8 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
             styles: bySizeClass(
               base: [
                 expanded,
-                col,
-                mainCenter,
+                $col,
+                $mainCenter,
                 2.scaled.spacing,
                 8.scaled.p,
                 if (_counter > 5) 200.red.bg else 200.blue.bg,
@@ -95,10 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
               Box(
                 styles: bySizeClass(
                   base: [
-                    alignCenter,
-                    row,
-                    mainMin,
-                    crossCenter,
+                    $alignCenter,
+                    $row,
+                    $mainMin,
+                    $crossCenter,
                     3.ds.gap,
                     4.ds.p,
                     16.rounded,
@@ -114,7 +114,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: _goToBordersPage,
                 children: [Text("Go to Borders"), Icon(Icons.arrow_forward)],
               ),
-              Box(styles: [alignCenter], children: [Text("Test")]),
+              Box(
+                styles: bySizeClass(
+                  base: [
+                    $alignCenter,
+                    $row,
+                    $mainMin,
+                    $crossCenter,
+                    3.ds.gap,
+                    4.ds.p,
+                    16.rounded,
+                    800.purple.bg,
+                    200.gray.border,
+                    400.purple.border.hover,
+                    200.slate.text,
+                    // ...$children([1.border, 1.p]),
+                  ],
+                ),
+                onPressed: _goToBordersPage,
+                children: [Text("Go to Borders"), Icon(Icons.arrow_forward)],
+              ),
+              Box(styles: [$alignCenter], children: [Text("Test")]),
               Box(
                 styles: [
                   4.scaled.px,
